@@ -1,0 +1,23 @@
+!!!
+%html
+  %head
+    %title Invoiceme
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body
+    %nav.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header 
+          %a.navbar-brand
+            InvoiceMe
+        #navbar.navbar-collapse.collapse
+          %ul.nav.navbar-nav
+            %li{class: "#{top_navbar_active_class_name('home','index')}"} 
+              = link_to "Home", root_path
+            %li{class: "#{top_navbar_active_class_name('invoices','index')}"} 
+              = link_to "Invoices", ""
+            %li{class: "#{top_navbar_active_class_name('clients','index')}"} 
+              = link_to "Clients", clients_path
+    .container
+      = yield
