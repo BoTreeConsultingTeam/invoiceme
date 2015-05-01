@@ -19,6 +19,9 @@
               = link_to "Invoices", ""
             %li{class: "#{top_navbar_active_class_name('clients','index')}"} 
               = link_to "Clients", clients_path
+            -if current_user.present? && current_user.role.to_s == "Admin"
+              %li{class: "#{top_navbar_active_class_name('companies','new')}"} 
+                = link_to('Companies',"#modal-form","data-toggle" => "modal")
           %ul.nav.navbar-nav.pull-right
             -if !current_user.blank?
               %li
@@ -33,3 +36,33 @@
     .container
       = render "layouts/shared/notification"
       = yield
+      -if current_user.present? && current_user.role.to_s == "Admin"
+        = form_for @company, remote: true do |f|
+          #modal-form.modal{:tabindex => "-1"}
+            .modal-dialog
+              .modal-content
+                .modal-header
+                  %button.close{"data-dismiss" => "modal", :type => "button"} &times;
+                  %h4.blue.bigger Please fill the following form fields
+                .modal-body.overflow-visible
+                  #e1
+                    - if flash[:error].present?
+                      %br
+                        .alert.alert-danger{:role => "alert"}
+                          %span.sr-only Error:
+                          %a.close{"data-dismiss" => "alert", :href => "#"} &times;
+                          = flash[:error]
+                          - flash[:error] = nil
+                  .row
+                    .form-group
+                      %label{:for => "form-field-username"} Name
+                      %div
+                        = f.text_field :name
+                    .space-4
+                .modal-footer
+                  %button.btn.btn-sm{"data-dismiss" => "modal"}
+                    %i.icon-remove
+                    Cancel
+                  %button.btn.btn-sm.btn-primary{:type => "submit"}
+                    %i.icon-ok
+                    Save

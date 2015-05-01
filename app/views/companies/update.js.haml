@@ -1,0 +1,6 @@
+- if flash[:error] != nil
+	:plain
+		$("#e1").html("#{flash[:error]}");
+- elsif flash[:success] != nil
+	:plain
+		$(window.location.replace("/"))
