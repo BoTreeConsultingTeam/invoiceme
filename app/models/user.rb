@@ -14,9 +14,9 @@ class User < ActiveRecord::Base
   after_create :assign_role_and_admin_id
 
   def assign_role_and_admin_id
-    if (self.role.nil? && self.admin_id.nil?)
-      user = User.find_by(role: "Admin", admin_id: self.id)
-      self.update_columns(role: "Admin", admin_id: self.id) if user.nil?
+    if (role.nil? && admin_id.nil?)
+      user = User.find_by(role: "Admin", admin_id: id)
+      update_columns(role: "Admin", admin_id: id) if user.nil?
     end
   end
 
