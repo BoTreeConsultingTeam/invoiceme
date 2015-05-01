@@ -4,6 +4,8 @@ class CreateLineItems < ActiveRecord::Migration
       t.integer :item_id
       t.integer :invoice_id
       t.integer :line_total
+      t.float :price
+      t.integer :quantity
 
       t.timestamps null: false
     end
