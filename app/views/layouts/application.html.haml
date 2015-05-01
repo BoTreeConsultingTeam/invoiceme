@@ -19,5 +19,17 @@
               = link_to "Invoices", ""
             %li{class: "#{top_navbar_active_class_name('clients','index')}"} 
               = link_to "Clients", clients_path
+          %ul.nav.navbar-nav.pull-right
+            -if !current_user.blank?
+              %li
+                = link_to 'Edit User', edit_user_registration_path
+              %li
+                = link_to "SignOut", destroy_user_session_path, method: "delete"
+            -else
+              %li
+                = link_to "SignUp", new_user_registration_path
+              %li
+                = link_to "SignIn", new_user_session_path
     .container
+      = render "layouts/shared/notification"
       = yield
