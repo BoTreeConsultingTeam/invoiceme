@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
 
   get 'home/index'
-
   resources :clients
   resources :companies
   devise_for :users

@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_company
+  include ApplicationHelper
+  
   protected
 
   # Allow parameters for sign up
@@ -13,13 +15,12 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:email, :password, :password_confirmation, :first_name, :last_name, :current_password) }
   end
 
-  def set_company
-    if !current_user.nil?
-      if current_user.company.present? && current_user.role.to_s == "Admin"
-        @company = current_user.company
-      else
-        @company = Company.new
-      end
+  def set_company  
+    if is_admin?
+      @company = current_user.company
+    else
+      @company = Company.new
     end
   end
+
 end

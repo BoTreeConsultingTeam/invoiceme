@@ -2,21 +2,13 @@ class CompaniesController < ApplicationController
 
 	before_action :authenticate_user!
 
-	def new
-
-	end
-
 	def create
 		@company = Company.new(company_params)
     if @company.save
-    	if(current_user.admin_id == current_user.id)
-	    	current_user.company_id = @company.id
-	    	current_user.save
-	    	@users = User.where("admin_id = ?",current_user.id)
-	    	for user in @users
-	    		user.company_id = @company.id
-	    		user.save
-	    	end
+    	@users = User.where("admin_id = ?",current_user.id)
+    	for user in @users
+    		user.company_id = @company.id
+    		user.save
     	end
       flash[:success] = "Company created successfully" 
       flash[:error] = nil 
