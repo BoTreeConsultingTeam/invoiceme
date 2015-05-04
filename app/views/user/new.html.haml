@@ -1,0 +1,30 @@
+%h1 New User
+%br/
+= form_for @user, url: '/user', html: { method: :post } do |f|
+  .field
+    = f.label :email
+    %br/
+    = f.email_field :email, autofocus: true
+  .field
+    = f.label :password
+    %br/
+    = f.password_field :password, autocomplete: "off"
+  .field
+    = f.label :password_confirmation
+    %br/
+    = f.password_field :password_confirmation, autocomplete: "off"
+  .field
+    = f.label :first_name
+    %br/
+    = f.text_field :first_name
+  .field
+    = f.label :last_name
+    %br/
+    = f.text_field :last_name
+  .field
+    = f.label "Role"
+    %br/
+    = f.select :role, options_for_select(User::ROLE, f.object.role)
+  .actions
+    %br/
+    = f.submit "Create"

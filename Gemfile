@@ -45,3 +45,4 @@ gem 'pg'
 gem 'devise'
 gem "haml"
 gem "haml-rails"
+gem "cancan"

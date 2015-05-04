@@ -1,0 +1,29 @@
+%h1 Users
+= link_to "New", new_user_path
+%br/
+%table.table.table-striped.table-bordered.table-hover
+  %thead
+    %tr
+      %th No.
+      %th Email
+      %th First Name
+      %th Last Name
+      %th Role
+      %th Actions
+  - @users.each_with_index do |user, index|
+    %tr
+      %td
+        = index+1
+        \.
+      %td= user.email
+      %td= user.first_name
+      %td= user.last_name
+      %td= user.role
+      %td
+        %div
+          .inline.position-relative
+            = link_to "View", user_path(user)
+            &nbsp;&nbsp;
+            = link_to "Edit", edit_user_path(user)
+            &nbsp;&nbsp;
+            = link_to "Delete", "/user/#{user.id}", onclick: "return confirm('Are you sure?');return false;", method: :delete
