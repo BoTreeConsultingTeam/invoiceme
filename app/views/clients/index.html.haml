@@ -1,2 +1,41 @@
 %h1 Clients
-= link_to "New", new_client_path
+%br/
+= link_to 'New Client', new_client_path
+%br/
+%br/
+%table.table.table-striped.table-bordered.table-hover
+  %tr
+    %th
+      Client Name
+    %th
+      Currency Code
+    %th
+      Street 1
+    %th
+      Street 2
+    %th
+      City
+    %th
+      State
+    %th
+      Pincode
+    %th
+      Country Name
+    %th
+      Actions
+  - for client in @clients
+    %tr
+      %td= client.name
+      %td= client.currency_code
+      %td= client.address.street_1
+      %td= client.address.street_2
+      %td= client.address.city
+      %td= client.address.state
+      %td= client.address.pincode
+      %td= client.address.country_name
+      %td
+        %div
+          \  
+          \#{link_to "Edit", edit_client_path(client)}
+          \  
+          \#{link_to "Delete", "/clients/#{client.id}", 'data-confirm' => 'Are you sure?', method: :delete}
