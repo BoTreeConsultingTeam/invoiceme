@@ -19,7 +19,7 @@
               = link_to "Invoices", ""
             %li{class: "#{top_navbar_active_class_name('clients','index')}"} 
               = link_to "Clients", clients_path
-            -if current_user.present? && current_user.role.to_s == "Admin"
+            -if is_admin?
               %li{class: "#{top_navbar_active_class_name('companies','new')}"} 
                 = link_to('Companies',"#modal-form","data-toggle" => "modal")
           %ul.nav.navbar-nav.pull-right

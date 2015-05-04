@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
   def set_company  
     if is_admin?
       @company = current_user.company
+      if @company.present?
+      else
+        @company = Company.new
+      end
     else
       @company = Company.new
     end

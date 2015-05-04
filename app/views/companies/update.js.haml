@@ -1,6 +1,6 @@
 - if flash[:error].present?
-	:plain
-		$("#e1").html("#{flash[:error]}");
+  :plain
+    $("#e1").html("#{flash[:error]}");
 - elsif flash[:success].present?
-	:plain
-		$(window.location.replace("/"))
+  :plain
+    $(window.location.replace("/"))
