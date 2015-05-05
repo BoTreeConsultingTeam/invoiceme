@@ -5,13 +5,10 @@ class CompaniesController < ApplicationController
   def create
     @company = Company.new(company_params)
     if @company.save
-      @users = User.where("admin_id = ?",current_user.id)
-      @users.update_all(company_id: @company.id)
+      @users = User.where("admin_id = ?",current_user.id).update_all(company_id: @company.id)
       flash[:success] = "Company created successfully"
-      flash[:error] = nil
     else
       flash[:error] = "Company not saved because: #{@company.errors.full_messages.join(',')}"
-      flash[:success] = nil
     end
   end
 

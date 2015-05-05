@@ -14,7 +14,7 @@
                     %span.sr-only Error:
                     %a.close{"data-dismiss" => "alert", :href => "#"} &times;
                     = flash[:error]
-                    - flash[:error] = nil
+                    - flash.clear
             .row
               .form-group
                 %label{:for => "form-field-username"} Name
