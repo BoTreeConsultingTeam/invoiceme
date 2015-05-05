@@ -1,7 +1,8 @@
 class CreateTaxes < ActiveRecord::Migration
   def change
     create_table :taxes do |t|
-      t.float :deduction
+      t.string :name
+      t.float :rate
       t.string :description
 
       t.timestamps null: false
