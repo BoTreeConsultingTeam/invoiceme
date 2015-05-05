@@ -3,7 +3,7 @@ class UserController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @users = User.where.not(id: current_user.id)
+    @users = User.where("admin_id = ? and id not in (?) and role not in (?)",current_user.id,current_user.id, "Admin")
   end
 
   def new

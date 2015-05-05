@@ -1,0 +1,30 @@
+-if is_admin?
+  = form_for @company, remote: true do |f|
+    #modal-form.modal{:tabindex => "-1"}
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %button.close{"data-dismiss" => "modal", :type => "button"} &times;
+            %h4.blue.bigger Please fill the following form fields
+          .modal-body.overflow-visible
+            #e1
+              - if flash[:error].present?
+                %br
+                  .alert.alert-danger{:role => "alert"}
+                    %span.sr-only Error:
+                    %a.close{"data-dismiss" => "alert", :href => "#"} &times;
+                    = flash[:error]
+                    - flash.clear
+            .row
+              .form-group
+                %label{:for => "form-field-username"} Name
+                %div
+                  = f.text_field :name
+              .space-4
+          .modal-footer
+            %button.btn.btn-sm{"data-dismiss" => "modal"}
+              %i.icon-remove
+              Cancel
+            %button.btn.btn-sm.btn-primary{:type => "submit"}
+              %i.icon-ok
+              Save

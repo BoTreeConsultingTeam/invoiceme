@@ -23,6 +23,8 @@
                   = link_to "Clients", clients_path
                 %li{class: "#{top_navbar_active_class_name('users','index')}"} 
                   = link_to "Users", user_index_path
+                %li{class: "#{top_navbar_active_class_name('companies','new')}"}
+                  = link_to('Companies',"#modal-form","data-toggle" => "modal")
           %ul.nav.navbar-nav.pull-right
             -if current_user.present?
               %li
@@ -37,3 +39,4 @@
     .container
       = render "layouts/shared/notification"
       = yield
+      = render "companies/company"

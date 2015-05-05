@@ -1,27 +1,12 @@
 %h1 New client
 %br/
-= form_for @client do |f|
-  = f.hidden_field :company_id
-  = f.hidden_field :currency_id
+= simple_form_for @client do |f|
+  
   %h3 Client
   .col-md-12
     .col-md-4
-      = label_tag :company_name, "Company name"
-      = text_field_tag "company[name]"
+      
     .col-md-4
       = label_tag :currency, "Currency"
-      = select_tag "currency[id]"
-
-  %h3 Client Details
-  .col-md-12
-    .col-md-4
-      = label_tag :address_country, "Country"
-      = select_tag "address[country_id]"
-  .col-md-12  
-    .col-md-4
-      = label_tag :address_street_1, "Street1"
-      = text_field_tag "address[street1]"
-  .col-md-12  
-    .col-md-4
-      = label_tag :address_street_2, "Street2"
-      = text_field_tag "address[street2]"
+      = currency_select("client", "currency_id")
+      =# f.input :country_id, as: :country
