@@ -49,3 +49,4 @@ gem 'simple_form'
 gem 'country_select'
 gem 'currency_select'
 gem 'validates_zipcode'
+gem "cancan"

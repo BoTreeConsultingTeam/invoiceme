@@ -12,22 +12,6 @@
  *
  *= require bootstrap.min
  *= require bootstrap-theme.min
- *= require_tree .
+ *= require custom
  *= require_self
  */
-@font-face {
-  font-family: 'Glyphicons Halflings';
-  src: url('../assets/glyphicons-halflings-regular.eot');
-  src: url('../assets/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), 
-       url('../assets/glyphicons-halflings-regular.woff') format('woff'), 
-       url('../assets/glyphicons-halflings-regular.ttf') format('truetype'), 
-       url('../assets/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
-}
-
-body {
-  padding-top: 50px;
-}
-.starter-template {
-  padding: 140px 15px;
-  text-align: center;
-}

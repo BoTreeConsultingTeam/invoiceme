@@ -1,7 +1,8 @@
 class ClientsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :find_client, only: [:edit, :update, :destroy]
+  load_and_authorize_resource
+  #before_action :find_client, only: [:edit, :update, :destroy]
   
   def index
     @clients = Client.all
@@ -66,9 +67,9 @@ class ClientsController < ApplicationController
 
   protected
 
-  def find_client
-    @client = Client.find(params[:id])
-  end
+  #def find_client
+  #  @client = Client.find(params[:id])
+  #end
 
   def client_params
     params.require(:client).permit(:name,:currency_code)
