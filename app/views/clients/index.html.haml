@@ -32,7 +32,7 @@
       %td= client.address.city
       %td= client.address.state
       %td= client.address.pincode
-      %td= client.address.country_name
+      %td= country_name(client.address.country_code)
       %td
         %div
           \  

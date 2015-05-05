@@ -8,13 +8,4 @@ class Address < ActiveRecord::Base
   validates :pincode, presence: true
   validates :pincode, zipcode: { country_code_attribute: :country_code }
 
-  def country_name
-    country = ISO3166::Country[country_code]
-    if country.present?
-      return country.translations[I18n.locale.to_s] || country.name
-    else
-      return ''
-    end
-  end
-
 end
