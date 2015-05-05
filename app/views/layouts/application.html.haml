@@ -12,16 +12,19 @@
           %a.navbar-brand
             InvoiceMe
         #navbar.navbar-collapse.collapse
-          %ul.nav.navbar-nav
-            %li{class: "#{top_navbar_active_class_name('home','index')}"} 
-              = link_to "Home", root_path
-            %li{class: "#{top_navbar_active_class_name('invoices','index')}"} 
-              = link_to "Invoices", ""
-            %li{class: "#{top_navbar_active_class_name('clients','index')}"} 
-              = link_to "Clients", clients_path
-            -if is_admin?
-              %li{class: "#{top_navbar_active_class_name('companies','new')}"} 
-                = link_to('Companies',"#modal-form","data-toggle" => "modal")
+          -if current_user.present?
+            %ul.nav.navbar-nav
+              %li{class: "#{top_navbar_active_class_name('home','index')}"} 
+                = link_to "Home", root_path
+              %li{class: "#{top_navbar_active_class_name('invoices','index')}"} 
+                = link_to "Invoices", ""
+              - if is_admin?
+                %li{class: "#{top_navbar_active_class_name('clients','index')}"} 
+                  = link_to "Clients", clients_path
+                %li{class: "#{top_navbar_active_class_name('users','index')}"} 
+                  = link_to "Users", user_index_path
+                %li{class: "#{top_navbar_active_class_name('companies','new')}"}
+                  = link_to('Companies',"#modal-form","data-toggle" => "modal")
           %ul.nav.navbar-nav.pull-right
             -if current_user.present?
               %li

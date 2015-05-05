@@ -6,7 +6,26 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_company
   include ApplicationHelper
-  
+
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, alert: exception.message
+  end
+
+  before_filter do
+    resource = controller_name.singularize.to_sym
+    method = "#{resource}_params"
+    params[resource] &&= send(method) if respond_to?(method, true)
+  end
+
+  def is_admin?
+    current_user.present? && current_user.role == "Admin"
+  end
+
+  def user_error_messages
+    flash[:error] = @user.errors.full_messages.join(', ')
+  end
+
+
   protected
 
   # Allow parameters for sign up
