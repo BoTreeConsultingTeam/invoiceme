@@ -12,37 +12,33 @@ class UserController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.admin_id = current_user.id if current_user.role == "Admin"
+    @user.admin_id = current_user.id if is_admin?
     if @user.save
       flash[:notice] = "Successfully created User."
       redirect_to user_index_path
     else
-      flash[:error] = @user.errors.full_messages.join(', ')
+      user_error_messages
       render action: 'new'
     end
   end
 
   def edit
-    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
     if @user.update_attributes(user_params)
       flash[:notice] = "Successfully updated User."
       redirect_to user_index_path
     else
-      flash[:error] = @user.errors.full_messages.join(', ')
+      user_error_messages
       render action: 'edit'
     end
   end
 
   def show
-    @user = User.find(params[:id])
   end
 
   def destroy
-    @user = User.find(params[:id])
     if @user.destroy
       flash[:notice] = "Successfully deleted User."
       redirect_to user_index_path

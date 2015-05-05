@@ -1,30 +1,50 @@
 %h1 New User
-%br/
-= form_for @user, url: '/user', html: { method: :post } do |f|
-  .field
-    = f.label :email
-    %br/
-    = f.email_field :email, autofocus: true
-  .field
-    = f.label :password
-    %br/
-    = f.password_field :password, autocomplete: "off"
-  .field
-    = f.label :password_confirmation
-    %br/
-    = f.password_field :password_confirmation, autocomplete: "off"
-  .field
-    = f.label :first_name
-    %br/
-    = f.text_field :first_name
-  .field
-    = f.label :last_name
-    %br/
-    = f.text_field :last_name
-  .field
-    = f.label "Role"
-    %br/
-    = f.select :role, options_for_select(User::ROLE, f.object.role)
-  .actions
-    %br/
-    = f.submit "Create"
+.clearfix
+= form_for @user, url: '/user', html: { method: :post, onsubmit: "document.getElementById('submit_button').disabled = 1;" } do |f|
+  .row
+    .col-xs-12
+      .col-xs-2
+        = f.label :email
+      .col-xs-10
+        = f.email_field :email, autofocus: true, class: "col-xs-10 col-sm-5"
+  .spacer10
+  .row
+    .col-xs-12
+      .col-xs-2
+        = f.label :password
+      .col-xs-10
+        = f.password_field :password, autocomplete: "off", class: "col-xs-10 col-sm-5"
+  .spacer10
+  .row
+    .col-xs-12
+      .col-xs-2
+        = f.label :password_confirmation
+      .col-xs-10
+        = f.password_field :password_confirmation, autocomplete: "off", class: "col-xs-10 col-sm-5"
+  .spacer10
+  .row
+    .col-xs-12
+      .col-xs-2
+        = f.label :first_name
+      .col-xs-10
+        = f.text_field :first_name, class: "col-xs-10 col-sm-5"
+  .spacer10
+  .row
+    .col-xs-12
+      .col-xs-2
+        = f.label :last_name
+      .col-xs-10
+        = f.text_field :last_name, class: "col-xs-10 col-sm-5"
+  .spacer10
+  .row
+    .col-xs-12
+      .col-xs-2
+        = f.label :role
+      .col-xs-10
+        = f.select :role, options_for_select(UserHelper::ROLES_OPTIONS, f.object.role), class: "col-xs-10 col-sm-5"
+  .spacer10
+  .row
+    .col-xs-12
+      .col-xs-10.col-sm-offset-2
+        .actions
+        = f.submit "Create", class: "btn btn-info", id: "submit_button"

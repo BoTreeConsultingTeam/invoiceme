@@ -18,7 +18,7 @@
                 = link_to "Home", root_path
               %li{class: "#{top_navbar_active_class_name('invoices','index')}"} 
                 = link_to "Invoices", ""
-              - if current_user.role == "Admin"
+              - if is_admin?
                 %li{class: "#{top_navbar_active_class_name('clients','index')}"} 
                   = link_to "Clients", clients_path
                 %li{class: "#{top_navbar_active_class_name('users','index')}"} 

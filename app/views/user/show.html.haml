@@ -1,18 +1,18 @@
 %h1 User Profile:
-%br/
+.clearfix
 .profile-user-info.profile-user-info-striped
   .profile-info-row
-    %b Email: &nbsp;
+    %b.col-md-1 Email:
     = @user.email
-    %br/
+    .clearfix
   .profile-info-row
-    %b First Name: &nbsp;
+    %b.col-md-1 Firstname:
     = @user.first_name
-    %br/
+    .clearfix
   .profile-info-row
-    %b Last Name: &nbsp;
+    %b.col-md-1 Lastname:
     = @user.last_name
-    %br/
+    .clearfix
   .profile-info-row
-    %b Role: &nbsp;
+    %b.col-md-1 Role:
     = @user.role

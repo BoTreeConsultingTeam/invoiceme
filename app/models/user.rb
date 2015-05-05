@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   ## Validations
-  validates_presence_of :role, if: :other_roles
+  validates :role, presence: true, if: :other_roles
   validate :check_role, if: :other_roles
 
   ## Associations
@@ -15,14 +15,14 @@ class User < ActiveRecord::Base
   has_many :clients, through: :company
 
   ## Constants
-  ROLE = [["Auditor","auditor"], ["Accountant","accountant"], ["Manager","manager"]]
+  ROLES = ["auditor", "accountant", "manager"]
 
   ## Callbacks
   after_create :assign_role_and_admin_id
 
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
-    send_reset_password_instructions if ((role != "Admin") && (admin_id != id))
+    send_reset_password_instructions if not_admin_user?
   end
 
   def assign_role_and_admin_id
@@ -37,7 +37,11 @@ class User < ActiveRecord::Base
   end
 
   def check_role
-    errors.add(:role, "is not valid, please select a valid role.") if !(User::ROLE).map{|a| a[1]}.include?(role)
+    errors.add(:role, "is not valid, please select a valid role.") unless (User::ROLES).include?(role)
+  end
+
+  def not_admin_user?
+    ((role != "Admin") && (admin_id != id))
   end
 
 end
