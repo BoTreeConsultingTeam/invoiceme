@@ -1,12 +1,3 @@
 %h1 New client
 %br/
-= simple_form_for @client do |f|
-  
-  %h3 Client
-  .col-md-12
-    .col-md-4
-      
-    .col-md-4
-      = label_tag :currency, "Currency"
-      = currency_select("client", "currency_id")
-      =# f.input :country_id, as: :country
+= render "form"
