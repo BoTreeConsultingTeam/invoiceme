@@ -1,0 +1,55 @@
+= simple_form_for @client do |f|
+ 
+  %h3 Client
+  .field
+    = label_tag :name, "Name"
+    %br/
+    = text_field_tag "client[name]", @client.name
+    %br/
+  .field
+    = label_tag :currency, "Currency"
+    %br/
+    = currency_select("client", "currency_code", {selected: @client.currency_code})
+    %br/
+
+  %h3 Client Address Details
+  .field
+    = label_tag :address_street_1, "Street1"
+    %br/
+    = text_field_tag "address[street_1]", @address.street_1
+    %br/
+
+  .field
+    = label_tag :address_street_2, "Street2"
+    %br/ 
+    = text_field_tag "address[street_2]", @address.street_2
+    %br/
+
+  .field
+    = label_tag :address_city, "city"
+    %br/
+    = text_field_tag "address[city]", @address.city
+    %br/
+
+  .field
+    = label_tag :address_state, "State"
+    %br/
+    = text_field_tag "address[state]", @address.state
+    %br/
+
+  .field
+    = label_tag :address_pincode, "Pincode"
+    %br/
+    = text_field_tag "address[pincode]", @address.pincode
+    %br/
+
+  .field
+    = label_tag :address_country, "Country"
+    %br/
+    = country_select("address", "country_code", {selected: @address.country_code}, {class: "form-control"})
+    %br/
+    %br/
+    = hidden_field_tag "address_id", @address.id
+  %button.btn.btn-sm.btn-primary{:type => "submit"}
+    %i.icon-ok
+      Save 
