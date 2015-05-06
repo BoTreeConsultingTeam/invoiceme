@@ -5,16 +5,12 @@ class ClientsController < ApplicationController
   before_filter :check_authorized_access, except: [:index, :new]
  
   def index
-    @clients = Client.where("company_id = ?",current_user.company_id)
+    @clients = Client.where(company_id: current_user.company_id)
   end
 
   def new
     @client = Client.new
-    @address = @client.address
-    if @address.present?
-    else
-      @address = Address.new
-    end
+    @address = Address.new
   end
 
   def create

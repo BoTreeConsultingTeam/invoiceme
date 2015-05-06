@@ -38,4 +38,4 @@
           \  
           \#{link_to "Edit", edit_client_path(client)}
           \  
-          \#{link_to "Delete", "/clients/#{client.id}", 'data-confirm' => 'Are you sure?', method: :delete}
+          \#{link_to "Delete", client_path(client), 'data-confirm' => 'Are you sure?', method: :delete}
