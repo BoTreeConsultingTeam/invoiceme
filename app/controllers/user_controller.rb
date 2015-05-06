@@ -1,10 +1,10 @@
 class UserController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_filter :check_authorized_access, except: [:index, :new]
+  before_filter :check_authorized_access, except: [:index, :new, :create]
 
   def index
-    @users = User.where("admin_id = ? and id not in (?) and role not in (?)",current_user.id,current_user.id, "Admin")
+    @users = User.where("admin_id = ? and id not in (?) and role not in (?)",current_user.id,current_user.id, 3)
   end
 
   def new
@@ -53,7 +53,7 @@ class UserController < ApplicationController
   end
 
   def check_authorized_access
-    raise CanCan::AccessDenied.new("Unauthorized access!", :read, User) unless ((@user.admin_id == current_user.id) && (@user.id != current_user.id) && (@user.role != "Admin"))
+    raise CanCan::AccessDenied.new("Unauthorized access!", :read, User) unless ((@user.admin_id == current_user.id) && (@user.id != current_user.id) && (@user.role != "admin"))
   end
 
 end

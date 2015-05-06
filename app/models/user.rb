@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
 
   ## Validations
   validates :role, presence: true, if: :other_roles
-  validate :check_role, if: :other_roles
+  validate :check_role
 
   ## Associations
   belongs_to :company
@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   has_many :clients, through: :company
 
   ## Constants
-  ROLES = ["auditor", "accountant", "manager"]
+  enum role: ["auditor", "accountant", "manager", "admin"]
 
   ## Callbacks
   after_create :assign_role_and_admin_id
@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
 
   def assign_role_and_admin_id
     if (role.nil? && admin_id.nil?)
-      user = User.find_by(role: "Admin", admin_id: id)
-      update_columns(role: "Admin", admin_id: id) if user.nil?
+      user = User.find_by(role: 3, admin_id: id)
+      update_columns(admin_id: id, role: 3) if user.nil?
     end
   end
 
@@ -37,11 +37,11 @@ class User < ActiveRecord::Base
   end
 
   def check_role
-    errors.add(:role, "is not valid, please select a valid role.") unless (User::ROLES).include?(role)
+    errors.add(:role, "is not valid, please select a valid role.") unless (User.roles).include?(role)
   end
 
   def not_admin_user?
-    ((role != "Admin") && (admin_id != id))
+    ((role != "admin") && (admin_id != id))
   end
 
 end

@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
   end
 
   def is_admin?
-    current_user.present? && current_user.role == "Admin"
+    current_user.present? && current_user.admin?
   end
 
   def user_error_messages
