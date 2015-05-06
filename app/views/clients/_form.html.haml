@@ -13,43 +13,47 @@
     %br/
 
   %h3 Client Address Details
-  .field
-    = label_tag :address_street_1, "Street1"
-    %br/
-    = text_field_tag "address[street_1]", @address.street_1
-    %br/
 
-  .field
-    = label_tag :address_street_2, "Street2"
-    %br/ 
-    = text_field_tag "address[street_2]", @address.street_2
-    %br/
+  = f.fields_for :address do |f1|
+        
+    .field
+      = label_tag :address_street_1, "Street1"
+      %br/
+      = f1.text_field "street_1"
+      %br/
 
-  .field
-    = label_tag :address_city, "city"
-    %br/
-    = text_field_tag "address[city]", @address.city
-    %br/
+    .field
+      = label_tag :address_street_2, "Street2"
+      %br/ 
+      = f1.text_field "street_2"
+      %br/
 
-  .field
-    = label_tag :address_state, "State"
-    %br/
-    = text_field_tag "address[state]", @address.state
-    %br/
+    .field
+      = label_tag :address_city, "city"
+      %br/
+      = f1.text_field "city"
+      %br/
 
-  .field
-    = label_tag :address_pincode, "Pincode"
-    %br/
-    = text_field_tag "address[pincode]", @address.pincode
-    %br/
+    .field
+      = label_tag :address_state, "State"
+      %br/
+      = f1.text_field "state"
+      %br/
 
-  .field
-    = label_tag :address_country, "Country"
-    %br/
-    = country_select("address", "country_code", {selected: @address.country_code}, {class: "form-control"})
-    %br/
-    %br/
-    = hidden_field_tag "address_id", @address.id
+    .field
+      = label_tag :address_pincode, "Pincode"
+      %br/
+      = f1.text_field "pincode"
+      %br/
+
+    .field
+      = label_tag :address_country, "Country"
+      %br/
+      = country_select("client[address_attributes]", "country_code", {selected: @address.country_code}, {class: "form-control"})
+      %br/
+      %br/
+      = hidden_field_tag "address_id", @address.id
+
   %button.btn.btn-sm.btn-primary{:type => "submit"}
     %i.icon-ok
       Save 
