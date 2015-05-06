@@ -76,6 +76,6 @@ class ClientsController < ApplicationController
   end
 
   def check_authorized_access
-    raise CanCan::AccessDenied.new("Unauthorized access!", :read, Client) unless ((@client.company_id != current_user.company_id))
+    raise CanCan::AccessDenied.new("Unauthorized access!", :read, Client) unless ((@client.company_id == current_user.company_id))
   end
 end
