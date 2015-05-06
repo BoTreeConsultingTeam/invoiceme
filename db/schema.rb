@@ -11,29 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303134324) do
+ActiveRecord::Schema.define(version: 20150501115025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "addresses", force: :cascade do |t|
-    t.integer  "country_id"
     t.string   "street_1"
     t.string   "street_2"
     t.string   "city"
     t.string   "state"
     t.integer  "pincode"
     t.integer  "client_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.string   "country_code"
   end
 
   create_table "clients", force: :cascade do |t|
     t.integer  "company_id"
-    t.integer  "currency_id"
-    t.string   "notes"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "name"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.string   "currency_code"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -88,7 +88,6 @@ ActiveRecord::Schema.define(version: 20150303134324) do
     t.string   "name"
     t.string   "description"
     t.float    "price"
-    t.integer  "quantity"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
@@ -97,12 +96,15 @@ ActiveRecord::Schema.define(version: 20150303134324) do
     t.integer  "item_id"
     t.integer  "invoice_id"
     t.integer  "line_total"
+    t.float    "price"
+    t.integer  "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "taxes", force: :cascade do |t|
-    t.float    "deduction"
+    t.string   "name"
+    t.float    "rate"
     t.string   "description"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
@@ -119,11 +121,17 @@ ActiveRecord::Schema.define(version: 20150303134324) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
+    t.string   "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string   "unconfirmed_email"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "first_name"
     t.string   "last_name"
     t.integer  "company_id"
+    t.integer  "admin_id"
+    t.string   "role"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

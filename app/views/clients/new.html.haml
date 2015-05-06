@@ -1,11 +1,8 @@
 %section.content-header
   %h1
     New Client
-= simple_form_for @client do |f|
-  .col-md-12
-    .col-md-4
-      
-    .col-md-4
-      = label_tag :currency, "Currency"
-      = currency_select("client", "currency_id")
-      =# f.input :country_id, as: :country
+%section.content
+  .row
+    .col-md-6
+      .box.box-primary
+        = render "form"

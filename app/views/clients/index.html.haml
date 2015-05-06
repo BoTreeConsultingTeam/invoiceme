@@ -1,5 +1,46 @@
 %section.content-header
   %h1 Clients
 %section.content
-  .col-md-6
-    = link_to "New", new_client_path, class: 'btn btn-primary btn-sm'
+  = link_to 'New Client', new_client_path, class: 'btn btn-sm btn-primary'
+  .spacer5
+  .row
+    .col-md-12
+      .box
+        .box-body
+          %table.table.table-bordered
+            %tbody
+              %tr
+                %th
+                  Client Name
+                %th
+                  Currency Code
+                %th
+                  Street 1
+                %th
+                  Street 2
+                %th
+                  City
+                %th
+                  State
+                %th
+                  Pincode
+                %th
+                  Country Name
+                %th
+                  Actions
+            - for client in @clients
+              %tr
+                %td= client.name
+                %td= client.currency_code
+                %td= client.address.street_1
+                %td= client.address.street_2
+                %td= client.address.city
+                %td= client.address.state
+                %td= client.address.pincode
+                %td= country_name(client.address.country_code)
+                %td
+                  %div
+                    \  
+                    \#{link_to "Edit", edit_client_path(client)}
+                    \  
+                    \#{link_to "Delete", "/clients/#{client.id}", 'data-confirm' => 'Are you sure?', method: :delete}
