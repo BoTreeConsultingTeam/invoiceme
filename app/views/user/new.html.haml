@@ -1,50 +1,29 @@
-%h1 New User
-.clearfix
-= form_for @user, url: '/user', html: { method: :post, onsubmit: "document.getElementById('submit_button').disabled = 1;" } do |f|
+%section.content-header
+  %h1
+    New User
+%section.content
   .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :email
-      .col-xs-10
-        = f.email_field :email, autofocus: true, class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :password
-      .col-xs-10
-        = f.password_field :password, autocomplete: "off", class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :password_confirmation
-      .col-xs-10
-        = f.password_field :password_confirmation, autocomplete: "off", class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :first_name
-      .col-xs-10
-        = f.text_field :first_name, class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :last_name
-      .col-xs-10
-        = f.text_field :last_name, class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :role
-      .col-xs-10
-        = f.select :role, options_for_select(UserHelper::ROLES_OPTIONS, f.object.role), class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-10.col-sm-offset-2
-        .actions
-        = f.submit "Create", class: "btn btn-info", id: "submit_button"
+    .col-md-6
+      .box.box-primary
+        = form_for @user, url: '/user', html: { method: :post, onsubmit: "document.getElementById('submit_button').disabled = 1;" } do |f|
+          .box-body
+            .form-group
+              = f.label :email
+              = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Enter email'
+            .form-group
+              = f.label :password
+              = f.password_field :password, class: 'form-control', placeholder: 'Enter password'
+            .form-group
+              = f.label :password_confirmation
+              = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Enter confirm password'
+            .form-group
+              = f.label :first_name
+              = f.text_field :first_name, class: 'form-control', placeholder: 'Enter first name'
+            .form-group
+              = f.label :last_name
+              = f.text_field :last_name, class: 'form-control', placeholder: 'Enter last name'
+            .form-group
+              = f.label :role
+              = f.select :role, options_for_select(UserHelper::ROLES_OPTIONS, f.object.role), {}, class: 'form-control'
+          .box-footer
+            = f.submit "Create", class: 'btn btn-primary', id: "submit_button"

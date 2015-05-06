@@ -1,0 +1,18 @@
+%header.main-header
+  / Logo
+  = link_to(root_path, class: 'logo') do
+    %b> Invoice
+    Me
+  / Header Navbar: style can be found in header.less
+  %nav.navbar.navbar-static-top{:role => "navigation"}
+    .navbar-custom-menu
+      %ul.nav.navbar-nav
+        - if !current_user.present?
+          %li
+            = link_to "SignUp", new_user_registration_path
+          %li
+            = link_to "SignIn", new_user_session_path
+        - else
+          %li.dropdown.user.user-menu
+            %a.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", :href => "#"}
+              %span.hidden-xs= current_user.email if current_user
