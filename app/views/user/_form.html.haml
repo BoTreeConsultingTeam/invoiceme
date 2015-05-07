@@ -1,3 +1,4 @@
+.clearfix
 = form_for @user, :url => url_redirect, html: { method: method_used } do |f|
   .row
     .col-xs-12
@@ -6,7 +7,7 @@
       .col-xs-10
         = f.email_field :email, autofocus: true, class: "col-xs-10 col-sm-5"
   .spacer10
-  - if f.object.new_record?
+  - if @user.new_record?
     .row
       .col-xs-12
         .col-xs-2
