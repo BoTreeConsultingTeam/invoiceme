@@ -22,6 +22,6 @@ module ApplicationHelper
   end
 
   def is_admin?
-    current_user.present? && current_user.role.to_s == 'Admin'
+    current_user.present? && current_user.admin?
   end
 end

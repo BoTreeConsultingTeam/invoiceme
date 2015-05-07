@@ -1,29 +1,4 @@
 %section.content-header
   %h1
     New User
-%section.content
-  .row
-    .col-md-6
-      .box.box-primary
-        = form_for @user, url: '/user', html: { method: :post, onsubmit: "document.getElementById('submit_button').disabled = 1;" } do |f|
-          .box-body
-            .form-group
-              = f.label :email
-              = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Enter email'
-            .form-group
-              = f.label :password
-              = f.password_field :password, class: 'form-control', placeholder: 'Enter password'
-            .form-group
-              = f.label :password_confirmation
-              = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Enter confirm password'
-            .form-group
-              = f.label :first_name
-              = f.text_field :first_name, class: 'form-control', placeholder: 'Enter first name'
-            .form-group
-              = f.label :last_name
-              = f.text_field :last_name, class: 'form-control', placeholder: 'Enter last name'
-            .form-group
-              = f.label :role
-              = f.select :role, options_for_select(UserHelper::ROLES_OPTIONS, f.object.role), {}, class: 'form-control'
-          .box-footer
-            = f.submit "Create", class: 'btn btn-primary', id: "submit_button"
+= render partial: 'form', locals: {url_redirect: :user_create_path, method_used: :post}

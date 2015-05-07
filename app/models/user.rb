@@ -15,20 +15,32 @@ class User < ActiveRecord::Base
   has_many :clients, through: :company
 
   ## Constants
-  ROLES = ["auditor", "accountant", "manager"]
+  enum role: [:auditor, :accountant, :manager, :admin]
 
   ## Callbacks
-  after_create :assign_role_and_admin_id
+  after_create :make_admin!
 
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
-    send_reset_password_instructions if not_admin_user?
+    send_reset_password_instructions unless admin? && admin_id == id
   end
 
-  def assign_role_and_admin_id
-    if (role.nil? && admin_id.nil?)
-      user = User.find_by(role: "Admin", admin_id: id)
-      update_columns(role: "Admin", admin_id: id) if user.nil?
+  def colleagues
+    if company.present?
+      company.users.where.not(role: User.roles[:admin])
+    else
+      User.where("role <> ?",User.roles[:admin]).where(admin_id: id).where.not(id: id)
+    end
+  end
+
+  def make_admin!
+    if role.nil? && admin_id.nil?
+      user = User.find_by(admin_id: id)
+      unless user.present? && user.admin?
+        self.admin_id = id
+        self.role = self.class.roles[:admin]
+        self.save
+      end
     end
   end
 
@@ -37,11 +49,7 @@ class User < ActiveRecord::Base
   end
 
   def check_role
-    errors.add(:role, "is not valid, please select a valid role.") unless (User::ROLES).include?(role)
-  end
-
-  def not_admin_user?
-    ((role != "Admin") && (admin_id != id))
+    errors.add(:role, "is not valid, please select a valid role.") unless (User.roles).include?(role)
   end
 
 end

@@ -4,7 +4,7 @@ class UserController < ApplicationController
   before_filter :check_authorized_access, except: [:index, :new, :create]
 
   def index
-    @users = User.where("admin_id = ? and id not in (?) and role not in (?)",current_user.id,current_user.id, "Admin")
+    @users = current_user.colleagues
   end
 
   def new
@@ -14,6 +14,9 @@ class UserController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.admin_id = current_user.id if is_admin?
+    if current_user.company.present?
+      @user.company = current_user.company
+    end
     if @user.save
       flash[:notice] = "Successfully created User."
       redirect_to user_index_path
@@ -53,7 +56,7 @@ class UserController < ApplicationController
   end
 
   def check_authorized_access
-    raise CanCan::AccessDenied.new("Unauthorized access!", :read, User) unless ((@user.admin_id == current_user.id) && (@user.id != current_user.id) && (@user.role != "Admin"))
+    raise CanCan::AccessDenied.new("Unauthorized access!", :read, User) unless (current_user.admin?)
   end
 
 end

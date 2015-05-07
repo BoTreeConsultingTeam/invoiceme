@@ -1,11 +1,11 @@
 - if current_user.company.present?
   %section.content-header
-  	%h1
-    	New Client
+    %h1
+      New Client
   %section.content
-  	.row
-    	.col-md-6
-      	.box.box-primary
+    .row
+      .col-md-6
+        .box.box-primary
           = render "form"
 - else
   %section.content-header
