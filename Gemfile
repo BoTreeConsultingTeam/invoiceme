@@ -53,3 +53,4 @@ gem "cancan"
 gem "font-awesome-rails"
 #Preview mail in the browser instead of sending
 gem 'letter_opener'
+gem 'rails_12factor', group: :production
