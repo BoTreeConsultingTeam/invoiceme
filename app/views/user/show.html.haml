@@ -1,18 +1,13 @@
-%h1 User Profile:
-.clearfix
-.profile-user-info.profile-user-info-striped
-  .profile-info-row
-    %b.col-md-1 Email:
-    = @user.email
-    .clearfix
-  .profile-info-row
-    %b.col-md-1 Firstname:
-    = @user.first_name
-    .clearfix
-  .profile-info-row
-    %b.col-md-1 Lastname:
-    = @user.last_name
-    .clearfix
-  .profile-info-row
-    %b.col-md-1 Role:
-    = @user.role
+%section.content-header
+  %h1 User Profile
+%section.content
+  .row
+    .col-md-6
+      .box.box-primary
+        .box-body
+          %p Email: #{@user.email}
+          %p Firstname: #{@user.first_name}
+          %p Lastname: #{@user.last_name}
+          %p Role: #{@user.role}
+        .box-footer
+          = link_to "Back", user_index_path, class: 'btn btn-primary'

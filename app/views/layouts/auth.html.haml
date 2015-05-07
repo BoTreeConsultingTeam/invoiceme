@@ -5,12 +5,12 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-  %body.skin-blue
+  %body.skin-blue.sidebar-collapse
     .wrapper
       = render partial: 'layouts/navigation'
-      = render partial: 'layouts/left_sidebar'
       .content-wrapper
         - if flash.present?
+          .spacer5
           .row
             .col-md-12
               .box-primary
@@ -18,4 +18,3 @@
                   = render "layouts/shared/notification"
         = yield
         = render partial: 'layouts/footer'
-        = render "companies/company"

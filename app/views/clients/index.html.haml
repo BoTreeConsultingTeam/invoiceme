@@ -1,29 +1,34 @@
-%h1 Clients
-%br/
-= link_to 'New Client', new_client_path
-%br/
-%br/
-- if @clients.present? 
-  %table.table.table-striped.table-bordered.table-hover
-    %tr
-      %th
-        Client Name
-      %th
-        Currency Code
-      %th
-        Street 1
-      %th
-        Street 2
-      %th
-        City
-      %th
-        State
-      %th
-        Pincode
-      %th
-        Country Name
-      %th
-        Actions
-    = render @clients      
-- else
-  %h3 No Client Found.
+%section.content-header
+  %h1 Clients
+%section.content
+  = link_to 'New Client', new_client_path, class: 'btn btn-sm btn-primary'
+  .spacer5
+  .row
+    .col-md-12
+      .box
+        .box-body
+          - if @clients.present? 
+            %table.table.table-bordered
+              %tbody
+                %tr
+                  %th
+                    Client Name
+                  %th
+                    Currency Code
+                  %th
+                    Street 1
+                  %th
+                    Street 2
+                  %th
+                    City
+                  %th
+                    State
+                  %th
+                    Pincode
+                  %th
+                    Country Name
+                  %th
+                    Actions
+                = render @clients      
+      		- else
+            %h3 No Client Found. 

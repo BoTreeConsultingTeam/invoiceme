@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_filter :check_authorized_access, except: [:index, :new]
+  before_filter :check_authorized_access, except: [:index, :new, :create]
 
   def index
     @users = User.where("admin_id = ? and id not in (?) and role not in (?)",current_user.id,current_user.id, "Admin")

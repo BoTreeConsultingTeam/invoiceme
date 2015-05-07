@@ -1,0 +1,36 @@
+- if current_user.present?
+  %aside.main-sidebar
+    / sidebar: style can be found in sidebar.less
+    %section.sidebar{:style => "height: auto;"}
+      %ul.sidebar-menu
+        - if current_user.present?
+          %li
+            = link_to root_path do
+              %i.fa.fa-dashboard
+              %span Home
+          %li
+            = link_to "#" do
+              %i.fa.fa-th
+              %span Invoices
+          - if is_admin?
+            %li
+              = link_to clients_path do
+                %i.fa.fa-user
+                %span Clients
+            %li
+              = link_to user_index_path do
+                %i.fa.fa-user
+                %span Users
+            %li
+              = link_to("#modal-form","data-toggle" => "modal") do
+                %i.fa.fa-bars
+                %span Companies
+            %li
+              = link_to edit_user_registration_path do
+                %i.fa.fa-edit
+                %span Edit User
+          %li
+            = link_to logout_path do
+              %i.fa.fa-circle-o
+              %span Sign Out
+ 
