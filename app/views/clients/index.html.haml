@@ -1,9 +1,9 @@
+%h1 Clients
+%br/
+= link_to 'New Client', new_client_path
+%br/
+%br/
 - if @clients.present? 
-  %h1 Clients
-  %br/
-  = link_to 'New Client', new_client_path
-  %br/
-  %br/
   %table.table.table-striped.table-bordered.table-hover
     %tr
       %th
