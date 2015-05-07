@@ -56,7 +56,7 @@ class UserController < ApplicationController
   end
 
   def check_authorized_access
-    raise CanCan::AccessDenied.new("Unauthorized access!", :read, User) unless ((@user.admin_id == current_user.id) && (@user.id != current_user.id) && (@user.role != "admin"))
+    raise CanCan::AccessDenied.new("Unauthorized access!", :read, User) unless (current_user.admin?)
   end
 
 end
