@@ -3,28 +3,26 @@
     #modal-form.modal{:tabindex => "-1"}
       .modal-dialog
         .modal-content
-          .modal-header
+          .content-header
             %button.close{"data-dismiss" => "modal", :type => "button"} &times;
-            %h4.blue.bigger Please fill the following form fields
+            %h1 Please fill the following form fields
           .modal-body.overflow-visible
             #e1
               - if flash[:error].present?
-                %br
-                  .alert.alert-danger{:role => "alert"}
-                    %span.sr-only Error:
-                    %a.close{"data-dismiss" => "alert", :href => "#"} &times;
-                    = flash[:error]
-                    - flash.clear
+                .alert.alert-danger.alert-dismissible{:role => "alert"}
+                  %a.close{"data-dismiss" => "alert", :href => "#"} &times;
+                  = flash[:error]
+                  - flash.clear
+          %section.content
             .row
-              .form-group
-                %label{:for => "form-field-username"} Name
-                %div
-                  = f.text_field :name
-              .space-4
-          .modal-footer
-            %button.btn.btn-sm{"data-dismiss" => "modal"}
-              %i.icon-remove
-              Cancel
-            %button.btn.btn-sm.btn-primary{:type => "submit"}
-              %i.icon-ok
-              Save
+              .col-md-12
+                .form-group
+                  = f.label :name
+                  = f.text_field :name, class: 'form-control', placeholder: 'Enter name'
+                .box-footer
+                  %button.btn.btn-sm.btn-primary{:type => "submit"}
+                    %i.icon-ok
+                    Save
+                  %button.btn.btn-sm.btn-primary{"data-dismiss" => "modal"}
+                    %i.icon-remove
+                    Cancel

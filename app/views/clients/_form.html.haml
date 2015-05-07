@@ -1,55 +1,31 @@
-= simple_form_for @client do |f|
- 
-  %h3 Client
-  .field
-    = label_tag :name, "Name"
-    %br/
-    = text_field_tag "client[name]", @client.name
-    %br/
-  .field
-    = label_tag :currency, "Currency"
-    %br/
-    = currency_select("client", "currency_code", {selected: @client.currency_code})
-    %br/
-
-  %h3 Client Address Details
-  .field
-    = label_tag :address_street_1, "Street1"
-    %br/
-    = text_field_tag "address[street_1]", @address.street_1
-    %br/
-
-  .field
-    = label_tag :address_street_2, "Street2"
-    %br/ 
-    = text_field_tag "address[street_2]", @address.street_2
-    %br/
-
-  .field
-    = label_tag :address_city, "city"
-    %br/
-    = text_field_tag "address[city]", @address.city
-    %br/
-
-  .field
-    = label_tag :address_state, "State"
-    %br/
-    = text_field_tag "address[state]", @address.state
-    %br/
-
-  .field
-    = label_tag :address_pincode, "Pincode"
-    %br/
-    = text_field_tag "address[pincode]", @address.pincode
-    %br/
-
-  .field
-    = label_tag :address_country, "Country"
-    %br/
-    = country_select("address", "country_code", {selected: @address.country_code}, {class: "form-control"})
-    %br/
-    %br/
-    = hidden_field_tag "address_id", @address.id
-  %button.btn.btn-sm.btn-primary{:type => "submit"}
-    %i.icon-ok
-      Save 
+.box-body
+  = simple_form_for @client do |f|
+    .form-group
+      = label_tag :name, "Name"
+      %br/
+      = text_field_tag "client[name]", @client.name, class: 'form-control', placeholder: 'Enter name'
+    .form-group
+      = label_tag :currency, "Currency"
+      = currency_select("client", "currency_code", { selected: @client.currency_code}, {}, class: 'form-control')
+    %h3 Client Address Details
+    = f.fields_for :address do |address_form|    
+      .form-group
+        = label_tag :address_street_1, "Street1"
+        = address_form.text_field "street_1", class: 'form-control', placeholder: 'Enter street 1'    
+      .form-group
+        = label_tag :address_street_2, "Street2"
+        = address_form.text_field "street_2", class: 'form-control', placeholder: 'Enter street 2'
+      .form-group
+        = label_tag :address_city, "city"
+        = address_form.text_field "city", class: 'form-control', placeholder: 'Enter city'
+      .form-group
+        = label_tag :address_state, "State"
+        = address_form.text_field "state", class: 'form-control', placeholder: 'state'
+      .form-group
+        = label_tag :address_pincode, "Pincode"
+        = address_form.text_field "pincode", class: 'form-control', placeholder: 'pincode'
+      .form-group
+        = label_tag :address_country, "Country"
+        = country_select("client[address_attributes]", "country_code", {selected: address_form.object.country_code}, {class: "form-control"})
+    .box-footer
+      = f.submit "Save", class: 'btn btn-primary', id: "submit_button"

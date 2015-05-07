@@ -1,50 +1,28 @@
-.clearfix
-= form_for @user, :url => url_redirect, html: { method: method_used } do |f|
+%section.content
   .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :email
-      .col-xs-10
-        = f.email_field :email, autofocus: true, class: "col-xs-10 col-sm-5"
-  .spacer10
-  - if @user.new_record?
-    .row
-      .col-xs-12
-        .col-xs-2
-          = f.label :password
-        .col-xs-10
-          = f.password_field :password, autocomplete: "off", class: "col-xs-10 col-sm-5"
-    .spacer10
-    .row
-      .col-xs-12
-        .col-xs-2
-          = f.label :password_confirmation
-        .col-xs-10
-          = f.password_field :password_confirmation, autocomplete: "off", class: "col-xs-10 col-sm-5"
-    .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :first_name
-      .col-xs-10
-        = f.text_field :first_name, class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :last_name
-      .col-xs-10
-        = f.text_field :last_name, class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :role
-      .col-xs-10
-        = f.select(:role, get_roles, :include_blank => false, class: "col-xs-10 col-sm-5")
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-10.col-sm-offset-2
-        .actions
-        = f.submit "save", class: "btn btn-info", id: "submit_button", data: { disable_with: "Please wait..." }
+    .col-md-6
+      .box.box-primary
+        .box-body
+          = form_for @user, :url => url_redirect, html: { method: method_used } do |f|
+            .box-body
+              .form-group
+                = f.label :email
+                = f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Enter email'
+            - if @user.new_record?
+              .form-group
+                = f.label :password
+                = f.password_field :password, class: 'form-control', placeholder: 'Enter password'
+              .form-group
+                = f.label :password_confirmation
+                = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Enter confirm password'
+            .form-group
+              = f.label :first_name
+              = f.text_field :first_name, class: 'form-control', placeholder: 'Enter first name'
+            .form-group
+              = f.label :last_name
+              = f.text_field :last_name, class: 'form-control', placeholder: 'Enter last name'
+            .form-group
+              = f.label :role
+              = f.select(:role, get_roles, {class: "form-control"})
+            .box-footer
+              = f.submit "save", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Please wait..." }
