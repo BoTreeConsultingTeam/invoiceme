@@ -90,6 +90,7 @@ Rails.application.configure do
       domain: 'gmail.com',
       user_name: 'demo4582@gmail.com',
       password: 'priyam4582',
-      authentication: 'plain'
+      authentication: 'plain',
+      :openssl_verify_mode => 'none'
   }
 end
