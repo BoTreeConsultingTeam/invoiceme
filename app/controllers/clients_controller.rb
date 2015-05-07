@@ -32,9 +32,7 @@ class ClientsController < ApplicationController
   end
 
   def update
-    @client.attributes = client_params
-    @client.company = current_user.company
-    if @client.save
+    if @client.update(client_params)
       flash[:success] = 'Client saved successfully.'
       redirect_to clients_path
     else

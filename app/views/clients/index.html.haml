@@ -24,7 +24,6 @@
         Country Name
       %th
         Actions
-    - for client in @clients
-      = render :partial => "client", :locals=> {client: client}      
+    = render @clients      
 - else
   %h3 No Client Found.
