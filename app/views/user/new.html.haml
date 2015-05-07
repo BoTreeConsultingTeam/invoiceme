@@ -1,9 +1,3 @@
 %h1 New User
 .clearfix
-= form_for @user, :url => :user_create_path, html: { method: :post, onsubmit: "document.getElementById('submit_button').disabled = 1;" } do |f|
-  = render :partial => 'form', :locals => {:f => f}
-  .row
-    .col-xs-12
-      .col-xs-10.col-sm-offset-2
-        .actions
-        = f.submit "Create", class: "btn btn-info", id: "submit_button"
+= render partial: 'form', locals: {url_redirect: :user_create_path, string_submit: :create, method_used: :post}

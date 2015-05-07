@@ -18,24 +18,25 @@ class User < ActiveRecord::Base
   enum role: [:auditor, :accountant, :manager, :admin]
 
   ## Callbacks
-  after_create :assign_role_and_admin_id
+  after_create :make_admin!
 
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
     send_reset_password_instructions if not_admin_user?
   end
 
-  def assign_role_and_admin_id
-    if(role.nil? && admin_id.nil?)
+  def colleagues
+    if company.present?
+      company.users.where.not(role: User.roles[:admin])
+    else
+      User.where("role <> ?",User.roles[:admin]).where(admin_id: id).where.not(id: id)
+    end
+  end
+
+  def make_admin!
+    if role.nil? && admin_id.nil?
       user = User.find_by(admin_id: id)
-      if user.present?
-        if user.admin?
-        else
-          self.admin_id = id
-          self.role = "admin"
-          self.save
-        end       
-      else
+      unless user.present? && user.admin?
         self.admin_id = id
         self.role = "admin"
         self.save

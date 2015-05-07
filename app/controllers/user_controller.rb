@@ -4,7 +4,7 @@ class UserController < ApplicationController
   before_filter :check_authorized_access, except: [:index, :new, :create]
 
   def index
-    @users = User.where("role <> ?",User.roles[:admin]).where(admin_id: current_user.id).where.not(id: current_user.id)
+    @users = current_user.colleagues
   end
 
   def new
@@ -14,6 +14,9 @@ class UserController < ApplicationController
   def create
     @user = User.new(user_params)
     @user.admin_id = current_user.id if is_admin?
+    if current_user.company.present?
+      @user.company = current_user.company
+    end
     if @user.save
       flash[:notice] = "Successfully created User."
       redirect_to user_index_path
