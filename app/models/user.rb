@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
 
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
-    send_reset_password_instructions if not_admin_user?
+    send_reset_password_instructions unless admin? && admin_id == id
   end
 
   def colleagues
@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
       user = User.find_by(admin_id: id)
       unless user.present? && user.admin?
         self.admin_id = id
-        self.role = "admin"
+        self.role = self.class.roles[:admin]
         self.save
       end
     end
@@ -50,15 +50,6 @@ class User < ActiveRecord::Base
 
   def check_role
     errors.add(:role, "is not valid, please select a valid role.") unless (User.roles).include?(role)
-  end
-
-  def not_admin_user?
-    if admin?
-      false
-    else
-      (admin_id != id)
-      true
-    end
   end
 
 end
