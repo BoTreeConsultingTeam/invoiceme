@@ -1,41 +1,30 @@
-%h1 Clients
-%br/
-= link_to 'New Client', new_client_path
-%br/
-%br/
-%table.table.table-striped.table-bordered.table-hover
-  %tr
-    %th
-      Client Name
-    %th
-      Currency Code
-    %th
-      Street 1
-    %th
-      Street 2
-    %th
-      City
-    %th
-      State
-    %th
-      Pincode
-    %th
-      Country Name
-    %th
-      Actions
-  - for client in @clients
+- if @clients.present? 
+  %h1 Clients
+  %br/
+  = link_to 'New Client', new_client_path
+  %br/
+  %br/
+  %table.table.table-striped.table-bordered.table-hover
     %tr
-      %td= client.name
-      %td= client.currency_code
-      %td= client.address_street_1
-      %td= client.address_street_2
-      %td= client.address_city
-      %td= client.address_state
-      %td= client.address_pincode
-      %td= country_name(client.address_country_code)
-      %td
-        %div
-          \  
-          \#{link_to "Edit", edit_client_path(client)}
-          \  
-          \#{link_to "Delete", client_path(client), 'data-confirm' => 'Are you sure?', method: :delete}
+      %th
+        Client Name
+      %th
+        Currency Code
+      %th
+        Street 1
+      %th
+        Street 2
+      %th
+        City
+      %th
+        State
+      %th
+        Pincode
+      %th
+        Country Name
+      %th
+        Actions
+    - for client in @clients
+      = render :partial => "client", :locals=> {client: client}      
+- else
+  %h3 No Client Found.

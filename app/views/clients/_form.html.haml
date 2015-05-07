@@ -14,46 +14,44 @@
 
   %h3 Client Address Details
 
-  = f.fields_for :address do |f1|
+  = f.fields_for :address do |address_form|
         
     .field
       = label_tag :address_street_1, "Street1"
       %br/
-      = f1.text_field "street_1"
+      = address_form.text_field "street_1"
       %br/
 
     .field
       = label_tag :address_street_2, "Street2"
       %br/ 
-      = f1.text_field "street_2"
+      = address_form.text_field "street_2"
       %br/
 
     .field
       = label_tag :address_city, "city"
       %br/
-      = f1.text_field "city"
+      = address_form.text_field "city"
       %br/
 
     .field
       = label_tag :address_state, "State"
       %br/
-      = f1.text_field "state"
+      = address_form.text_field "state"
       %br/
 
     .field
       = label_tag :address_pincode, "Pincode"
       %br/
-      = f1.text_field "pincode"
+      = address_form.text_field "pincode"
       %br/
 
     .field
       = label_tag :address_country, "Country"
       %br/
-      = country_select("client[address_attributes]", "country_code", {selected: @address.country_code}, {class: "form-control"})
+      = country_select("client[address_attributes]", "country_code", {:selected =>address_form.object.country_code}, {class: "form-control"})
       %br/
       %br/
-      = hidden_field_tag "address_id", @address.id
 
-  %button.btn.btn-sm.btn-primary{:type => "submit"}
-    %i.icon-ok
-      Save 
+  = submit_tag("Save", class: 'btn btn-sm btn-primary') do
+    %i.icon-ok 

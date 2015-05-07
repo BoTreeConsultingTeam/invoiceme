@@ -2,27 +2,27 @@ class ClientsController < ApplicationController
 
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_filter :check_authorized_access, except: [:index, :new]
+  before_filter :check_authorized_access, except: [:index, :new, :create]
  
   def index
-    @clients = Client.where(company_id: current_user.company_id)
+    if current_user.company.present?
+      @clients = current_user.company.clients
+    end
   end
 
   def new
     @client = Client.new
-    @address = Address.new
-    @client.address = @address
+    @client.address = Address.new
   end
 
   def create
     @client = Client.new(client_params)
-    @client.company_id = current_user.company_id    
-    @address = @client.address
+    @client.company = current_user.company
     if @client.save      
-      flash[:success] = 'Client and address saved properly'   
+      flash[:success] = 'Client saved successfully.'   
       redirect_to clients_path      
     else
-      flash[:error] = "Client has some problem in save. #{@client.errors.full_messages.join(',')}"
+      flash[:error] = "Problem while saving client details. #{@client.errors.full_messages.join(',')}"
       render :action => 'new'
     end
   end
@@ -33,13 +33,12 @@ class ClientsController < ApplicationController
 
   def update
     @client.attributes = client_params
-    @client.company_id = current_user.company_id
-    @address = @client.address
+    @client.company = current_user.company
     if @client.save
-      flash[:success] = 'Client and address updated properly'
+      flash[:success] = 'Client saved successfully.'
       redirect_to clients_path
     else
-      flash[:error] = "Client has some problem in save. #{@client.errors.full_messages.join(',')}"      
+      flash[:error] = "Problem while saving client details. #{@client.errors.full_messages.join(',')}"      
       render :action => 'edit'
     end
   end

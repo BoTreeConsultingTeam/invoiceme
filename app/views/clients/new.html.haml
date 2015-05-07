@@ -1,3 +1,6 @@
 %h1 New client
 %br/
-= render "form"
+- if current_user.company.present?
+  = render "form"
+- else
+  %h5 First create company than client can be created.
