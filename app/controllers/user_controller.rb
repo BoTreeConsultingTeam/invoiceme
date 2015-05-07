@@ -1,6 +1,7 @@
 class UserController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
+  before_filter :check_authorized_access, except: [:index, :new, :create]
 
   def index
     @users = User.where("admin_id = ? and id not in (?) and role not in (?)",current_user.id,current_user.id, "Admin")
@@ -49,6 +50,10 @@ class UserController < ApplicationController
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :role)
+  end
+
+  def check_authorized_access
+    raise CanCan::AccessDenied.new("Unauthorized access!", :read, User) unless ((@user.admin_id == current_user.id) && (@user.id != current_user.id) && (@user.role != "Admin"))
   end
 
 end
