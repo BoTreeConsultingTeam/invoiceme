@@ -51,3 +51,5 @@ gem 'currency_select'
 gem 'validates_zipcode'
 gem "cancan"
 gem "font-awesome-rails"
+#Preview mail in the browser instead of sending
+gem 'letter_opener'
