@@ -9,6 +9,12 @@
     .wrapper
       = render partial: 'layouts/navigation'
       .content-wrapper
-        = render "layouts/shared/notification"
+        - if flash.present?
+          .spacer5
+          .row
+            .col-md-12
+              .box-primary
+                .box-body
+                  = render "layouts/shared/notification"
         = yield
         = render partial: 'layouts/footer'
