@@ -4,7 +4,7 @@ class UserController < ApplicationController
   before_filter :check_authorized_access, except: [:index, :new, :create]
 
   def index
-    @users = User.where("admin_id = ? and id not in (?) and role not in (?)",current_user.id,current_user.id, 3)
+    @users = User.where("role <> ?",User.roles[:admin]).where(admin_id: current_user.id).where.not(id: current_user.id)
   end
 
   def new

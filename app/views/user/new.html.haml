@@ -1,48 +1,7 @@
 %h1 New User
 .clearfix
-= form_for @user, url: '/user', html: { method: :post, onsubmit: "document.getElementById('submit_button').disabled = 1;" } do |f|
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :email
-      .col-xs-10
-        = f.email_field :email, autofocus: true, class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :password
-      .col-xs-10
-        = f.password_field :password, autocomplete: "off", class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :password_confirmation
-      .col-xs-10
-        = f.password_field :password_confirmation, autocomplete: "off", class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :first_name
-      .col-xs-10
-        = f.text_field :first_name, class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :last_name
-      .col-xs-10
-        = f.text_field :last_name, class: "col-xs-10 col-sm-5"
-  .spacer10
-  .row
-    .col-xs-12
-      .col-xs-2
-        = f.label :role
-      .col-xs-10
-        = f.select(:role, User.roles.reject { |k,v| v==3 }.keys.map {|role| [role.titleize,role]}, :include_blank => false, class: "col-xs-10 col-sm-5")
-  .spacer10
+= form_for @user, :url => :user_create_path, html: { method: :post, onsubmit: "document.getElementById('submit_button').disabled = 1;" } do |f|
+  = render :partial => 'form', :locals => {:f => f}
   .row
     .col-xs-12
       .col-xs-10.col-sm-offset-2
