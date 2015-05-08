@@ -1,31 +1,53 @@
 class CompaniesController < ApplicationController
 
   before_action :authenticate_user!
+  load_and_authorize_resource
+  before_filter :check_authorized_access, except: [:index, :new, :create]
+
+  def index
+    unless current_user.company.present?
+      redirect_to new_company_path
+    end
+  end
+
+  def new
+    @company = Company.new
+    @company.address = Address.new
+  end
 
   def create
     @company = Company.new(company_params)
     if @company.save
-      @users = User.where("admin_id = ?",current_user.id).update_all(company_id: @company.id)
+      current_user.company = @company
+      current_user.save
       flash[:success] = "Company created successfully"
+      redirect_to companies_path
     else
       flash[:error] = "Company not saved because: #{@company.errors.full_messages.join(',')}"
-    end
+      render :new
+    end   
   end
 
   def update
     @company = Company.find(params[:id].to_i)
-    @company.attributes = company_params
+    @company.update(company_params)
     if @company.save
       flash[:success] = "Company updated successfully"
+      redirect_to companies_path
     else
       flash[:error] = "Company not updated because: #{@company.errors.full_messages.join(',')}"
+      render :edit
     end
   end
 
-  protected
+  private
 
   def company_params
-    params.require(:company).permit(:name)
+    params.require(:company).permit(:name, address_attributes: [:street_1,:street_2,:city,:state,:pincode,:country_code])
+  end
+
+  def check_authorized_access
+    raise CanCan::AccessDenied.new("Unauthorized access!", :read, Company) unless current_user.admin?
   end
 
 end
