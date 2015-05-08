@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   enum role: [:auditor, :accountant, :manager, :admin]
 
   ## Callbacks
-  after_create :make_admin!
+  after_commit :make_admin!
 
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
