@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   enum role: [:auditor, :accountant, :manager, :admin]
 
   ## Callbacks
-  before_create :make_admin!
+  after_commit :make_admin!
 
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
@@ -34,13 +34,10 @@ class User < ActiveRecord::Base
   end
 
   def make_admin!
-    if role.nil? && admin_id.nil?
-      user = User.find_by(admin_id: id)
-      unless user.present? && user.admin?
-        self.admin_id = id
-        self.role = self.class.roles[:admin]
-        self.save
-      end
+    unless role.present?
+      self.admin_id = id
+      self.role = self.class.roles[:admin]
+      self.save
     end
   end
 
