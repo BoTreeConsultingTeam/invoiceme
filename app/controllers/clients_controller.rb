@@ -52,7 +52,7 @@ class ClientsController < ApplicationController
   def client_params
     params.require(:client).permit(
       :name,:currency_code,
-      address_attributes: [:street_1,:street_2,:city,:state,:pincode,:country_code], 
+      address_attributes: [:street_1,:street_2,:city,:state,:pincode,:country_code, :id],
       contact_detail_ids: [], 
       contact_details_attributes: [:email, :first_name, :last_name, :phone, :mobile])
   end
