@@ -6,7 +6,8 @@ class Client < ActiveRecord::Base
   has_many :contact_details
   has_many :invoices
  
-  accepts_nested_attributes_for :address, :allow_destroy => true
+  accepts_nested_attributes_for :address, allow_destroy: true
+  accepts_nested_attributes_for :contact_details, allow_destroy: true
 
   validates :name, presence: true
   validates :currency_code, presence: true
