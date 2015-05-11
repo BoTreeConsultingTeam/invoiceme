@@ -54,7 +54,7 @@ class ClientsController < ApplicationController
       :name,:currency_code,
       address_attributes: [:street_1,:street_2,:city,:state,:pincode,:country_code, :id],
       contact_detail_ids: [], 
-      contact_details_attributes: [:email, :first_name, :last_name, :phone, :mobile])
+      contact_details_attributes: [:email, :first_name, :last_name, :phone, :mobile, :id])
   end
 
   def check_authorized_access
