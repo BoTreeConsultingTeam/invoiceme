@@ -7,7 +7,7 @@ class Company < ActiveRecord::Base
 
   delegate :street_1, :street_2, :city, :state, :pincode, :country_code, to: :address, prefix: true
   
-  accepts_nested_attributes_for :address, :allow_destroy => true
+  accepts_nested_attributes_for :address, allow_destroy: true
   
   validates_presence_of :name
   

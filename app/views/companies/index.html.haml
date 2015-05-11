@@ -1,17 +1,16 @@
-- if current_user.company.present?
-  %section.content-header
-    %h1 Company Detail
-  %section.content
-    .row
-      .col-md-6
-        .box.box-primary
-          .box-body
-            %p Company Name: #{current_user.company.name}
-            %p Street1: #{current_user.company.address_street_1}
-            %p Street2: #{current_user.company.address_street_2}
-            %p City: #{current_user.company.address_city}
-            %p State: #{current_user.company.address_state}
-            %p Pincode: #{current_user.company.address_pincode}
-            %p Country: #{country_name(current_user.company.address_country_code)}
-    .box-footer
-      = link_to "Edit", edit_company_path(current_user.company), class: 'btn btn-primary'
+%section.content-header
+  %h1 Company Detail
+%section.content
+  .row
+    .col-md-6
+      .box.box-primary
+        .box-body
+          %p Company Name: #{@company.name}
+          %p Street1: #{@company.address_street_1}
+          %p Street2: #{@company.address_street_2}
+          %p City: #{@company.address_city}
+          %p State: #{@company.address_state}
+          %p Pincode: #{@company.address_pincode}
+          %p Country: #{country_name(@company.address_country_code)}
+  .box-footer
+    = link_to "Edit", edit_company_path(@company), class: 'btn btn-primary'

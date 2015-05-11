@@ -1,28 +1,28 @@
 .box-body
   = simple_form_for @company do |f|
     .form-group
-      = label_tag :name, "Name"
+      = f.label :name, "Name"
       %br/
-      = text_field_tag "company[name]", @company.name, class: 'form-control', placeholder: 'Enter name'
+      = f.text_field "name", class: 'form-control', placeholder: 'Enter name'
     %h3 Company Address Details
     = f.fields_for :address do |address_form|    
       .form-group
-        = label_tag :address_street_1, "Street1"
+        = f.label :address_street_1, "Street1"
         = address_form.text_field "street_1", class: 'form-control', placeholder: 'Enter street 1'    
       .form-group
-        = label_tag :address_street_2, "Street2"
+        = f.label :address_street_2, "Street2"
         = address_form.text_field "street_2", class: 'form-control', placeholder: 'Enter street 2'
       .form-group
-        = label_tag :address_city, "city"
+        = f.label :address_city, "city"
         = address_form.text_field "city", class: 'form-control', placeholder: 'Enter city'
       .form-group
-        = label_tag :address_state, "State"
+        = f.label :address_state, "State"
         = address_form.text_field "state", class: 'form-control', placeholder: 'state'
       .form-group
-        = label_tag :address_pincode, "Pincode"
+        = f.label :address_pincode, "Pincode"
         = address_form.text_field "pincode", class: 'form-control', placeholder: 'pincode'
       .form-group
-        = label_tag :address_country, "Country"
+        = f.label :address_country, "Country"
         = country_select("company[address_attributes]", "country_code", {selected: address_form.object.country_code}, {class: "form-control"})
     .box-footer
       = f.submit "Save", class: 'btn btn-primary', id: "submit_button"

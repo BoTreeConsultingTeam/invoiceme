@@ -7,6 +7,8 @@ class CompaniesController < ApplicationController
   def index
     unless current_user.company.present?
       redirect_to new_company_path
+    else
+      @company = current_user.company
     end
   end
 
