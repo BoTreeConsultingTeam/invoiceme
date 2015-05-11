@@ -57,10 +57,6 @@ class ClientsController < ApplicationController
       contact_details_attributes: [:email, :first_name, :last_name, :phone, :mobile])
   end
 
-  def address_params
-    params.require(:address).permit(:street_1,:street_2,:city,:state,:pincode,:country_code)
-  end
-
   def check_authorized_access
     raise CanCan::AccessDenied.new("Unauthorized access!", :read, Client) unless ((@client.company_id == current_user.company_id))
   end

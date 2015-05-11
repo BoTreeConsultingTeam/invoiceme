@@ -1,7 +1,7 @@
 class UserController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_filter :check_authorized_access, except: [:index, :new, :create]
+  before_filter :check_authorized_access, except: [:new, :create]
 
   def index
     @users = current_user.colleagues
@@ -13,7 +13,6 @@ class UserController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.admin_id = current_user.id if is_admin?
     if current_user.company.present?
       @user.company = current_user.company
     end
@@ -56,7 +55,7 @@ class UserController < ApplicationController
   end
 
   def check_authorized_access
-    raise CanCan::AccessDenied.new("Unauthorized access!", :read, User) unless (current_user.admin?)
+    raise CanCan::AccessDenied.new("Unauthorized access!", :read, User) unless (current_user.admin? && current_user.company.present?)
   end
 
 end
