@@ -22,27 +22,22 @@ class User < ActiveRecord::Base
 
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
-    send_reset_password_instructions unless admin? && admin_id == id
+    send_reset_password_instructions unless admin?
   end
 
   def colleagues
-    if company.present?
-      company.users.where.not(role: User.roles[:admin])
-    else
-      User.where("role <> ?",User.roles[:admin]).where(admin_id: id).where.not(id: id)
-    end
+    company.users.where.not(role: User.roles[:admin])
   end
 
   def make_admin!
     unless role.present?
-      self.admin_id = id
       self.role = self.class.roles[:admin]
       self.save
     end
   end
 
   def other_roles
-    ((admin_id.present?) && (admin_id != id))
+    admin?
   end
 
   def check_role
@@ -50,3 +45,4 @@ class User < ActiveRecord::Base
   end
 
 end
+

@@ -1,5 +1,6 @@
 class Address < ActiveRecord::Base
-  belongs_to :client
+  
+  belongs_to :addressdetail, polymorphic: true
 
   validates :street_1, presence: true
   validates :city, presence: true
