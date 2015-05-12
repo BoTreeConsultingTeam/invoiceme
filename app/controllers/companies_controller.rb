@@ -31,9 +31,8 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    @company = Company.find(params[:id].to_i)
-    @company.update(company_params)
-    if @company.save
+    @company = Company.find(params[:id])
+    if(@company.update(company_params))
       flash[:success] = "Company updated successfully"
       redirect_to companies_path
     else
@@ -45,7 +44,7 @@ class CompaniesController < ApplicationController
   private
 
   def company_params
-    params.require(:company).permit(:name, address_attributes: [:street_1,:street_2,:city,:state,:pincode,:country_code])
+    params.require(:company).permit(:name, address_attributes: [:street_1,:street_2,:city,:state,:pincode,:country_code, :id])
   end
 
   def check_authorized_access
