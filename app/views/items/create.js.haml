@@ -1,0 +1,7 @@
+- if flash[:error].present?
+  :plain
+    $("#e1").html("#{flash[:error]}");
+    - flash.clear
+- elsif flash[:success].present?
+  :plain
+    $(window.location.replace("/items"))

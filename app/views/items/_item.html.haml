@@ -1,0 +1,35 @@
+-if is_admin?
+  = form_for @item, remote: true do |f|
+    #modal-form.modal{tabindex: "-1"}
+      .modal-dialog
+        .modal-content
+          .modal-header
+            %button.close{"data-dismiss" => "modal", type: "button"} &times;
+            %h4.blue.bigger Please fill the following form fields
+          .modal-body.overflow-visible
+            #e1
+              - if flash[:error].present?
+                %br
+                  .alert.alert-danger{role: "alert"}
+                    %span.sr-only Error:
+                    %a.close{"data-dismiss" => "alert", href: "#"} &times;
+                    = flash[:error]
+                    - flash.clear
+            .box-body
+              .form-group
+                = f.label :name
+                = f.text_field :name, class: 'form-control'
+              .form-group
+                = f.label :description
+                = f.text_field :description, class: 'form-control'
+              .form-group
+                = f.label :price
+                = f.text_field :price, class: 'form-control'
+              .space-4
+          .modal-footer
+            %button.btn.btn-sm{"data-dismiss" => "modal"}
+              %i.icon-remove
+              Cancel
+            %button.btn.btn-sm.btn-primary{type: "submit"}
+              %i.icon-ok
+              Save

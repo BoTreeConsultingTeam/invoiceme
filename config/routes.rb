@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'home/index'
   resources :clients
   resources :companies
+  resources :items
   devise_for :users
   devise_scope :user do
     get '/login' => 'devise/sessions#new'
