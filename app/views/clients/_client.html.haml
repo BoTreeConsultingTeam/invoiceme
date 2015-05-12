@@ -2,7 +2,7 @@
   %td.client_td_width= client.name
   %td=location(client)
   - client.contact_details.each do |contact_detail|
-    %td= name(contact_detail) if contact_detail.first_name.present? || contact_detail.last_name.present?
+    %td= full_name(contact_detail) if contact_detail.first_name.present? || contact_detail.last_name.present?
     %td= contact_detail.phone if contact_detail.phone.present?
     %td= contact_detail.mobile if contact_detail.mobile.present?
   %td
