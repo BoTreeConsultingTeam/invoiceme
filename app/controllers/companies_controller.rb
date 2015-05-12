@@ -31,7 +31,7 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    @company = Company.find(params[:id].to_i)
+    @company = Company.find(params[:id])
     if(@company.update(company_params))
       flash[:success] = "Company updated successfully"
       redirect_to companies_path
