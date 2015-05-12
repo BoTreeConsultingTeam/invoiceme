@@ -5,6 +5,11 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.all
+    if flash[:error].present?
+      unless flash[:success].present?
+        flash.clear
+      end
+    end
   end
 
   def new
@@ -12,7 +17,7 @@ class ItemsController < ApplicationController
   end
 
   def edit
-
+    render :new
   end
 
   def create
@@ -32,15 +37,16 @@ class ItemsController < ApplicationController
       flash[:success] = "Item updated successfully"
     else
       flash.clear
-      flash[:error] = "Item not updated because: #{@item.errors.full_messages.join(',')}"
+      flash[:error] = "Unable to update the item because: #{@item.errors.full_messages.join(',')}"
     end
+    render :create
   end
 
   def destroy
     if @item.destroy
       flash[:success] = "Item deleted successfully"
     else
-      flash[:error] = "Item not deleted because: #{@item.errors.full_messages.join(',')}"
+      flash[:error] = "Unable to delete the item because: #{@item.errors.full_messages.join(',')}"
     end
     redirect_to items_path
   end

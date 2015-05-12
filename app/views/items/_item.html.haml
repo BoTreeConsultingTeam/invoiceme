@@ -5,7 +5,11 @@
         .modal-content
           .modal-header
             %button.close{"data-dismiss" => "modal", type: "button"} &times;
-            %h4.blue.bigger Please fill the following form fields
+            %h4.blue.bigger
+              -if @item.new_record?
+                New Item
+              -else
+                Edit Item
           .modal-body.overflow-visible
             #e1
               - if flash[:error].present?
@@ -17,19 +21,18 @@
                     - flash.clear
             .box-body
               .form-group
-                = f.label :name
+                = f.label "New"
+                %span{:style => "color:red;"} *
                 = f.text_field :name, class: 'form-control'
               .form-group
                 = f.label :description
                 = f.text_field :description, class: 'form-control'
               .form-group
-                = f.label :price
+                = f.label "price"
+                %span{:style => "color:red;"} *
                 = f.text_field :price, class: 'form-control'
               .space-4
           .modal-footer
-            %button.btn.btn-sm{"data-dismiss" => "modal"}
-              %i.icon-remove
+            %button.btn.btn-sm.btn-primary{"data-dismiss" => "modal"}
               Cancel
-            %button.btn.btn-sm.btn-primary{type: "submit"}
-              %i.icon-ok
-              Save
+            = f.submit "save", class: "btn btn-sm btn-primary"

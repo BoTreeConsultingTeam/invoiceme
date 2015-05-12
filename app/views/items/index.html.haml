@@ -1,25 +1,21 @@
 %section.content-header
   %h1 Items
 %section.content
-  = link_to("New Item",new_item_path, "data-toggle" => :modal, class: 'btn btn-sm btn-primary', remote: true)
+  = link_to("New Item", new_item_path, data: { toggle: :modal }, class: 'btn btn-sm btn-primary', remote: true)
   .spacer5
-  .row
-    .col-md-12
-      .box
-        .box-body
-          %table.table.table-bordered
-            %tbody
-              %tr
-                %th Name
-                %th Description
-                %th Price
-                %th Actions
-            - @items.each do |item|
-              %tr
-                %td= item.name
-                %td= item.description
-                %td= number_with_precision(item.price, :precision => 2)
-                %td
-                  = link_to("Edit",edit_item_path(item),"data-toggle" => :modal, remote: true)
-                  = link_to "Delete", item_path(item), method: :delete, data: { confirm: "Are you sure?" }
+  - if @items.present?
+    .row
+      .col-md-12
+        .box
+          .box-body
+            %table.table.table-bordered
+              %tbody
+                %tr
+                  %th Name
+                  %th Description
+                  %th Price
+                  %th Actions
+              = render partial: "items"
+  -else
+    %h3 No Item Found.
   %div{id: "modal_popup"}
