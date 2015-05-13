@@ -7,7 +7,7 @@ class Ability
     if user.admin?
       can :manage, :all
     else
-      cannot [User, Client]
+      cannot [User, Client, Company, Item]
     end
 
   end
