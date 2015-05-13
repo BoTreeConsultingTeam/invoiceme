@@ -1,2 +1,2 @@
-$("#modal_popup").html("#{escape_javascript(render "item", locals: {item: @item})}");
+$("#modal_popup").html("#{escape_javascript(render "form", locals: {item: @item})}");
 $("#modal-form").modal('show');

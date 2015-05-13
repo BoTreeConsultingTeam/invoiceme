@@ -3,6 +3,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
   before_action :clear_error, only: :index
+  before_filter :check_authorized_access, except: [:index, :new, :create]
 
   def index
     @items = Item.all
@@ -53,9 +54,13 @@ class ItemsController < ApplicationController
     end
   end
 
-  protected
+  private
 
   def item_params
     params.require(:item).permit(:name, :description, :price)
+  end
+
+  def check_authorized_access
+    raise CanCan::AccessDenied.new("Unauthorized access!", :read, Item) unless current_user.admin?
   end
 end

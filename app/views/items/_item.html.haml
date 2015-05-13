@@ -1,38 +1,9 @@
--if is_admin?
-  = form_for @item, remote: true do |f|
-    #modal-form.modal{tabindex: "-1"}
-      .modal-dialog
-        .modal-content
-          .modal-header
-            %button.close{"data-dismiss" => "modal", type: "button"} &times;
-            %h4.blue.bigger
-              -if @item.new_record?
-                New Item
-              -else
-                Edit Item
-          .modal-body.overflow-visible
-            #e1
-              - if flash[:error].present?
-                %br
-                  .alert.alert-danger{role: "alert"}
-                    %span.sr-only Error:
-                    %a.close{"data-dismiss" => "alert", href: "#"} &times;
-                    = flash[:error]
-                    - flash.clear
-            .box-body
-              .form-group
-                = f.label "New"
-                %span.red *
-                = f.text_field :name, class: 'form-control'
-              .form-group
-                = f.label :description
-                = f.text_field :description, class: 'form-control'
-              .form-group
-                = f.label "price"
-                %span.red *
-                = f.text_field :price, class: 'form-control'
-              .space-4
-          .modal-footer
-            %button.btn.btn-sm.btn-primary{"data-dismiss" => "modal"}
-              Cancel
-            = f.submit "save", class: "btn btn-sm btn-primary"
+%tr
+  %td= item.name
+  %td= item.description
+  %td= number_with_precision(item.price, precision: 2)
+  %td
+    = link_to edit_item_path(item), data: { toggle: :modal, remote: true } do
+      %i.fa.fa-edit
+    = link_to item_path(item), method: :delete, data: { confirm: "Are you sure?" } do
+      %i.fa.fa-trash-o
