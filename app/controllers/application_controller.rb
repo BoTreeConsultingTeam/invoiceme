@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
- 
+  before_action :clear_error
+
   include ApplicationHelper
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -31,6 +32,12 @@ class ApplicationController < ActionController::Base
       "auth"
     else
       "application"
+    end
+  end
+
+  def clear_error
+    if flash[:error].present? && action_name == 'index'
+      flash.clear
     end
   end
 

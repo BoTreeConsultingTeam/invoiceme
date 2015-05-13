@@ -7,13 +7,6 @@
           %h4.blue.bigger= "#{@item.new_record? ? 'New' : 'Edit'} Item"
         .modal-body.overflow-visible
           #e1
-            - if flash[:error].present?
-              %br
-                .alert.alert-danger{role: "alert"}
-                  %span.sr-only Error:
-                  %a.close{"data-dismiss" => "alert", href: "#"} &times;
-                  = flash[:error]
-                  - flash.clear
           .box-body
             .form-group
               = f.label "New"
