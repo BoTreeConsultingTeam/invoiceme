@@ -28,6 +28,5 @@
               = f.text_field :price, class: 'form-control'
             .space-4
         .modal-footer
-          %button.btn.btn-sm.btn-primary{"data-dismiss" => "modal"}
-            Cancel
+          = f.button "Cancel", class: "btn btn-sm btn-primary", data: { dismiss: :modal }
           = f.submit "save", class: "btn btn-sm btn-primary"
