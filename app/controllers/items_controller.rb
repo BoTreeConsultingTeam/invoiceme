@@ -2,14 +2,10 @@ class ItemsController < ApplicationController
 
   before_action :authenticate_user!
   load_and_authorize_resource
+  before_action :clear_error, only: :index
 
   def index
     @items = Item.all
-    if flash[:error].present?
-      unless flash[:success].present?
-        flash.clear
-      end
-    end
   end
 
   def new
@@ -49,6 +45,12 @@ class ItemsController < ApplicationController
       flash[:error] = "Unable to delete the item because: #{@item.errors.full_messages.join(',')}"
     end
     redirect_to items_path
+  end
+
+  def clear_error
+    if flash[:error].present?
+      flash.clear
+    end
   end
 
   protected
