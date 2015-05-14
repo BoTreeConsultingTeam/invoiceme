@@ -1,0 +1,25 @@
+= form_for @item, remote: true do |f|
+  #modal-form.modal{tabindex: "-1"}
+    .modal-dialog
+      .modal-content
+        .modal-header
+          %button.close{"data-dismiss" => "modal", type: "button"} &times;
+          %h4.blue.bigger= "#{@item.new_record? ? 'New' : 'Edit'} Item"
+        .modal-body.overflow-visible
+          #e1
+          .box-body
+            .form-group
+              = f.label "New"
+              %span.mandatory-field-color *
+              = f.text_field :name, class: 'form-control'
+            .form-group
+              = f.label :description
+              = f.text_field :description, class: 'form-control'
+            .form-group
+              = f.label "price"
+              %span.mandatory-field-color *
+              = f.text_field :price, class: 'form-control'
+            .space-4
+        .modal-footer
+          = f.button "Cancel", class: "btn btn-sm btn-primary", data: { dismiss: :modal }
+          = f.submit "save", class: "btn btn-sm btn-primary"

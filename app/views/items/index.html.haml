@@ -1,0 +1,21 @@
+%section.content-header
+  %h1 Items
+%section.content
+  = link_to "New Item", new_item_path, data: { toggle: :modal }, class: 'btn btn-sm btn-primary', remote: true
+  .spacer5
+  - if @items.present?
+    .row
+      .col-md-12
+        .box
+          .box-body
+            %table.table.table-bordered
+              %tbody
+                %tr
+                  %th Name
+                  %th Description
+                  %th Price
+                  %th Actions
+              = render @items
+  -else
+    %h3 No Item Found.
+  %div{id: "modal_popup"}
