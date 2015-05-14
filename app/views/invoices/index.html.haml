@@ -1,0 +1,33 @@
+%section.content-header
+  %h1 Invoices
+%section.content
+  = link_to "New Invoice", new_invoice_path, class: 'btn btn-sm btn-primary'
+  .spacer5
+  .row
+    .col-md-12
+      .box
+        .box-body
+          %table.table.table-bordered
+            %tbody
+              %tr
+                %th Invoice No
+                %th Client Name
+                %th Due Date
+                %th Issue Date
+                %th Invoice Total
+                %th Status
+                %th Actions
+              %tr
+                %td Inv0001
+                %td Mobiquity
+                %td 12/5/2015
+                %td 30/5/2015
+                %td 1234.50
+                %td Paid
+                %td
+                  = link_to clients_path do
+                    %i.fa.fa-eye
+                  = link_to clients_path do
+                    %i.fa.fa-edit
+                  = link_to clients_path, method: :delete, data: { confirm: "Are you sure?" }  do
+                    %i.fa.fa-trash-o

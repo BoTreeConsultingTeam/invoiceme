@@ -9,7 +9,7 @@
               %i.fa.fa-dashboard
               %span Home
           %li
-            = link_to "#" do
+            = link_to invoices_path do
               %i.fa.fa-th
               %span Invoices
           - if is_admin? && current_user.company.present?

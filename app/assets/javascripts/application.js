@@ -15,3 +15,5 @@
 //= require bootstrap.min
 //= require turbolinks
 //= require app.min
+//= require cocoon
+//= require bootstrap-datepicker
