@@ -4,5 +4,4 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new
     @invoice.line_items << LineItem.new
   end
-
 end
