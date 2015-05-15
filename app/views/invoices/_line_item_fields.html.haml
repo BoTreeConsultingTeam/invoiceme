@@ -1,7 +1,7 @@
 .nested-fields
   %tr
     %td.width20
-      = f.select(:item_id, get_items, {}, class: "width20")
+      = f.select(:item_id, get_items, {:include_blank => true}, class: "width20")
     %td.width30
       =text_field_tag :description, " ", class: "width30"
     %td.width10
