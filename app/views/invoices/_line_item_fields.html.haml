@@ -1,0 +1,14 @@
+.nested-fields
+  %tr
+    %td.width20
+      = f.select(:item_id, get_items, {:include_blank => true}, class: "width20")
+    %td.width30
+      =text_field_tag :description, " ", class: "width30"
+    %td.width10
+      = f.text_field :price, class: "width10"
+    %td.width10
+      = f.text_field :quantity, class: "width10"
+    %td.width10
+      = f.text_field :line_total, class: "width10"
+    %td.width20
+      = link_to_remove_association "remove line items", f, class: "width20"

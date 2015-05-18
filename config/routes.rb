@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get '/logout' => 'devise/sessions#destroy'
   end
   resources :user, :controller => "user"
+  resources :invoices
   post '/user' => 'user#create', as: :user_create_path
   put '/user/:id' => 'user#update', as: :user_update_path
   # The priority is based upon order of creation: first created -> highest priority.

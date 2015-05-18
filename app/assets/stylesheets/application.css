@@ -16,5 +16,6 @@
  *= require AdminLTE.min
  *= require _all-skins.min
  *= require custom
+ *= require bootstrap-datepicker
  *= require_self
  */

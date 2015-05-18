@@ -50,5 +50,7 @@ gem 'country_select'
 gem 'currency_select'
 gem 'validates_zipcode'
 gem "cancan"
+gem "cocoon"
+gem 'bootstrap-datepicker-rails'
 gem "font-awesome-rails"
 gem 'rails_12factor', group: :production
