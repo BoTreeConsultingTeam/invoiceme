@@ -47,6 +47,11 @@ class ItemsController < ApplicationController
     redirect_to items_path
   end
 
+  def populate_values
+    @item = Item.find(params[:item_id])
+    render :json => {:data => {:item => @item, :form_id => params[:form_id]}}
+  end
+
   private
 
   def item_params

@@ -1,0 +1,104 @@
+= form_for @invoice do |f|
+  .row
+    .col-md-6
+      .box.box-primary
+        .box-body
+          .form-group
+            = label_tag :client
+            = f.select(:client_id, get_clients, {}, class: "form-control")
+          .form-group
+            = label_tag :address
+            = label_tag "","F1/F2, JBR Arcade, Science City", class: "form-control remove_border_element"
+          .form-group
+            = label_tag :currency, "Currency"
+            = currency_select("client", "currency_code", { selected: "inr"}, {}, class: 'form-control')
+    .col-md-6
+      .box.box-primary
+        .box-body
+          .form-group
+            = f.label :invoice_number
+            = text_field_tag "invoice[invoice_number]", Invoice.find_next_available_number_for, class: "form-control"
+          .form-group
+            = f.label :date_of_issue
+            = text_field_tag "invoice[date_of_issue]", date_for_display(@invoice.date_of_issue), {data: {provide: :datepicker}, class: "form-control"}
+          .form-group
+            = f.label :due_date
+            = text_field_tag "invoice[paid_to_date]", date_for_display(@invoice.paid_to_date), {data: {provide: :datepicker}, class: "form-control"}
+          .form-group
+            = f.label :po_number
+            = f.text_field :po_number, class: "form-control"
+  %h3 Line Items
+  .row
+    .col-md-12
+      .box
+        .box-header
+        .box-body.table-responsive.no-padding
+          %table.table.table-hover
+            %tbody
+              %tr
+                %th.width20 Item
+                %th.width30 Description
+                %th.width10 Unit Cost
+                %th.width10 Qty
+                %th.width10 Line Total
+                %th.width20 Remove
+          #line_items
+            = f.fields_for :line_items do |line_item|
+              = render 'line_item_fields', f: line_item
+        .links
+          = link_to_add_association 'add line item', f, :line_items
+  .row
+    .col-md-7
+    .col-md-5
+      .box.remove_border_element
+        .box-body
+          .form-group
+            = label_tag "Invoice Total(INR) : "
+            = text_field_tag :invoice_total, "0.00"
+  .row
+    .col-md-12
+      .box.remove_border_element
+        .box-body
+          .form-group
+            = f.label "Notes"
+            = f.text_area :notes, rows: 5, cols: 70, class: "form-control width500"
+          .form-group
+            = label_tag "Send To "
+            = label_tag " pragati.doshi@botreeconsulting.com"
+          .box-footer
+            = f.submit "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Please wait..." }
+            = f.submit "Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Please wait..." }
+:javascript
+
+  $(function() {
+    $('.datepicker').datepicker({ dateFormat: "yyyy-mm-dd", autoclose: true });
+  });
+  function change_price(ele)
+  {
+    if(parseInt($(ele).val()) > 0)
+    {
+      var price = parseFloat($(ele).val());
+      split_values = $(ele).attr('id').split('_');
+      var quantity = $("#invoice_line_items_attributes_"+split_values[4]+"_quantity").val();
+      var line_total = parseFloat(price)*parseFloat(quantity);
+      if(line_total.toString() != "NaN")
+       {
+          var invoice_total = parseFloat($("#invoice_total").val())-parseFloat($("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val())+parseFloat(line_total);
+          $("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val(line_total);
+          $($("#invoice_total").val(invoice_total));
+       }
+     }
+  }
+  function change_quantity(ele)
+  {
+    var quantity = parseFloat($(ele).val());
+    split_values = $(ele).attr('id').split('_');
+    var price = $("#invoice_line_items_attributes_"+split_values[4]+"_price").val();
+    var line_total = parseFloat(price)*parseFloat(quantity);
+    if(line_total.toString() != "NaN")
+    {
+      var invoice_total = parseFloat($("#invoice_total").val())-parseFloat($("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val())+parseFloat(line_total);
+      $("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val(line_total);
+      $($("#invoice_total").val(invoice_total));
+    }
+  }

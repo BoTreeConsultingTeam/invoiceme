@@ -1,0 +1,10 @@
+%tr
+  %td= invoice.invoice_number
+  %td= invoice.client.name
+  %td= invoice.paid_to_date.strftime("%d/%m/%Y") if invoice.paid_to_date.present?
+  %td= invoice.date_of_issue.strftime("%d/%m/%Y") if invoice.date_of_issue.present?
+  %td
+  %td
+  %td
+    = link_to edit_invoice_path(invoice) do
+      %i.fa.fa-edit

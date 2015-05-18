@@ -1,9 +1,17 @@
 .main_content {
   padding-top: 50px;
 }
+.remove_border_element{ border:none 0px; }
+
 .spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 .spacer10 { height: 10px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 .spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 .spacer20 { height: 20px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
-.client_td_width{width: 30%;}
-.mandatory-field-color{color: #FF0000;}
+
+.width20{ width:20%; }
+.width10{ width:10%; }
+.width30{ width:30%; }
+.width500{ width:500px !important; }
+
+.client_td_width{ width: 30%; }
+.mandatory-field-color{ color: #FF0000; }
