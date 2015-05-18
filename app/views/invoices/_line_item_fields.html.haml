@@ -35,13 +35,17 @@
 
               },
               success: function (data) {
-
+              var temp = 0.00;
               $($("#invoice_line_items_attributes_"+data["data"].form_id+"_description").val(data["data"].item.description));
+              if($("#invoice_line_items_attributes_"+data["data"].form_id+"_price").val() != "")
+                temp = parseFloat($("#invoice_line_items_attributes_"+data["data"].form_id+"_line_total").val());
+              else
+                temp = 0.00;
               $($("#invoice_line_items_attributes_"+data["data"].form_id+"_price").val(data["data"].item.price));
               $($("#invoice_line_items_attributes_"+data["data"].form_id+"_quantity").val("1"));
               var line_total = parseFloat(data["data"].item.price * 1)
               $($("#invoice_line_items_attributes_"+data["data"].form_id+"_line_total").val(line_total));
-              var invoice_total = parseFloat($("#invoice_total").val())+parseFloat(line_total);
+              var invoice_total = parseFloat($("#invoice_total").val())-temp+parseFloat(line_total);
               $($("#invoice_total").val(invoice_total));
 
               }

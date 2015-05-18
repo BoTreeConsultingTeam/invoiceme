@@ -54,7 +54,10 @@
         .box-body
           .form-group
             = label_tag "Invoice Total(INR) : "
-            = text_field_tag :invoice_total, "0.00"
+            - if @invoice.new_record?
+              = text_field_tag :invoice_total, "0.00"
+            - else
+              = text_field_tag :invoice_total, calculate_total(@invoice)
   .row
     .col-md-12
       .box.remove_border_element
