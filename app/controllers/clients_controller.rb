@@ -2,7 +2,7 @@ class ClientsController < ApplicationController
 
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_filter :check_authorized_access, except: [:index, :new, :create]
+  before_filter :check_authorized_access, except: [:index, :new, :create, :get_address]
  
   def index
     if current_user.company.present?
@@ -45,6 +45,11 @@ class ClientsController < ApplicationController
   def destroy
     @client.destroy
     redirect_to clients_path
+  end
+
+  def get_address
+    @client1 = Client.find(params[:client_id])
+    render :json => @client1.address
   end
 
   private

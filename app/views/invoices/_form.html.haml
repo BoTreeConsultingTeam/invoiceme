@@ -7,13 +7,13 @@
         .box-body
           .form-group
             = label_tag :client
-            = f.select :client_id, get_clients, {}, class: "form-control"
+            = f.select :client_id, get_clients, {}, class: "form-control selectclient"
           .form-group
             = label_tag :address
-            = label_tag "","F1/F2, JBR Arcade, Science City", class: "form-control remove_border_element"
+            = label_tag "", get_address(@invoice), class: "form-control remove_border_element", id: "client_address"
           .form-group
             = label_tag :currency, "Currency"
-            = currency_select("client", "currency_code", { selected: "inr"}, {}, class: 'form-control')
+            = currency_select("invoice", "currency_code", { selected: @invoice.currency_code}, {}, class: 'form-control currency_select')
     .col-md-6
       .box.box-primary
         .box-body
@@ -55,10 +55,11 @@
       .box.remove_border_element
         .box-body
           .form-group
-            = label_tag "Invoice Total(INR) : "
             - if @invoice.new_record?
+              = label_tag "","Invoice Total (AFN) : ", { id: "show_currency" }
               = text_field_tag :invoice_total, "0.00"
             - else
+              = label_tag "","Invoice Total (#{@invoice.currency_code.to_s.upcase}) : ", { id: "show_currency" }
               = text_field_tag :invoice_total, @invoice.total_amount.to_s
   .row
     .col-md-12
@@ -73,6 +74,7 @@
           .box-footer
             = f.submit "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Please wait..." }
             = f.submit "Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Please wait..." }
+
 :javascript
 
   $(function() {

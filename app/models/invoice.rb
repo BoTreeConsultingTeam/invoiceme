@@ -1,7 +1,7 @@
 class Invoice < ActiveRecord::Base
   has_many :line_items
   belongs_to :client
-
+  has_one :address, as: :addressdetail
   accepts_nested_attributes_for :line_items, allow_destroy: true
   acts_as_sequenced column: :invoice_number, start_at: 1000
 

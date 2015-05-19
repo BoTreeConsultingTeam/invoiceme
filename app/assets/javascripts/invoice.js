@@ -40,6 +40,26 @@ $(document).on('change',".selectclass", function() {
         }
     });
 });
+$(document).on('change',".selectclient", function() {
+
+    split_values = $(this).attr('id').split('_');
+    $.ajax({
+        type: 'POST',
+        url: '/clients/get_address',
+        data: { client_id: $(this).val() },
+        dataType: 'json',
+        error: function(xhr, error){
+
+        },
+        success: function (data) {
+            var str = data.street_1+" "+data.street_2+", "+data.city+", "+data.state+", "+data.pincode.to_s
+            $("#client_address").html(str);
+        }
+    });
+});
+$(document).on('change',".currency_select", function() {
+    $("#show_currency").html("Invoice Total ("+$(this).val().toUpperCase()+") : ")
+});
 $(document).on('click',".remove_items", function() {
 
     var nested_div_object = $(this).closest(".nested-fields");
