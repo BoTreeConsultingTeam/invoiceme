@@ -1,3 +1,5 @@
+- date_of_issue = @invoice.date_of_issue.present? ? @invoice.date_of_issue : Date.today
+- paid_to_date = @invoice.paid_to_date.present? ? @invoice.paid_to_date: Date.today
 = form_for @invoice do |f|
   .row
     .col-md-6
@@ -5,7 +7,7 @@
         .box-body
           .form-group
             = label_tag :client
-            = f.select(:client_id, get_clients, {}, class: "form-control")
+            = f.select :client_id, get_clients, {}, class: "form-control"
           .form-group
             = label_tag :address
             = label_tag "","F1/F2, JBR Arcade, Science City", class: "form-control remove_border_element"
@@ -20,10 +22,10 @@
             = text_field_tag "invoice[invoice_number]", Invoice.find_next_available_number_for, class: "form-control"
           .form-group
             = f.label :date_of_issue
-            = text_field_tag "invoice[date_of_issue]", date_for_display(@invoice.date_of_issue), {data: {provide: :datepicker}, class: "form-control"}
+            = text_field_tag "invoice[date_of_issue]", format_date(date_of_issue), {data: {provide: :datepicker}, class: "form-control"}
           .form-group
             = f.label :due_date
-            = text_field_tag "invoice[paid_to_date]", date_for_display(@invoice.paid_to_date), {data: {provide: :datepicker}, class: "form-control"}
+            = text_field_tag "invoice[paid_to_date]", format_date(paid_to_date), {data: {provide: :datepicker}, class: "form-control"}
           .form-group
             = f.label :po_number
             = f.text_field :po_number, class: "form-control"
@@ -57,7 +59,7 @@
             - if @invoice.new_record?
               = text_field_tag :invoice_total, "0.00"
             - else
-              = text_field_tag :invoice_total, calculate_total(@invoice)
+              = text_field_tag :invoice_total, @invoice.total_amount.to_s
   .row
     .col-md-12
       .box.remove_border_element
@@ -76,32 +78,3 @@
   $(function() {
     $('.datepicker').datepicker({ dateFormat: "yyyy-mm-dd", autoclose: true });
   });
-  function change_price(ele)
-  {
-    if(parseInt($(ele).val()) > 0)
-    {
-      var price = parseFloat($(ele).val());
-      split_values = $(ele).attr('id').split('_');
-      var quantity = $("#invoice_line_items_attributes_"+split_values[4]+"_quantity").val();
-      var line_total = parseFloat(price)*parseFloat(quantity);
-      if(line_total.toString() != "NaN")
-       {
-          var invoice_total = parseFloat($("#invoice_total").val())-parseFloat($("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val())+parseFloat(line_total);
-          $("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val(line_total);
-          $($("#invoice_total").val(invoice_total));
-       }
-     }
-  }
-  function change_quantity(ele)
-  {
-    var quantity = parseFloat($(ele).val());
-    split_values = $(ele).attr('id').split('_');
-    var price = $("#invoice_line_items_attributes_"+split_values[4]+"_price").val();
-    var line_total = parseFloat(price)*parseFloat(quantity);
-    if(line_total.toString() != "NaN")
-    {
-      var invoice_total = parseFloat($("#invoice_total").val())-parseFloat($("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val())+parseFloat(line_total);
-      $("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val(line_total);
-      $($("#invoice_total").val(invoice_total));
-    }
-  }

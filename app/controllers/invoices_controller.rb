@@ -1,5 +1,8 @@
 class InvoicesController < ApplicationController
 
+  before_action :authenticate_user!
+  load_and_authorize_resource
+
   def index
     @invoices = Invoice.all
   end
@@ -12,23 +15,25 @@ class InvoicesController < ApplicationController
   def create
     @invoice = Invoice.new(invoice_params)
     if @invoice.save
+      flash[:success] = "Invoice created successfully."
       redirect_to invoices_path
     else
+      flash[:error] = "Invoice not saved because: #{@invoice.errors.full_messages.join(',')}"
       render :new
     end
   end
 
   def update
-    @invoice = Invoice.find(params[:id])
     if @invoice.update(invoice_params)
+      flash[:success] = "Invoice updated successfully."
       redirect_to invoices_path
     else
+      flash[:error] = "Invoice not updated because: #{@invoice.errors.full_messages.join(',')}"
       render :new
     end
   end
 
   def edit
-    @invoice = Invoice.find(params[:id])
     render :new
   end
 

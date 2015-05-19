@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :user, :controller => "user"
   post '/user' => 'user#create', as: :user_create_path
   put '/user/:id' => 'user#update', as: :user_update_path
-  post '/items/populate_values' => "items#populate_values", as: :item_populate_values_path
+  post '/items/populate_values_of_item' => "items#populate_values_of_item", as: :populate_values_of_item_path
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   resources :invoices

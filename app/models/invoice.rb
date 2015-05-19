@@ -2,7 +2,7 @@ class Invoice < ActiveRecord::Base
   has_many :line_items
   belongs_to :client
 
-  accepts_nested_attributes_for :line_items, :allow_destroy => true
+  accepts_nested_attributes_for :line_items, allow_destroy: true
   acts_as_sequenced column: :invoice_number, start_at: 1000
 
   def self.find_next_available_number_for(default=1000)
@@ -10,12 +10,21 @@ class Invoice < ActiveRecord::Base
   end
 
   def date_of_issue=(val)
-    date = Date.strptime(val, "%m/%d/%Y") if val.present?
-    write_attribute(:date_of_issue, date)
+    write_attribute(:date_of_issue, parse_date(val)) if val.present?
   end
 
   def paid_to_date=(val)
-    date = Date.strptime(val, "%m/%d/%Y") if val.present?
-    write_attribute(:paid_to_date, date)
+    write_attribute(:paid_to_date, parse_date(val)) if val.present?
+  end
+
+  def parse_date(date_value, format = "%m/%d/%Y")
+    Date.strptime(date_value, format) if date_value.present?
+  end
+
+  def total_amount
+    total = line_items.inject(0.0) do |total,line_item|
+      total + line_item.line_total
+    end
+    total
   end
 end
