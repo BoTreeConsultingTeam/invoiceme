@@ -19,7 +19,10 @@
         .box-body
           .form-group
             = f.label :invoice_number
-            = text_field_tag "invoice[invoice_number]", Invoice.find_next_available_number_for, class: "form-control"
+            - if @invoice.new_record?
+              = text_field_tag "invoice[invoice_number]", Invoice.find_next_available_number_for, class: "form-control"
+            - else
+              = text_field_tag "invoice[invoice_number]", @invoice.invoice_number, class: "form-control"
           .form-group
             = f.label :date_of_issue
             = text_field_tag "invoice[date_of_issue]", format_date(date_of_issue), {data: {provide: :datepicker}, class: "form-control"}

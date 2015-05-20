@@ -23,7 +23,7 @@ class Invoice < ActiveRecord::Base
 
   def total_amount
     total = line_items.inject(0.0) do |total,line_item|
-      total + line_item.line_total
+      total + line_item.line_total.to_f
     end
     total
   end

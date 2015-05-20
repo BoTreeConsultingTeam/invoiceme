@@ -21,6 +21,7 @@ class InvoicesController < ApplicationController
     @invoice.address.state = @invoice.client.address.state
     @invoice.address.pincode = @invoice.client.address.pincode
     @invoice.address.country_code = @invoice.client.address.country_code
+    @invoice.status = 'draft'
     if @invoice.save
       flash[:success] = "Invoice created successfully."
       redirect_to invoices_path
@@ -32,18 +33,23 @@ class InvoicesController < ApplicationController
 
   def update
     if @invoice.update(invoice_params)
-      @invoice.address.street_1 = @invoice.client.address.street_1
-      @invoice.address.street_2 = @invoice.client.address.street_2
-      @invoice.address.city = @invoice.client.address.city
-      @invoice.address.state = @invoice.client.address.state
-      @invoice.address.pincode = @invoice.client.address.pincode
-      @invoice.address.country_code = @invoice.client.address.country_code
-      if @invoice.address.save
+      if @invoice.address.present?
+        @invoice.address.street_1 = @invoice.client.address.street_1
+        @invoice.address.street_2 = @invoice.client.address.street_2
+        @invoice.address.city = @invoice.client.address.city
+        @invoice.address.state = @invoice.client.address.state
+        @invoice.address.pincode = @invoice.client.address.pincode
+        @invoice.address.country_code = @invoice.client.address.country_code
+        if @invoice.address.save
+          flash[:success] = "Invoice updated successfully."
+          redirect_to invoices_path
+        else
+          flash[:error] = "Invoice not updated because: #{@invoice.address.errors.full_messages.join(',')}"
+          render :new
+        end
+      else
         flash[:success] = "Invoice updated successfully."
         redirect_to invoices_path
-      else
-        flash[:error] = "Invoice not updated because: #{@invoice.address.errors.full_messages.join(',')}"
-        render :new
       end
     else
       flash[:error] = "Invoice not updated because: #{@invoice.errors.full_messages.join(',')}"
@@ -55,12 +61,25 @@ class InvoicesController < ApplicationController
     render :new
   end
 
+  def destroy
+    if @invoice.destroy
+      @invoice.address.destroy if @invoice.address.present?
+      flash[:success] = "Invoice deleted successfully."
+      redirect_to invoices_path
+    else
+      flash[:error] = "Invoice not deleted because: #{@invoice.errors.full_messages.join(',')}"
+      redirect_to invoices_path
+    end
+  end
+
+
+
   private
 
   def invoice_params
     params.require(:invoice).permit(
         :client_id, :invoice_number, :date_of_issue, :po_number, :paid_to_date, :notes, :currency_code,
         line_item_ids: [],
-        line_items_attributes: [:item_id, :line_total, :price, :quantity, "_destroy", :id])
+        line_items_attributes: [:item_id, :line_total, :price, :quantity, "_destroy", :id, :description])
   end
 end

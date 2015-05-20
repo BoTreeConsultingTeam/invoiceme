@@ -1,0 +1,114 @@
+%section.content-header
+  %h1
+    Invoice
+    %small= @invoice.invoice_number
+%section.invoice
+  .row
+    .col-xs-12
+      %h2.page-header
+        %i.fa.fa-globe
+        = current_user.company.name
+        %small.pull-right
+          Date: #{Date.today.strftime("%d/%m/%Y")}
+  .row.invoice-info
+    .col-sm-4.invoice-col
+      From
+      %address
+        %strong= current_user.company.name
+        %br
+          = current_user.company.address.street_1
+          %br
+            = current_user.company.address.city
+            , #{current_user.company.address.state}, #{current_user.company.address.pincode}
+            %br
+              Phone: (804) 123-5432
+              %br
+                Email: info@almasaeedstudio.com
+    .col-sm-4.invoice-col
+      To
+      %address
+        %strong
+          = @invoice.client.contact_details.first.first_name
+          = @invoice.client.contact_details.first.last_name
+        %br
+          = @invoice.address.street_1
+          %br
+            = @invoice.address.city
+            , #{@invoice.address.state}, #{@invoice.address.pincode}
+            %br
+              Phone: #{@invoice.client.contact_details.first.phone}
+              %br
+                Email: #{@invoice.client.contact_details.first.email}
+    .col-sm-4.invoice-col
+      %b
+        Invoice #{@invoice.invoice_number}
+      %br
+        %br
+          %b Order ID:
+          4F3S8J
+          %br
+            %b Payment Due:
+            = @invoice.paid_to_date.strftime("%d/%m/%Y")
+            %br
+              %b Account:
+              968-34567
+    .row
+      .col-xs-12.table-responsive
+        %table.table.table-striped
+          %thead
+            %tr
+              %th Qty
+              %th Product
+              %th Description
+              %th Subtotal
+          %tbody
+            - @invoice.line_items.each do |line_item|
+              %tr
+                %td= line_item.quantity.to_s
+                %td= line_item.item.name
+                %td= line_item.description
+                %td
+                  = @invoice.currency_code
+                  = line_item.line_total.to_s
+  .row
+    .col-xs-6
+      %p.lead Payment Methods:
+      %img{:alt => "Visa", :src => "/assets/credit/visa.png"}
+        %img{:alt => "Mastercard", :src => "/assets//credit/mastercard.png"}
+          %img{:alt => "American Express", :src => "/assets/credit/american-express.png"}
+            %img{:alt => "Paypal", :src => "/assets/credit/paypal2.png"}
+              %p.text-muted.well.well-sm.no-shadow{:style => "margin-top: 10px;"}
+                Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+    .col-xs-6
+      %p.lead
+        Amount Due #{@invoice.paid_to_date.strftime("%d/%m/%Y")}
+      .table-responsive
+        %table.table
+          %tbody
+            %tr
+              %th{:style => "width:50%"} Subtotal:
+              %td
+                = @invoice.currency_code
+                = @invoice.total_amount.to_s
+            %tr
+              %th Tax (0.0%)
+              %td 0.00
+            %tr
+              %th Shipping:
+              %td 0.00
+            %tr
+              %th Total:
+              %td
+                = @invoice.currency_code
+                = @invoice.total_amount.to_s
+  .row.no-print
+    .col-xs-12
+      %a.btn.btn-default{:href => "invoice-print.html", :target => "_blank"}
+        %i.fa.fa-print
+        Print
+      %button.btn.btn-success.pull-right
+        %i.fa.fa-credit-card
+        Submit Payment
+      %button.btn.btn-primary.pull-right{:style => "margin-right: 5px;"}
+        %i.fa.fa-download
+        Generate PDF
