@@ -75,8 +75,9 @@
             = label_tag "Send To "
             = label_tag " pragati.doshi@botreeconsulting.com"
           .box-footer
+            = hidden_field_tag :email_send, :value => "false", :id => "email_send"
             = f.submit "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Please wait..." }
-            = f.submit "Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Please wait..." }
+            = f.button "Save & Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Please wait..." }
 
 :javascript
 

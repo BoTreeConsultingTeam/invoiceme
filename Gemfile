@@ -54,4 +54,6 @@ gem "cocoon"
 gem 'bootstrap-datepicker-rails'
 gem 'sequenced'
 gem "font-awesome-rails"
+gem 'wkhtmltopdf-binary'
+gem 'pdfkit'
 gem 'rails_12factor', group: :production

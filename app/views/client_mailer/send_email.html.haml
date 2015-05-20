@@ -1,0 +1,12 @@
+%p
+  = "Dear #{@client.contact_details.first.first_name} #{@client.contact_details.first.last_name},"
+%p
+  = "Your invoice #{@invoice.invoice_number} for #{@invoice.currency_code.upcase} #{@invoice.total_amount} is attached. Please remit payment at your earliest convenience."
+%p
+  Thank you for choosing us. We appreciate very much.
+%p
+  Sincerely,
+%p
+  = "#{@user.first_name} #{@user.last_name}"
+%p
+  = "#{@user.company.name}"

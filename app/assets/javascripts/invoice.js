@@ -12,6 +12,10 @@ $(document).on('blur',".priceclass", function() {
             }
         }
     });
+$(document).on('click',"#send_button", function() {
+    $("#email_send").val("true");
+    $(this).form.submit();
+});
 $(document).on('blur',".quantityclass", function() {
 
         var quantity = parseFloat($(this).val());

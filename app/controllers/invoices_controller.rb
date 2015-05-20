@@ -21,8 +21,16 @@ class InvoicesController < ApplicationController
     @invoice.address.state = @invoice.client.address.state
     @invoice.address.pincode = @invoice.client.address.pincode
     @invoice.address.country_code = @invoice.client.address.country_code
-    @invoice.status = 'draft'
+    if params[:email_send] == "true"
+      @invoice.status = 'sent'
+    else
+      @invoice.status = 'draft'
+    end
     if @invoice.save
+      if params[:email_send] == "true"
+        pdf_render
+        ClientMailer.send_email(@invoice.client,@kit.to_pdf, @invoice, current_user).deliver
+      end
       flash[:success] = "Invoice created successfully."
       redirect_to invoices_path
     else
@@ -41,15 +49,37 @@ class InvoicesController < ApplicationController
         @invoice.address.pincode = @invoice.client.address.pincode
         @invoice.address.country_code = @invoice.client.address.country_code
         if @invoice.address.save
+          if params[:email_send] == "true"
+            @invoice.status = 'sent'
+          else
+            @invoice.status = 'draft'
+          end
+          if @invoice.save
+            if params[:email_send] == "true"
+              pdf_render
+              ClientMailer.send_email(@invoice.client, @kit.to_pdf, @invoice, current_user).deliver
+            end
           flash[:success] = "Invoice updated successfully."
           redirect_to invoices_path
+          end
         else
           flash[:error] = "Invoice not updated because: #{@invoice.address.errors.full_messages.join(',')}"
           render :new
         end
       else
-        flash[:success] = "Invoice updated successfully."
-        redirect_to invoices_path
+          if params[:email_send] == "true"
+            @invoice.status = 'sent'
+          else
+            @invoice.status = 'draft'
+          end
+          if @invoice.save
+            if params[:email_send] == "true"
+              pdf_render
+              ClientMailer.send_email(@invoice.client, @kit.to_pdf, @invoice, current_user).deliver
+            end
+            flash[:success] = "Invoice updated successfully."
+            redirect_to invoices_path
+          end
       end
     else
       flash[:error] = "Invoice not updated because: #{@invoice.errors.full_messages.join(',')}"
@@ -72,7 +102,22 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def pdf_render
+    html = render_to_string(action: "show.html.haml", layout: false)
+    @kit = PDFKit.new(html,
+                     page_size: 'Legal',
+                     footer_right: "Powered by Botree Consulting")
+    css = File.join(Rails.root,'app/assets/stylesheets','bootstrap.min.css')
+    @kit.stylesheets << css
+    css1 = File.join(Rails.root,'app/assets/stylesheets','custom.css')
+    @kit.stylesheets << css1
+    @pdf = @kit.to_pdf
+  end
 
+  def pdf_generation
+    pdf_render
+    send_data @pdf, filename: "Invoice", type: "application/pdf", disposition: "attachment"
+  end
 
   private
 
