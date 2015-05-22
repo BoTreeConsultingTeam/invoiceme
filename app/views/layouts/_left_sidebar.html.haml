@@ -12,6 +12,10 @@
             = link_to invoices_path do
               %i.fa.fa-th
               %span Invoices
+          %li
+            = link_to payments_path do
+              %i.fa.fa-th
+              %span Payments
           - if is_admin? && current_user.company.present?
             %li
               = link_to clients_path do

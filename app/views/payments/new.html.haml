@@ -1,0 +1,8 @@
+%section.content-header
+  %h1
+    = "New Payment ( Invoice #{@payment.invoice.invoice_number} for #{@payment.invoice.client.name} )"
+%section.content
+  .row
+    .col-md-6
+      .box.box-primary
+        = render "form"

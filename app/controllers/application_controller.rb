@@ -19,6 +19,10 @@ class ApplicationController < ActionController::Base
     params[resource] &&= send(method) if respond_to?(method, true)
   end
 
+  def current_company
+    current_user.company
+  end
+
   def is_admin?
     current_user.present? && current_user.admin?
   end

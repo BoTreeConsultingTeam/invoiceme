@@ -1,0 +1,8 @@
+%tr
+  %td= payment.invoice.invoice_number
+  %td= payment.payment_amount.to_s
+  %td= payment.payment_method
+  %td= payment.date_of_payment.strftime("%d/%m/%Y")
+  %td
+    = link_to edit_payment_path(payment) do
+      %i.fa.fa-edit

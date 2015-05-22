@@ -1,5 +1,6 @@
 class Invoice < ActiveRecord::Base
   has_many :line_items
+  has_many :payments
   belongs_to :client
   has_one :address, as: :addressdetail
   accepts_nested_attributes_for :line_items, allow_destroy: true
@@ -24,6 +25,13 @@ class Invoice < ActiveRecord::Base
   def total_amount
     total = line_items.inject(0.0) do |total,line_item|
       total + line_item.line_total.to_f
+    end
+    total
+  end
+
+  def total_amount_payments
+    total = payments.inject(0.0) do |total,payment|
+      total + payment.payment_amount.to_f
     end
     total
   end

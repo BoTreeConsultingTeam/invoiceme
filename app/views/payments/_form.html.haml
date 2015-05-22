@@ -1,0 +1,68 @@
+- inv_amt = @payment.invoice.total_amount
+- pay_amt = @payment.invoice.total_amount_payments
+- date_of_payment = @payment.date_of_payment.present? ? @payment.date_of_payment : Date.today
+.box-body
+  = form_for @payment  do |f|
+    .form-group
+      = f.label :payment_amount, "Payment Amount"
+      = f.text_field :payment_amount, class: 'form-control', placeholder: 'Enter amount'
+    .form-group
+      = check_box_tag :fully_paid, "1"
+      = label_tag "Fully Paid"
+    .form-group
+      = f.label :payment_method, "Payment Method"
+      = f.select(:payment_method, get_payment_methods,{}, {class: "form-control"})
+    .form-group
+      = f.label :date_of_payment
+      = text_field_tag "payment[date_of_payment]", format_date(date_of_payment), {data: {provide: :datepicker}, class: "form-control"}
+    .form-group
+      = f.label "Notes"
+      = f.text_area :notes, rows: 5, cols: 70, class: "form-control width475"
+    .form-group
+      .row
+        .col-md-12
+          .box
+            .box-body
+              %table.table.table-bordered
+                %tbody
+                  %tr
+                    %th Invoice No
+                    %th Payment Date
+                    %th Payment Method
+                    %th Payment Amount
+                  = render "show_payment"
+                  %tr
+                    %td
+                    %td
+                    %td Total
+                    %td= @payment.invoice.total_amount_payments
+    - if @payment.new_record?
+      .form-group
+        = check_box_tag :email, "1"
+        = label_tag "Send Client notification about payment received."
+    .box-footer
+      = hidden_field_tag "payment[invoice_id]", params[:id]
+      = hidden_field_tag "id", params[:id]
+      = f.submit "Save", class: 'btn btn-primary', id: "submit_button", data: { disable_with: "Please wait..." }
+:javascript
+  $(function() {
+    $('.datepicker').datepicker({ dateFormat: "yyyy-mm-dd", autoclose: true });
+  });
+  $(document).ready(function() {
+        $('#fully_paid').click(function(){
+          var isChecked = $('#fully_paid').is(':checked');
+          if(isChecked)
+          {
+            $("#payment_payment_amount").prop('disabled', true);
+            $("#payment_payment_amount").val(#{(inv_amt - pay_amt)});
+          }
+          else
+          {
+            $("#payment_payment_amount").prop('disabled', false);
+          }
+        });
+        $('#submit_button').click(function(){
+          $("#payment_payment_amount").prop('disabled', false);
+          $(this).form.submit();
+        });
+  });

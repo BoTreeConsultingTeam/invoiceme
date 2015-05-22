@@ -1,0 +1,10 @@
+%p
+  Thank you for your business.
+%p
+  = "We have received your payment in the amount of #{@invoice.currency_code.upcase} #{@invoice.total_amount} for invoice #{@invoice.invoice_number}"
+%p
+  Sincerely,
+%p
+  = "#{@user.first_name} #{@user.last_name}"
+%p
+  = "#{@user.company.name}"
