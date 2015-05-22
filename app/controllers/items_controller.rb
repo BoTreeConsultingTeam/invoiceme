@@ -23,7 +23,7 @@ class ItemsController < ApplicationController
       flash[:success] = "Item created successfully"
     else
       flash.clear
-      flash[:error] = "Item not saved because: #{@item.errors.full_messages.join(',')}"
+      flash[:error] = "Item not saved because: #{add_flash_messages(@item)}"
     end
   end
 
@@ -33,7 +33,7 @@ class ItemsController < ApplicationController
       flash[:success] = "Item updated successfully"
     else
       flash.clear
-      flash[:error] = "Unable to update the item because: #{@item.errors.full_messages.join(',')}"
+      flash[:error] = "Unable to update the item because: #{add_flash_messages(@item)}"
     end
     render :create
   end
@@ -42,7 +42,7 @@ class ItemsController < ApplicationController
     if @item.destroy
       flash[:success] = "Item deleted successfully"
     else
-      flash[:error] = "Unable to delete the item because: #{@item.errors.full_messages.join(',')}"
+      flash[:error] = "Unable to delete the item because: #{add_flash_messages(@item)}"
     end
     redirect_to items_path
   end

@@ -1,5 +1,4 @@
 $(document).on('blur',".priceclass", function() {
-
         if (parseInt($(this).val()) > 0) {
             var price = parseFloat($(this).val());
             split_values = $(this).attr('id').split('_');
@@ -12,12 +11,13 @@ $(document).on('blur',".priceclass", function() {
             }
         }
     });
+
 $(document).on('click',"#send_button", function() {
     $("#email_send").val("true");
     $(this).form.submit();
 });
-$(document).on('blur',".quantityclass", function() {
 
+$(document).on('blur',".quantityclass", function() {
         var quantity = parseFloat($(this).val());
         split_values = $(this).attr('id').split('_');
         var price = $("#invoice_line_items_attributes_" + split_values[4] + "_price").val();
@@ -28,8 +28,8 @@ $(document).on('blur',".quantityclass", function() {
             $($("#invoice_total").val(invoice_total));
         }
     });
-$(document).on('change',".selectclass", function() {
 
+$(document).on('change',".selectclass", function() {
     split_values = $(this).attr('id').split('_');
     $.ajax({
         type: 'POST',
@@ -44,13 +44,13 @@ $(document).on('change',".selectclass", function() {
         }
     });
 });
-$(document).on('change',".selectclient", function() {
 
+$(document).on('change',".selectclient", function() {
     split_values = $(this).attr('id').split('_');
     $.ajax({
         type: 'POST',
         url: '/clients/get_address',
-        data: { client_id: $(this).val() },
+        data: { id: $(this).val() },
         dataType: 'json',
         error: function(xhr, error){
 
@@ -61,11 +61,12 @@ $(document).on('change',".selectclient", function() {
         }
     });
 });
+
 $(document).on('change',".currency_select", function() {
     $("#show_currency").html("Invoice Total ("+$(this).val().toUpperCase()+") : ")
 });
-$(document).on('click',".remove_items", function() {
 
+$(document).on('click',".remove_items", function() {
     var nested_div_object = $(this).closest(".nested-fields");
     var hidden_object = $(this).prev("input[type=hidden]").attr('id');
     split_values = hidden_object.toString().split('_');
@@ -76,8 +77,8 @@ $(document).on('click',".remove_items", function() {
         $($("#invoice_total").val(invoice_total));
     }
 });
-function selectfailure(id){
 
+function selectfailure(id){
     var invoice_total = parseFloat($("#invoice_total").val()) - parseFloat($("#invoice_line_items_attributes_"+id+"_line_total").val());
     if(invoice_total <= 0.01)
         invoice_total = 0.00
@@ -87,6 +88,7 @@ function selectfailure(id){
     $($("#invoice_line_items_attributes_"+id+"_quantity").val(""));
     $($("#invoice_line_items_attributes_"+id+"_line_total").val(''));
 }
+
 function selectsuccess(data) {
     var temp = 0.00;
     $($("#invoice_line_items_attributes_"+data["data"].form_id+"_description").val(data["data"].item.description));
@@ -101,6 +103,7 @@ function selectsuccess(data) {
     var invoice_total = parseFloat($("#invoice_total").val()) - temp+parseFloat(line_total);
     $($("#invoice_total").val(invoice_total));
 }
+
 function remove_line_item(ele) {
     var nested_div_object = $(ele).closest(".nested-fields");
     var hidden_object = $(ele).prev("input[type=hidden]").attr('id');

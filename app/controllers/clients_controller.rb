@@ -23,7 +23,7 @@ class ClientsController < ApplicationController
       flash[:success] = 'Client saved successfully.'   
       redirect_to clients_path      
     else
-      flash[:error] = "Problem while saving client details. #{@client.errors.full_messages.join(',')}"
+      flash[:error] = "Problem while saving client details. #{add_flash_messages(@client)}"
       render :action => 'new'
     end
   end
@@ -37,7 +37,7 @@ class ClientsController < ApplicationController
       flash[:success] = 'Client saved successfully.'
       redirect_to clients_path
     else
-      flash[:error] = "Problem while saving client details. #{@client.errors.full_messages.join(',')}"      
+      flash[:error] = "Problem while saving client details. #{add_flash_messages(@client)}"
       render :action => 'edit'
     end
   end
@@ -48,8 +48,7 @@ class ClientsController < ApplicationController
   end
 
   def get_address
-    @client1 = Client.find(params[:client_id])
-    render :json => @client1.address
+    render :json => @client.address
   end
 
   private

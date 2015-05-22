@@ -14,13 +14,15 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new(invoice_params)
-    @invoice.address = Address.new()
-    @invoice.address.street_1 = @invoice.client.address.street_1
-    @invoice.address.street_2 = @invoice.client.address.street_2
-    @invoice.address.city = @invoice.client.address.city
-    @invoice.address.state = @invoice.client.address.state
-    @invoice.address.pincode = @invoice.client.address.pincode
-    @invoice.address.country_code = @invoice.client.address.country_code
+    @invoice.address = Address.new.tap do |a|
+      invoice_address = @invoice.client.address
+      a.street_1 = invoice_address.street_1
+      a.street_2 = invoice_address.street_2
+      a.city = invoice_address.city
+      a.state = invoice_address.state
+      a.pincode = invoice_address.pincode
+      a.country_code = invoice_address.country_code
+    end
     if params[:email_send] == "true"
       @invoice.status = 'sent'
     else
@@ -34,7 +36,7 @@ class InvoicesController < ApplicationController
       flash[:success] = "Invoice created successfully."
       redirect_to invoices_path
     else
-      flash[:error] = "Invoice not saved because: #{@invoice.errors.full_messages.join(',')}"
+      flash[:error] = "Invoice not saved because: #{add_flash_messages(@invoice)}"
       render :new
     end
   end
@@ -42,12 +44,15 @@ class InvoicesController < ApplicationController
   def update
     if @invoice.update(invoice_params)
       if @invoice.address.present?
-        @invoice.address.street_1 = @invoice.client.address.street_1
-        @invoice.address.street_2 = @invoice.client.address.street_2
-        @invoice.address.city = @invoice.client.address.city
-        @invoice.address.state = @invoice.client.address.state
-        @invoice.address.pincode = @invoice.client.address.pincode
-        @invoice.address.country_code = @invoice.client.address.country_code
+        @invoice.address.tap do |a|
+          invoice_address = @invoice.client.address
+          a.street_1 = invoice_address.street_1
+          a.street_2 = invoice_address.street_2
+          a.city = invoice_address.city
+          a.state = invoice_address.state
+          a.pincode = invoice_address.pincode
+          a.country_code = invoice_address.country_code
+        end
         if @invoice.address.save
           if params[:email_send] == "true"
             @invoice.status = 'sent'
@@ -63,10 +68,19 @@ class InvoicesController < ApplicationController
           redirect_to invoices_path
           end
         else
-          flash[:error] = "Invoice not updated because: #{@invoice.address.errors.full_messages.join(',')}"
+          flash[:error] = "Invoice not updated because: #{add_flash_messages(@invoice)}"
           render :new
         end
       else
+          @invoice.address = Address.new.tap do |a|
+            invoice_address = @invoice.client.address
+            a.street_1 = invoice_address.street_1
+            a.street_2 = invoice_address.street_2
+            a.city = invoice_address.city
+            a.state = invoice_address.state
+            a.pincode = invoice_address.pincode
+            a.country_code = invoice_address.country_code
+          end
           if params[:email_send] == "true"
             @invoice.status = 'sent'
           else
@@ -82,7 +96,7 @@ class InvoicesController < ApplicationController
           end
       end
     else
-      flash[:error] = "Invoice not updated because: #{@invoice.errors.full_messages.join(',')}"
+      flash[:error] = "Invoice not updated because: #{add_flash_messages(@invoice)}"
       render :new
     end
   end
@@ -93,11 +107,11 @@ class InvoicesController < ApplicationController
 
   def destroy
     if @invoice.destroy
-      @invoice.address.destroy if @invoice.address.present?
+      #@invoice.address.destroy if @invoice.address.present?
       flash[:success] = "Invoice deleted successfully."
       redirect_to invoices_path
     else
-      flash[:error] = "Invoice not deleted because: #{@invoice.errors.full_messages.join(',')}"
+      flash[:error] = "Invoice not deleted because: #{add_flash_messages(@invoice)}"
       redirect_to invoices_path
     end
   end
