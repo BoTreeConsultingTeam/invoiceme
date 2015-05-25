@@ -47,7 +47,7 @@ class ClientsController < ApplicationController
     redirect_to clients_path
   end
 
-  def get_address
+  def address
     render :json => @client.address
   end
 

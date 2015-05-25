@@ -61,3 +61,5 @@ en:
   date:
     formats:
       default: "%m/%d/%Y"
+  email1:
+    from: "pragati.doshi@botreeconsulting.com"

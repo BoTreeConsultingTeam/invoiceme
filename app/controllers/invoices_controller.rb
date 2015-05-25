@@ -1,5 +1,7 @@
 class InvoicesController < ApplicationController
-  PATH = 'app/assets/stylesheets'
+  STYLE_SHEETS_ASSET_PATH = 'app/assets/stylesheets'
+  BOOTSTRAP_MIN_CSS = File.join(Rails.root, STYLE_SHEETS_ASSET_PATH, 'bootstrap.min.css')
+  CUSTOM_CSS = File.join(Rails.root,STYLE_SHEETS_ASSET_PATH,'custom.css')
   before_action :authenticate_user!
   load_and_authorize_resource
 
@@ -14,8 +16,8 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new(invoice_params)
-    @invoice.date_of_issue = Date.strptime(params[:invoice][:date_of_issue],"%m/%d/%Y")
-    @invoice.paid_to_date = Date.strptime(params[:invoice][:paid_to_date],"%m/%d/%Y")
+    @invoice.date_of_issue = format_date_locale(params[:invoice][:date_of_issue])
+    @invoice.paid_to_date = format_date_locale(params[:invoice][:paid_to_date])
     @invoice.address = Address.new.tap do |addr|
       invoice_address = @invoice.client.address
       addr.street_1 = invoice_address.street_1
@@ -27,15 +29,9 @@ class InvoicesController < ApplicationController
     end
     if @invoice.save
       if params[:email_send] == 'true'
-        pdf_render
-        ClientMailer.send_email(@kit.to_pdf, @invoice, current_user).deliver
+        send_invoice_to_client
+        @invoice.update_columns(status: "sent")
       end
-      if params[:email_send] == 'true'
-        @invoice.status = 'sent'
-      else
-        @invoice.status = 'draft'
-      end
-      @invoice.save
       flash[:success] = 'Invoice created successfully.'
       redirect_to invoices_path
     else
@@ -46,7 +42,7 @@ class InvoicesController < ApplicationController
 
   def update
     ActionController::Parameters.permit_all_parameters = true
-    params1 = ActionController::Parameters.new(date_of_issue: Date.strptime(params[:invoice][:date_of_issue],"%m/%d/%Y"), paid_to_date: Date.strptime(params[:invoice][:paid_to_date], "%m/%d/%Y"))
+    params1 = ActionController::Parameters.new(date_of_issue: format_date_locale(params[:invoice][:date_of_issue]), paid_to_date: format_date_locale(params[:invoice][:paid_to_date]))
     if @invoice.update(invoice_params)
       @invoice.update(params1)
       if @invoice.address.present?
@@ -62,15 +58,9 @@ class InvoicesController < ApplicationController
         if @invoice.address.save
           if @invoice.save
             if params[:email_send] == 'true'
-              pdf_render
-              ClientMailer.send_email(@kit.to_pdf, @invoice, current_user).deliver
+              send_invoice_to_client
+              @invoice.update_columns(status: "sent")
             end
-            if params[:email_send] == 'true'
-              @invoice.status = 'sent'
-            else
-              @invoice.status = 'draft'
-            end
-            @invoice.save
             flash[:success] = 'Invoice updated successfully.'
             redirect_to invoices_path
           end
@@ -130,15 +120,18 @@ class InvoicesController < ApplicationController
 
   private
 
+  def send_invoice_to_client
+    pdf_render
+    ClientMailer.send_email(@kit.to_pdf, @invoice, current_user).deliver
+  end
+
   def pdf_render
     html = render_to_string(action: 'show.html.haml', layout: false)
     @kit = PDFKit.new(html,
                       page_size: 'Legal',
-                      footer_right: "Powered by #{current_company.name}")
-    css = File.join(Rails.root,PATH,'bootstrap.min.css')
-    @kit.stylesheets << css
-    css1 = File.join(Rails.root,PATH,'custom.css')
-    @kit.stylesheets << css1
+                      footer_right: "#{current_company.name}")
+    @kit.stylesheets << BOOTSTRAP_MIN_CSS
+    @kit.stylesheets << CUSTOM_CSS
     @pdf = @kit.to_pdf
   end
 

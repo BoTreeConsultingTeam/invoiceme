@@ -10,7 +10,7 @@
             = f.select :client_id, get_clients, {}, class: "form-control selectclient"
           .form-group
             = label_tag :address
-            = label_tag "", get_address(@invoice), class: "form-control remove_border_element invoice_address_height", id: "client_address"
+            = label_tag "", simple_format(get_address(@invoice)), class: "form-control remove_border_element invoice_address_height", id: "client_address"
           .form-group
             = label_tag :currency, "Currency"
             = currency_select("invoice", "currency_code", { selected: @invoice.currency_code}, {}, class: 'form-control currency_select')
@@ -71,9 +71,10 @@
           .form-group
             = f.label "Notes"
             = f.text_area :notes, rows: 5, cols: 70, class: "form-control width500"
-          .form-group
-            = label_tag "Send To "
-            = label_tag " pragati.doshi@botreeconsulting.com"
+          - unless @invoice.new_record?
+            .form-group
+              = label_tag "Send To "
+              = label_tag @invoice.client.contact_details.first.email
           .box-footer
             = hidden_field_tag :email_send, :value => "false", :id => "email_send"
             = f.submit "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Please wait..." }

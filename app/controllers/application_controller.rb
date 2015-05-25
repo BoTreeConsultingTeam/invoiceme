@@ -43,6 +43,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def format_date_locale(date,format=(t :date))
+    Date.strptime(date,format[:formats][:default].to_s)
+  end
+
   def clear_error
     if flash[:error].present? && action_name == 'index'
       flash.clear
