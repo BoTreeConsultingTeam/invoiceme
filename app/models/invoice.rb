@@ -5,6 +5,7 @@ class Invoice < ActiveRecord::Base
   has_one :address, as: :addressdetail, dependent: :destroy
   accepts_nested_attributes_for :line_items, allow_destroy: true
   acts_as_sequenced column: :invoice_number, start_at: 1000
+  enum status: ["draft", "sent", "partially paid", "paid"]
 
   def self.find_next_available_number_for(default=1000)
     (self.maximum(:invoice_number) || default).succ

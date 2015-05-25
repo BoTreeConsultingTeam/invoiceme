@@ -24,9 +24,9 @@ class InvoicesController < ApplicationController
       a.country_code = invoice_address.country_code
     end
     if params[:email_send] == "true"
-      @invoice.status = 'sent'
+      @invoice.status = Invoice.statuses["sent"]
     else
-      @invoice.status = 'draft'
+      @invoice.status = Invoice.statuses["draft"]
     end
     if @invoice.save
       if params[:email_send] == "true"
@@ -55,9 +55,9 @@ class InvoicesController < ApplicationController
         end
         if @invoice.address.save
           if params[:email_send] == "true"
-            @invoice.status = 'sent'
+            @invoice.status = Invoice.statuses["sent"]
           else
-            @invoice.status = 'draft'
+            @invoice.status = Invoice.statuses["draft"]
           end
           if @invoice.save
             if params[:email_send] == "true"
@@ -82,9 +82,9 @@ class InvoicesController < ApplicationController
             a.country_code = invoice_address.country_code
           end
           if params[:email_send] == "true"
-            @invoice.status = 'sent'
+            @invoice.status = Invoice.statuses["sent"]
           else
-            @invoice.status = 'draft'
+            @invoice.status = Invoice.statuses["draft"]
           end
           if @invoice.save
             if params[:email_send] == "true"
@@ -107,7 +107,6 @@ class InvoicesController < ApplicationController
 
   def destroy
     if @invoice.destroy
-      #@invoice.address.destroy if @invoice.address.present?
       flash[:success] = "Invoice deleted successfully."
       redirect_to invoices_path
     else

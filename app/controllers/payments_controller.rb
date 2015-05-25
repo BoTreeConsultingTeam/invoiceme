@@ -9,23 +9,22 @@ class PaymentsController < ApplicationController
 
   def new
     @payment = Payment.new
-    @payment.invoice = Invoice.find(params[:id])
+    find_invoice(params[:id])
   end
 
   def edit
-    @payment.invoice = Invoice.find(@payment.invoice_id)
+    find_invoice(@payment.invoice_id)
     params[:id] = @payment.invoice_id
   end
 
   def create
-    puts params.inspect
     @payment = Payment.new(payment_params)
-    @payment.invoice = Invoice.find(params[:id])
+    find_invoice(params[:id])
     if @payment.save
       if @payment.invoice.total_amount_payments < @payment.invoice.total_amount
-        @payment.invoice.status = "partially paid"
+        @payment.invoice.status = Invoice.statuses["partially paid"]
       else
-        @payment.invoice.status = "paid"
+        @payment.invoice.status = Invoice.statuses["paid"]
       end
       @payment.invoice.save
       if(params[:email].present?)
@@ -39,12 +38,16 @@ class PaymentsController < ApplicationController
     end
   end
 
+  def find_invoice(id)
+    @payment.invoice = Invoice.find(id)
+  end
+
   def update
     if @payment.update(payment_params)
       if @payment.invoice.total_amount_payments < @payment.invoice.total_amount
-        @payment.invoice.status = "partially paid"
+        @payment.invoice.status = Invoice.statuses["partially paid"]
       else
-        @payment.invoice.status = "paid"
+        @payment.invoice.status = Invoice.statuses["paid"]
       end
       @payment.invoice.save
       flash[:success] = 'Payment saved successfully.'
