@@ -1,5 +1,5 @@
-- date_of_issue = @invoice.date_of_issue.present? ? @invoice.date_of_issue : Date.today
-- paid_to_date = @invoice.paid_to_date.present? ? @invoice.paid_to_date: Date.today
+- date_of_issue =  l @invoice.date_of_issue.present? ? @invoice.date_of_issue : Date.today
+- paid_to_date = l @invoice.paid_to_date.present? ? @invoice.paid_to_date: Date.today
 = form_for @invoice do |f|
   .row
     .col-md-6
@@ -10,7 +10,7 @@
             = f.select :client_id, get_clients, {}, class: "form-control selectclient"
           .form-group
             = label_tag :address
-            = label_tag "", get_address(@invoice), class: "form-control remove_border_element", id: "client_address"
+            = label_tag "", get_address(@invoice), class: "form-control remove_border_element invoice_address_height", id: "client_address"
           .form-group
             = label_tag :currency, "Currency"
             = currency_select("invoice", "currency_code", { selected: @invoice.currency_code}, {}, class: 'form-control currency_select')
@@ -22,13 +22,13 @@
             - if @invoice.new_record?
               = text_field_tag "invoice[invoice_number]", Invoice.find_next_available_number_for, class: "form-control"
             - else
-              = text_field_tag "invoice[invoice_number]", @invoice.invoice_number, class: "form-control"
+              = f.text_field :invoice_number, class: "form-control"
           .form-group
             = f.label :date_of_issue
-            = text_field_tag "invoice[date_of_issue]", format_date(date_of_issue), {data: {provide: :datepicker}, class: "form-control"}
+            = text_field_tag "invoice[date_of_issue]", date_of_issue, {data: {provide: :datepicker}, class: "form-control"}
           .form-group
             = f.label :due_date
-            = text_field_tag "invoice[paid_to_date]", format_date(paid_to_date), {data: {provide: :datepicker}, class: "form-control"}
+            = text_field_tag "invoice[paid_to_date]", paid_to_date, {data: {provide: :datepicker}, class: "form-control"}
           .form-group
             = f.label :po_number
             = f.text_field :po_number, class: "form-control"
@@ -82,5 +82,5 @@
 :javascript
 
   $(function() {
-    $('.datepicker').datepicker({ dateFormat: "yyyy-mm-dd", autoclose: true });
+    $('.datepicker').datepicker();
   });

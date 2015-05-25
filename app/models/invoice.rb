@@ -9,18 +9,6 @@ class Invoice < ActiveRecord::Base
     (self.maximum(:invoice_number) || default).succ
   end
 
-  def date_of_issue=(val)
-    write_attribute(:date_of_issue, parse_date(val)) if val.present?
-  end
-
-  def paid_to_date=(val)
-    write_attribute(:paid_to_date, parse_date(val)) if val.present?
-  end
-
-  def parse_date(date_value, format = "%m/%d/%Y")
-    Date.strptime(date_value, format) if date_value.present?
-  end
-
   def total_amount
     total = line_items.inject(0.0) do |total,line_item|
       total + line_item.line_total.to_f

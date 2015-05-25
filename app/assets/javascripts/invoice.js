@@ -40,7 +40,7 @@ $(document).on('change',".selectclass", function() {
             selectfailure(split_values[4])
         },
         success: function (data) {
-            selectsuccess(data)
+            selectsuccess(data,split_values[4])
         }
     });
 });
@@ -49,14 +49,14 @@ $(document).on('change',".selectclient", function() {
     split_values = $(this).attr('id').split('_');
     $.ajax({
         type: 'POST',
-        url: '/clients/get_address',
+        url: '/clients/'+$(this).val()+'/address',
         data: { id: $(this).val() },
         dataType: 'json',
         error: function(xhr, error){
 
         },
         success: function (data) {
-            var str = data.street_1+" "+data.street_2+", "+data.city+", "+data.state+", "+data.pincode.to_s
+            var str = data.street_1+" "+data.street_2+", <br/>"+data.city+", "+data.state+", <br/>"+data.pincode.to_s
             $("#client_address").html(str);
         }
     });
@@ -89,17 +89,17 @@ function selectfailure(id){
     $($("#invoice_line_items_attributes_"+id+"_line_total").val(''));
 }
 
-function selectsuccess(data) {
+function selectsuccess(data,form_id) {
     var temp = 0.00;
-    $($("#invoice_line_items_attributes_"+data["data"].form_id+"_description").val(data["data"].item.description));
-    if($("#invoice_line_items_attributes_"+data["data"].form_id+"_price").val() != "")
-        temp = parseFloat($("#invoice_line_items_attributes_"+data["data"].form_id+"_line_total").val());
+    $($("#invoice_line_items_attributes_"+form_id+"_description").val(data["data"].item.description));
+    if($("#invoice_line_items_attributes_"+form_id+"_price").val() != "")
+        temp = parseFloat($("#invoice_line_items_attributes_"+form_id+"_line_total").val());
     else
         temp = 0.00;
-    $($("#invoice_line_items_attributes_"+data["data"].form_id+"_price").val(data["data"].item.price));
-    $($("#invoice_line_items_attributes_"+data["data"].form_id+"_quantity").val("1"));
+    $($("#invoice_line_items_attributes_"+form_id+"_price").val(data["data"].item.price));
+    $($("#invoice_line_items_attributes_"+form_id+"_quantity").val("1"));
     var line_total = parseFloat(data["data"].item.price * 1)
-    $($("#invoice_line_items_attributes_"+data["data"].form_id+"_line_total").val(line_total));
+    $($("#invoice_line_items_attributes_"+form_id+"_line_total").val(line_total));
     var invoice_total = parseFloat($("#invoice_total").val()) - temp+parseFloat(line_total);
     $($("#invoice_total").val(invoice_total));
 }

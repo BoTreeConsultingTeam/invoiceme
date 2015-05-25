@@ -24,3 +24,6 @@ en:
   errors:
     messages:
       invalid_zipcode: "Your pincode is invalid."
+  date:
+    formats:
+      default: "%m/%d/%Y"

@@ -9,7 +9,7 @@
         %i.fa.fa-globe
         = current_company.name
         %small.pull-right
-          Date: #{format_date(Date.today,"%d/%m/%Y")}
+          Date: #{Date.today}
   .row.invoice-info
     .col-xs-4.invoice-col
       From
@@ -47,7 +47,7 @@
           4F3S8J
           %br
             %b Payment Due:
-            = format_date(@invoice.paid_to_date,"%d/%m/%Y")
+            = @invoice.paid_to_date
             %br
               %b Account:
               968-34567
@@ -73,7 +73,7 @@
     .col-xs-6
     .col-xs-6
       %p.lead
-        Amount Due #{format_date(@invoice.paid_to_date,"%d/%m/%Y")}
+        Amount Due #{@invoice.paid_to_date}
       .table-responsive
         %table.table
           %tbody

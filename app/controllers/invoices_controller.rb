@@ -1,5 +1,5 @@
 class InvoicesController < ApplicationController
-
+  PATH = 'app/assets/stylesheets'
   before_action :authenticate_user!
   load_and_authorize_resource
 
@@ -14,89 +14,97 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new(invoice_params)
-    @invoice.address = Address.new.tap do |a|
+    @invoice.date_of_issue = Date.strptime(params[:invoice][:date_of_issue],"%m/%d/%Y")
+    @invoice.paid_to_date = Date.strptime(params[:invoice][:paid_to_date],"%m/%d/%Y")
+    @invoice.address = Address.new.tap do |addr|
       invoice_address = @invoice.client.address
-      a.street_1 = invoice_address.street_1
-      a.street_2 = invoice_address.street_2
-      a.city = invoice_address.city
-      a.state = invoice_address.state
-      a.pincode = invoice_address.pincode
-      a.country_code = invoice_address.country_code
-    end
-    if params[:email_send] == "true"
-      @invoice.status = 'sent'
-    else
-      @invoice.status = 'draft'
+      addr.street_1 = invoice_address.street_1
+      addr.street_2 = invoice_address.street_2
+      addr.city = invoice_address.city
+      addr.state = invoice_address.state
+      addr.pincode = invoice_address.pincode
+      addr.country_code = invoice_address.country_code
     end
     if @invoice.save
-      if params[:email_send] == "true"
+      if params[:email_send] == 'true'
         pdf_render
-        ClientMailer.send_email(@invoice.client,@kit.to_pdf, @invoice, current_user).deliver
+        ClientMailer.send_email(@kit.to_pdf, @invoice, current_user).deliver
       end
-      flash[:success] = "Invoice created successfully."
+      if params[:email_send] == 'true'
+        @invoice.status = 'sent'
+      else
+        @invoice.status = 'draft'
+      end
+      @invoice.save
+      flash[:success] = 'Invoice created successfully.'
       redirect_to invoices_path
     else
-      flash[:error] = "Invoice not saved because: #{add_flash_messages(@invoice)}"
+      flash[:error] = "Unable to save invoice. Reason - #{add_flash_messages(@invoice)}"
       render :new
     end
   end
 
   def update
+    ActionController::Parameters.permit_all_parameters = true
+    params1 = ActionController::Parameters.new(date_of_issue: Date.strptime(params[:invoice][:date_of_issue],"%m/%d/%Y"), paid_to_date: Date.strptime(params[:invoice][:paid_to_date], "%m/%d/%Y"))
     if @invoice.update(invoice_params)
+      @invoice.update(params1)
       if @invoice.address.present?
-        @invoice.address.tap do |a|
+        @invoice.address.tap do |addr|
           invoice_address = @invoice.client.address
-          a.street_1 = invoice_address.street_1
-          a.street_2 = invoice_address.street_2
-          a.city = invoice_address.city
-          a.state = invoice_address.state
-          a.pincode = invoice_address.pincode
-          a.country_code = invoice_address.country_code
+          addr.street_1 = invoice_address.street_1
+          addr.street_2 = invoice_address.street_2
+          addr.city = invoice_address.city
+          addr.state = invoice_address.state
+          addr.pincode = invoice_address.pincode
+          addr.country_code = invoice_address.country_code
         end
         if @invoice.address.save
-          if params[:email_send] == "true"
-            @invoice.status = 'sent'
-          else
-            @invoice.status = 'draft'
-          end
           if @invoice.save
-            if params[:email_send] == "true"
+            if params[:email_send] == 'true'
               pdf_render
-              ClientMailer.send_email(@invoice.client, @kit.to_pdf, @invoice, current_user).deliver
+              ClientMailer.send_email(@kit.to_pdf, @invoice, current_user).deliver
             end
-          flash[:success] = "Invoice updated successfully."
-          redirect_to invoices_path
+            if params[:email_send] == 'true'
+              @invoice.status = 'sent'
+            else
+              @invoice.status = 'draft'
+            end
+            @invoice.save
+            flash[:success] = 'Invoice updated successfully.'
+            redirect_to invoices_path
           end
         else
-          flash[:error] = "Invoice not updated because: #{add_flash_messages(@invoice)}"
+          flash[:error] = "Unable to update invoice. Reason - #{add_flash_messages(@invoice)}"
           render :new
         end
       else
-          @invoice.address = Address.new.tap do |a|
+          @invoice.address = Address.new.tap do |addr|
             invoice_address = @invoice.client.address
-            a.street_1 = invoice_address.street_1
-            a.street_2 = invoice_address.street_2
-            a.city = invoice_address.city
-            a.state = invoice_address.state
-            a.pincode = invoice_address.pincode
-            a.country_code = invoice_address.country_code
-          end
-          if params[:email_send] == "true"
-            @invoice.status = 'sent'
-          else
-            @invoice.status = 'draft'
+            addr.street_1 = invoice_address.street_1
+            addr.street_2 = invoice_address.street_2
+            addr.city = invoice_address.city
+            addr.state = invoice_address.state
+            addr.pincode = invoice_address.pincode
+            addr.country_code = invoice_address.country_code
           end
           if @invoice.save
-            if params[:email_send] == "true"
+            if params[:email_send] == 'true'
               pdf_render
               ClientMailer.send_email(@invoice.client, @kit.to_pdf, @invoice, current_user).deliver
             end
-            flash[:success] = "Invoice updated successfully."
+            if params[:email_send] == 'true'
+              @invoice.status = 'sent'
+            else
+              @invoice.status = 'draft'
+            end
+            @invoice.save
+            flash[:success] = 'Invoice updated successfully.'
             redirect_to invoices_path
           end
       end
     else
-      flash[:error] = "Invoice not updated because: #{add_flash_messages(@invoice)}"
+      flash[:error] = "Unable to update invoice. Reason - #{add_flash_messages(@invoice)}"
       render :new
     end
   end
@@ -107,38 +115,37 @@ class InvoicesController < ApplicationController
 
   def destroy
     if @invoice.destroy
-      #@invoice.address.destroy if @invoice.address.present?
-      flash[:success] = "Invoice deleted successfully."
+      flash[:success] = 'Invoice deleted successfully.'
       redirect_to invoices_path
     else
-      flash[:error] = "Invoice not deleted because: #{add_flash_messages(@invoice)}"
+      flash[:error] = "Unable to delete invoice #{@invoice.invoice_number}. Reason - #{add_flash_messages(@invoice)}"
       redirect_to invoices_path
     end
   end
 
-  def pdf_render
-    html = render_to_string(action: "show.html.haml", layout: false)
-    @kit = PDFKit.new(html,
-                     page_size: 'Legal',
-                     footer_right: "Powered by Botree Consulting")
-    css = File.join(Rails.root,'app/assets/stylesheets','bootstrap.min.css')
-    @kit.stylesheets << css
-    css1 = File.join(Rails.root,'app/assets/stylesheets','custom.css')
-    @kit.stylesheets << css1
-    @pdf = @kit.to_pdf
-  end
-
   def pdf_generation
     pdf_render
-    send_data @pdf, filename: "Invoice", type: "application/pdf", disposition: "attachment"
+    send_data @pdf, filename: "Invoice-#{@invoice.invoice_number}", type: 'application/pdf', disposition: 'attachment'
   end
 
   private
+
+  def pdf_render
+    html = render_to_string(action: 'show.html.haml', layout: false)
+    @kit = PDFKit.new(html,
+                      page_size: 'Legal',
+                      footer_right: "Powered by #{current_company.name}")
+    css = File.join(Rails.root,PATH,'bootstrap.min.css')
+    @kit.stylesheets << css
+    css1 = File.join(Rails.root,PATH,'custom.css')
+    @kit.stylesheets << css1
+    @pdf = @kit.to_pdf
+  end
 
   def invoice_params
     params.require(:invoice).permit(
         :client_id, :invoice_number, :date_of_issue, :po_number, :paid_to_date, :notes, :currency_code,
         line_item_ids: [],
-        line_items_attributes: [:item_id, :line_total, :price, :quantity, "_destroy", :id, :description])
+        line_items_attributes: [:item_id, :line_total, :price, :quantity, '_destroy', :id, :description])
   end
 end

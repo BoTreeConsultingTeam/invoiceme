@@ -6,7 +6,11 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :clear_error
+  before_action :set_locale
 
+  def set_locale
+    I18n.locale = 'en'
+  end
   include ApplicationHelper
 
   rescue_from CanCan::AccessDenied do |exception|

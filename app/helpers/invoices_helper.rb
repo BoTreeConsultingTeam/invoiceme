@@ -9,7 +9,7 @@ module InvoicesHelper
 
   def get_address(invoice)
     if invoice.address.present?
-      "#{invoice.address.street_1} #{invoice.address.street_2}, #{invoice.address.city}, #{invoice.address.state}, #{invoice.address.pincode.to_s}"
+      "#{invoice.address.street_1} #{invoice.address.street_2}, <br/>#{invoice.address.city}, #{invoice.address.state}, <br/>#{invoice.address.pincode.to_s}".html_safe
     else
       " "
     end
