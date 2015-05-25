@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   post '/user' => 'user#create', as: :user_create_path
   put '/user/:id' => 'user#update', as: :user_update_path
   post '/items/populate_values_of_item' => "items#populate_values_of_item", as: :populate_values_of_item_path
-  post '/clients/get_address' => "clients#get_address"
+  post '/clients/:id/address' => "clients#address"
   post '/invoices/pdf_generation/:id' => "invoices#pdf_generation", as: :invoice_generate_pdf
   post '/payments/new/:id' => "payments#new", as: :payment_generate
   # The priority is based upon order of creation: first created -> highest priority.

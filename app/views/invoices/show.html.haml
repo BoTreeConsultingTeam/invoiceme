@@ -21,7 +21,7 @@
         %i.fa.fa-globe
         = current_company.name
         %small.pull-right
-          Date: #{format_date(Date.today,"%d/%m/%Y")}
+          Date: #{l Date.today}
   .row.invoice-info
     .col-xs-4.invoice-col
       From
@@ -31,10 +31,6 @@
           = current_company.address.street_1
           %br
             = "#{current_company.address.city}, #{current_company.address.state}, #{current_company.address.pincode}"
-            %br
-              Phone: (804) 123-5432
-              %br
-                Email: info@almasaeedstudio.com
     .col-xs-4.invoice-col
       To
       %address
@@ -55,14 +51,8 @@
         Invoice #{@invoice.invoice_number}
       %br
         %br
-          %b Order ID:
-          4F3S8J
-          %br
-            %b Payment Due:
-            = format_date(@invoice.paid_to_date,"%d/%m/%Y")
-            %br
-              %b Account:
-              968-34567
+          %b Payment Due:
+          = l @invoice.paid_to_date
     .row
       .col-xs-12.table-responsive
         %table.table.table-striped
@@ -85,7 +75,7 @@
     .col-xs-6
     .col-xs-6
       %p.lead
-        Amount Due #{format_date(@invoice.paid_to_date,"%d/%m/%Y")}
+        Amount Due l #{@invoice.paid_to_date}
       .table-responsive
         %table.table
           %tbody
@@ -105,7 +95,7 @@
               %td
                 = @invoice.currency_code.upcase
                 = @invoice.total_amount.to_s
-  - if action_name.to_s != "pdf_generation" && action_name.to_s != "create" && action_name.to_s != "update"
+  - unless is_pdf_view?
     .row.no-print
       .col-xs-12
         = link_to edit_invoice_path(@invoice), method: :get, class: "btn btn-success pull-right invoice_margin"  do

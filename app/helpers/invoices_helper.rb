@@ -9,9 +9,13 @@ module InvoicesHelper
 
   def get_address(invoice)
     if invoice.address.present?
-      "#{invoice.address.street_1} #{invoice.address.street_2}, #{invoice.address.city}, #{invoice.address.state}, #{invoice.address.pincode.to_s}"
+      "#{invoice.address.street_1} #{invoice.address.street_2}, \n#{invoice.address.city}, #{invoice.address.state}, \n#{invoice.address.pincode.to_s}"
     else
       " "
     end
+  end
+
+  def is_pdf_view?
+    ['pdf_generation', 'create', 'update'].include?(action_name)
   end
 end
