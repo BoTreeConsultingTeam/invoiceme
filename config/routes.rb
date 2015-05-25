@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get '/logout' => 'devise/sessions#destroy'
   end
   resources :user, :controller => "user"
+  resources :invoices
   post '/user' => 'user#create', as: :user_create_path
   put '/user/:id' => 'user#update', as: :user_update_path
   post '/items/populate_values_of_item' => "items#populate_values_of_item", as: :populate_values_of_item_path

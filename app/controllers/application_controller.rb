@@ -27,8 +27,8 @@ class ApplicationController < ActionController::Base
     current_user.present? && current_user.admin?
   end
 
-  def user_error_messages
-    flash[:error] = @user.errors.full_messages.join(', ')
+  def add_flash_messages(record, flash_type = :error)
+    flash[flash_type] = record.errors.full_messages.join(', ')
   end
 
   def layout_for_signin
