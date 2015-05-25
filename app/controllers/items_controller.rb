@@ -19,20 +19,16 @@ class ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
-      flash.clear
       flash[:success] = "Item created successfully"
     else
-      flash.clear
       flash[:error] = "Item not saved because: #{add_flash_messages(@item)}"
     end
   end
 
   def update
     if @item.update(item_params)
-      flash.clear
       flash[:success] = "Item updated successfully"
     else
-      flash.clear
       flash[:error] = "Unable to update the item because: #{add_flash_messages(@item)}"
     end
     render :create

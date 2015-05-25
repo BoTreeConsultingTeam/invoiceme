@@ -28,4 +28,8 @@ module ApplicationHelper
   def format_date(date, format = "%m/%d/%Y")
       date.strftime(format)
   end
+
+  def current_company
+    current_user.company
+  end
 end
