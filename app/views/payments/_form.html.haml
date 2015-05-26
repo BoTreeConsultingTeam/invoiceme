@@ -11,7 +11,7 @@
       = label_tag "Fully Paid"
     .form-group
       = f.label :payment_method, "Payment Method"
-      = f.select(:payment_method, get_payment_methods,{}, {class: "form-control"})
+      = f.select(:payment_method, PaymentsHelper::PAYMENT_METHOD_OPTIONS,{}, {class: "form-control"})
     .form-group
       = f.label :date_of_payment
       = text_field_tag "payment[date_of_payment]", date_of_payment, {data: {provide: :datepicker}, class: "form-control"}
