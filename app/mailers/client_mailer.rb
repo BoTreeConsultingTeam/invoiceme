@@ -10,10 +10,10 @@ class ClientMailer < ActionMailer::Base
          subject: "[#{user.company.name}] Invoice #{invoice.invoice_number} of #{invoice.currency_code.upcase} #{invoice.total_amount} for #{@client.name}")
   end
 
-  def send_email_payment(client,invoice,user)
-    @client = client
+  def send_email_payment(invoice, user)
+    @client = invoice.client
     @invoice = invoice
     @user = user
-    mail(to: @client.contact_details.first.email, subject: "[#{user.company.name}] has received your payment for invoice #{invoice.invoice_number.to_s}")
+    mail(to: invoice.client.contact_details.first.email, subject: "[#{user.company.name}] has received your payment for invoice #{invoice.invoice_number.to_s}")
   end
 end

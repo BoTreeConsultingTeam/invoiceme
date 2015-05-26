@@ -56,7 +56,8 @@ $(document).on('change',".selectclient", function() {
 
         },
         success: function (data) {
-            var str = data.street_1+" "+data.street_2+", <br/>"+data.city+", "+data.state+", <br/>"+data.pincode.to_s
+            var st1=  data.state
+            var str = data.street_1+" "+data.street_2+", <br/>"+data.city+", "+st1+", <br/>"+data.pincode.toString();
             $("#client_address").html(str);
         }
     });

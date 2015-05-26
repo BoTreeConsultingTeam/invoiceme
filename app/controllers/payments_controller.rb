@@ -4,34 +4,28 @@ class PaymentsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @payments = current_company.payments
+    find_invoice(params[:invoice_id])
+    @payments = @invoice.payments
   end
 
   def new
     @payment = Payment.new
-    find_invoice(params[:id])
+    find_invoice(params[:invoice_id])
   end
 
   def edit
-    find_invoice(@payment.invoice_id)
-    params[:id] = @payment.invoice_id
+    find_invoice(params[:invoice_id])
+    @payment = Payment.find(params[:id])
   end
 
   def create
     @payment = Payment.new(payment_params)
-    find_invoice(params[:id])
+    @payment.date_of_payment = format_date_locale(params[:payment][:date_of_payment])
+    find_invoice(params[:invoice_id])
     if @payment.save
-      if @payment.invoice.total_amount_payments < @payment.invoice.total_amount
-        @payment.invoice.status = Invoice.statuses["partially paid"]
-      else
-        @payment.invoice.status = Invoice.statuses["paid"]
-      end
-      @payment.invoice.save
-      if(params[:email].present?)
-        ClientMailer.send_email_payment(@payment.invoice.client, @payment.invoice, current_user).deliver
-      end
+      ClientMailer.send_email_payment(@invoice, current_user).deliver if params[:email].present?
       flash[:success] = 'Payment saved successfully.'
-      redirect_to payments_path
+      redirect_to invoice_payments_path
     else
       flash[:error] = "Problem while saving payment details. #{@payment.errors.full_messages.join(',')}"
       render :action => 'new'
@@ -39,21 +33,19 @@ class PaymentsController < ApplicationController
   end
 
   def find_invoice(id)
-    @payment.invoice = Invoice.find(id)
+    @invoice = Invoice.find(id)
   end
 
   def update
+    find_invoice(params[:invoice_id])
+    ActionController::Parameters.permit_all_parameters = true
+    params1 = ActionController::Parameters.new(date_of_payment: format_date_locale(params[:payment][:date_of_payment]))
     if @payment.update(payment_params)
-      if @payment.invoice.total_amount_payments < @payment.invoice.total_amount
-        @payment.invoice.status = Invoice.statuses["partially paid"]
-      else
-        @payment.invoice.status = Invoice.statuses["paid"]
-      end
-      @payment.invoice.save
-      flash[:success] = 'Payment saved successfully.'
-      redirect_to payments_path
+      @payment.update(params1)
+      flash[:success] = 'Payment updated successfully.'
+      redirect_to invoice_payments_path(@invoice)
     else
-      flash[:error] = "Problem while saving payment details. #{@payment.errors.full_messages.join(',')}"
+      flash[:error] = "Problem while updating payment details. #{@payment.errors.full_messages.join(',')}"
       render :action => 'edit'
     end
   end

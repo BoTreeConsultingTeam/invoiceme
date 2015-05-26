@@ -15,6 +15,14 @@ module InvoicesHelper
     end
   end
 
+  def get_address_first(client)
+    if client.address.present?
+      "#{client.address.street_1} #{client.address.street_2}, \n#{client.address.city}, #{client.address.state}, \n#{client.address.pincode.to_s}"
+    else
+      " "
+    end
+  end
+
   def is_pdf_view?
     ['pdf_generation', 'create', 'update'].include?(action_name)
   end

@@ -8,9 +8,14 @@
           .form-group
             = label_tag :client
             = f.select :client_id, get_clients, {}, class: "form-control selectclient"
-          .form-group
-            = label_tag :address
-            = label_tag "", simple_format(get_address(@invoice)), class: "form-control remove_border_element invoice_address_height", id: "client_address"
+          - if @invoice.new_record?
+            .form-group
+              = label_tag :address
+              = label_tag "", simple_format(get_address_first(current_user.company.clients.first)), class: "form-control remove_border_element invoice_address_height", id: "client_address"
+          - else
+            .form-group
+              = label_tag :address
+              = label_tag "", simple_format(get_address(@invoice)), class: "form-control remove_border_element invoice_address_height", id: "client_address"
           .form-group
             = label_tag :currency, "Currency"
             = currency_select("invoice", "currency_code", { selected: @invoice.currency_code}, {}, class: 'form-control currency_select')

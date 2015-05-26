@@ -30,7 +30,7 @@ class InvoicesController < ApplicationController
     if @invoice.save
       if params[:email_send] == 'true'
         send_invoice_to_client
-        @invoice.update_columns(status: "sent")
+        @invoice.update_columns(status: Invoice.statuses[:sent])
       end
       flash[:success] = 'Invoice created successfully.'
       redirect_to invoices_path
@@ -59,7 +59,7 @@ class InvoicesController < ApplicationController
           if @invoice.save
             if params[:email_send] == 'true'
               send_invoice_to_client
-              @invoice.update_columns(status: "sent")
+              @invoice.update_columns(status: Invoice.statuses[:sent])
             end
             flash[:success] = 'Invoice updated successfully.'
             redirect_to invoices_path
@@ -81,7 +81,7 @@ class InvoicesController < ApplicationController
         if @invoice.save
           if params[:email_send] == 'true'
             send_invoice_to_client
-            @invoice.update_columns(status: "sent")
+            @invoice.update_columns(status: Invoice.statuses[:sent])
           end
           flash[:success] = 'Invoice updated successfully.'
           redirect_to invoices_path

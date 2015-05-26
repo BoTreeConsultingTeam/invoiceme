@@ -1,8 +1,8 @@
-- (@payment.invoice.payments.order("date_of_payment DESC")).each do |payment|
+- @invoice.payments.order("date_of_payment DESC").each do |payment|
   %tr
     %td= payment.invoice.invoice_number
-    %td= payment.date_of_payment.strftime("%d/%m/%Y")
+    %td= l payment.date_of_payment
     %td= payment.payment_method
-    %td= payment.payment_amount.to_s
+    %td= "#{payment.invoice.currency_code.upcase} #{number_with_precision(payment.payment_amount, precision: 2)}"
 
 
