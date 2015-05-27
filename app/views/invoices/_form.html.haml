@@ -11,11 +11,11 @@
           - if @invoice.new_record?
             .form-group
               = label_tag :address
-              = label_tag "", simple_format(get_address_first(current_user.company.clients.first)), class: "form-control remove_border_element invoice_address_height", id: "client_address"
+              = label_tag "", get_address(current_user.company.clients.first), class: "form-control remove_border_element invoice_address_height", id: "client_address"
           - else
             .form-group
               = label_tag :address
-              = label_tag "", simple_format(get_address(@invoice)), class: "form-control remove_border_element invoice_address_height", id: "client_address"
+              = label_tag "", get_address(@invoice.client), class: "form-control remove_border_element invoice_address_height", id: "client_address"
           .form-group
             = label_tag :currency, "Currency"
             = currency_select("invoice", "currency_code", { selected: @invoice.currency_code}, {}, class: 'form-control currency_select')

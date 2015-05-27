@@ -3,8 +3,8 @@
   %td= invoice.client.name
   %td= l invoice.paid_to_date if invoice.paid_to_date.present?
   %td= l invoice.date_of_issue if invoice.date_of_issue.present?
-  %td= "#{invoice.currency_code.upcase} #{number_with_precision(invoice.total_amount, precision: 2)}"
-  %td= invoice.status.to_s
+  %td= get_total_amount(invoice)
+  %td= invoice.status.gsub('_',' ')
   %td
     = link_to invoice_path(invoice) do
       %i.fa.fa-eye

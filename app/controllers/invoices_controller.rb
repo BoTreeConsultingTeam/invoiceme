@@ -30,7 +30,7 @@ class InvoicesController < ApplicationController
     if @invoice.save
       if params[:email_send] == 'true'
         send_invoice_to_client
-        @invoice.update_columns(status: Invoice.statuses[:sent])
+        @invoice.sent!
       end
       flash[:success] = 'Invoice created successfully.'
       redirect_to invoices_path
@@ -41,10 +41,9 @@ class InvoicesController < ApplicationController
   end
 
   def update
-    ActionController::Parameters.permit_all_parameters = true
-    params1 = ActionController::Parameters.new(date_of_issue: format_date_locale(params[:invoice][:date_of_issue]), paid_to_date: format_date_locale(params[:invoice][:paid_to_date]))
+    @invoice.date_of_issue = format_date_locale(params[:invoice][:date_of_issue])
+    @invoice.paid_to_date = format_date_locale(params[:invoice][:paid_to_date])
     if @invoice.update(invoice_params)
-      @invoice.update(params1)
       if @invoice.address.present?
         @invoice.address.tap do |addr|
           invoice_address = @invoice.client.address
@@ -59,7 +58,7 @@ class InvoicesController < ApplicationController
           if @invoice.save
             if params[:email_send] == 'true'
               send_invoice_to_client
-              @invoice.update_columns(status: Invoice.statuses[:sent])
+              @invoice.sent!
             end
             flash[:success] = 'Invoice updated successfully.'
             redirect_to invoices_path
@@ -81,7 +80,7 @@ class InvoicesController < ApplicationController
         if @invoice.save
           if params[:email_send] == 'true'
             send_invoice_to_client
-            @invoice.update_columns(status: Invoice.statuses[:sent])
+            @invoice.sent!
           end
           flash[:success] = 'Invoice updated successfully.'
           redirect_to invoices_path

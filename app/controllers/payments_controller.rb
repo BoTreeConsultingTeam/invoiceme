@@ -26,31 +26,31 @@ class PaymentsController < ApplicationController
         redirect_to invoice_payments_path
       rescue
         flash[:error] = "Problem while sending email."
-        render :action => 'new'
+        render action: 'new'
       end
     else
-      flash[:error] = "Problem while saving payment details. #{@payment.errors.full_messages.join(',')}"
-      render :action => 'new'
+      flash[:error] = "Problem while saving payment details. #{add_flash_messages(@payment)}"
+      render action: 'new'
     end
   end
 
-  def find_invoice
-    @invoice = Invoice.find(params[:invoice_id])
-  end
 
   def update
-    params_date_of_payment = ActionController::Parameters.new(date_of_payment: format_date_locale(params[:payment][:date_of_payment])).permit(:date_of_payment)
+    params[:payment][:date_of_payment] = format_date_locale(params[:payment][:date_of_payment])
     if @payment.update(payment_params)
-      @payment.update(params_date_of_payment)
       flash[:success] = 'Payment updated successfully.'
       redirect_to invoice_payments_path(@invoice)
     else
-      flash[:error] = "Problem while updating payment details. #{@payment.errors.full_messages.join(',')}"
-      render :action => 'edit'
+      flash[:error] = "Problem while updating payment details. #{add_flash_messages(@payment)}"
+      render action: 'edit'
     end
   end
 
   private
+
+  def find_invoice
+    @invoice = Invoice.find(params[:invoice_id])
+  end
 
   def payment_params
     params.require(:payment).permit(:invoice_id, :payment_amount, :payment_method, :date_of_payment, :notes)

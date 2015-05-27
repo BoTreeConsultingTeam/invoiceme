@@ -1,14 +1,13 @@
 class Payment < ActiveRecord::Base
   belongs_to :invoice
-  enum payment_method: ['check', 'cash', 'bank transfer', 'credit card']
+  enum payment_method: [:check, :cash, :bank_transfer, :credit_card]
   after_save :update_status
 
   def update_status
     if invoice.total_amount_payments < invoice.total_amount
-      invoice.status = Invoice.statuses['partially paid']
+      invoice.partially_paid!
     else
-      invoice.status = Invoice.statuses['paid']
+      invoice.paid!
     end
-    invoice.save
   end
 end

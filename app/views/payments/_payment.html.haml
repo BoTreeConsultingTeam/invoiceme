@@ -1,7 +1,7 @@
 %tr
   %td= payment.invoice.invoice_number
   %td= "#{payment.invoice.currency_code.upcase} #{number_with_precision(payment.payment_amount, precision: 2)}"
-  %td= payment.payment_method
+  %td= payment.payment_method.gsub('_',' ')
   %td= l payment.date_of_payment
   %td
     = link_to edit_invoice_payment_path(payment.invoice,payment) do

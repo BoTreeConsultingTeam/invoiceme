@@ -1,6 +1,6 @@
 - invoice_amount = @invoice.total_amount
 - paid_amount = @invoice.total_amount_payments
-- date_of_payment = l @payment.date_of_payment.present? ? @payment.date_of_payment : Date.today
+- date_of_payment = date_of_payment_form(@payment)
 .box-body
   = form_for [@invoice,@payment]  do |f|
     .form-group
@@ -47,21 +47,31 @@
   $(function() {
     $('.datepicker').datepicker();
   });
+
   $(document).ready(function() {
         $('#fully_paid').click(function(){
-          var isChecked = $('#fully_paid').is(':checked');
-          if(isChecked)
+          if(isChecked('#fully_paid'))
           {
-            $("#payment_payment_amount").prop('disabled', true);
+            enableDisable("#payment_payment_amount",true);
             $("#payment_payment_amount").val(#{(invoice_amount - paid_amount)});
           }
           else
           {
-            $("#payment_payment_amount").prop('disabled', false);
+            enableDisable("#payment_payment_amount",false);
           }
         });
         $('#submit_button').click(function(){
-          $("#payment_payment_amount").prop('disabled', false);
+          enableDisable("#payment_payment_amount",false);
           $(this).form.submit();
         });
+        function enableDisable(domId, disable){
+          $(domId).prop('disabled', disable);
+        }
+        function isChecked(domId){
+          if($(domId).is(':checked'))
+            return true
+          else
+            return false
+        }
   });
+

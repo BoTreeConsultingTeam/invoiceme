@@ -7,17 +7,9 @@ module InvoicesHelper
     current_user.company.clients.map{ |client|[client.name,client.id]}
   end
 
-  def get_address(invoice)
-    if invoice.address.present?
-      "#{invoice.address.street_1} #{invoice.address.street_2}, \n#{invoice.address.city}, #{invoice.address.state}, \n#{invoice.address.pincode.to_s}"
-    else
-      " "
-    end
-  end
-
-  def get_address_first(client)
+  def get_address(client)
     if client.address.present?
-      "#{client.address.street_1} #{client.address.street_2}, \n#{client.address.city}, #{client.address.state}, \n#{client.address.pincode.to_s}"
+      simple_format("#{client.address.street_1} #{client.address.street_2}, \n#{client.address.city}, #{client.address.state}, \n#{client.address.pincode.to_s}")
     else
       " "
     end
@@ -25,5 +17,9 @@ module InvoicesHelper
 
   def is_pdf_view?
     ['pdf_generation', 'create', 'update'].include?(action_name)
+  end
+
+  def get_total_amount(invoice)
+    "#{invoice.currency_code.upcase} #{number_with_precision(invoice.total_amount, precision: 2)}"
   end
 end
