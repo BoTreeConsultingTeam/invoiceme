@@ -2,7 +2,7 @@
   %tr
     %td= payment.invoice.invoice_number
     %td= l payment.date_of_payment
-    %td= payment.payment_method
+    %td= payment.payment_method.gsub('_',' ')
     %td= payment_total_formatted( payment )
 
 
