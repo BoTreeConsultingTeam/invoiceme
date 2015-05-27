@@ -41,10 +41,6 @@
       = hidden_field_tag "payment[invoice_id]", params[:invoice_id]
       = f.submit "Save", class: 'btn btn-primary', id: "submit_button", data: { disable_with: "Saving..." }
 :javascript
-  $(function() {
-    $('.datepicker').datepicker();
-  });
-
   $(document).ready(function() {
         $('#fully_paid').click(function(){
           if(isChecked('#fully_paid'))
@@ -70,5 +66,8 @@
           else
             return false;
         }
+        $(function() {
+          $('.datepicker').datepicker();
+        });
   });
 

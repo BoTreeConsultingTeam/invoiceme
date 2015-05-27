@@ -22,12 +22,11 @@ class PaymentsController < ApplicationController
     if @payment.save
       begin
         ClientMailer.send_email_payment(@invoice, current_user).deliver if params[:email].present?
-        flash[:success] = 'Payment saved successfully.'
-        redirect_to invoice_payments_path
       rescue
         flash[:error] = "Problem while sending email."
-        render action: 'new'
       end
+      flash[:success] = 'Payment saved successfully.'
+      redirect_to invoice_payments_path
     else
       flash[:error] = "Problem while saving payment details. #{add_flash_messages(@payment)}"
       render action: 'new'

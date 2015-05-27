@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :clear_error
   before_action :set_locale
 
   def set_locale
@@ -45,12 +44,6 @@ class ApplicationController < ActionController::Base
 
   def format_date_locale(date,format=(t :date))
     Date.strptime(date,format[:formats][:default].to_s)
-  end
-
-  def clear_error
-    if flash[:error].present? && action_name == 'index'
-      flash.clear
-    end
   end
 
   protected
