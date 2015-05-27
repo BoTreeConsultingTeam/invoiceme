@@ -1,5 +1,5 @@
-- date_of_issue =  l @invoice.date_of_issue.present? ? @invoice.date_of_issue : Date.today
-- paid_to_date = l @invoice.paid_to_date.present? ? @invoice.paid_to_date: Date.today
+- date_of_issue =  l ( @invoice.date_of_issue.present? ? @invoice.date_of_issue : Date.today )
+- paid_to_date = l ( @invoice.paid_to_date.present? ? @invoice.paid_to_date: Date.today )
 = form_for @invoice do |f|
   .row
     .col-md-6
@@ -11,11 +11,11 @@
           - if @invoice.new_record?
             .form-group
               = label_tag :address
-              = label_tag "", get_address(current_user.company.clients.first), class: "form-control remove_border_element invoice_address_height", id: "client_address"
+              = label_tag "", formatted_address(current_user.company.clients.first), class: "form-control remove_border_element invoice_address_height", id: "client_address"
           - else
             .form-group
               = label_tag :address
-              = label_tag "", get_address(@invoice.client), class: "form-control remove_border_element invoice_address_height", id: "client_address"
+              = label_tag "", formatted_address(@invoice.client), class: "form-control remove_border_element invoice_address_height", id: "client_address"
           .form-group
             = label_tag :currency, "Currency"
             = currency_select("invoice", "currency_code", { selected: @invoice.currency_code}, {}, class: 'form-control currency_select')
@@ -82,8 +82,8 @@
               = label_tag @invoice.client.contact_details.first.email
           .box-footer
             = hidden_field_tag :email_send, :value => "false", :id => "email_send"
-            = f.submit "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Please wait..." }
-            = f.button "Save & Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Please wait..." }
+            = f.submit "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Saving..." }
+            = f.button "Save & Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Saving..." }
 
 :javascript
 

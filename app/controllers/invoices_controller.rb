@@ -4,6 +4,7 @@ class InvoicesController < ApplicationController
   CUSTOM_CSS = File.join(Rails.root,STYLE_SHEETS_ASSET_PATH,'custom.css')
   before_action :authenticate_user!
   load_and_authorize_resource
+  before_action :replace_date_params , only: [:create,:update]
 
   def index
     @invoices = current_company.invoices
@@ -16,8 +17,6 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new(invoice_params)
-    @invoice.date_of_issue = format_date_locale(params[:invoice][:date_of_issue])
-    @invoice.paid_to_date = format_date_locale(params[:invoice][:paid_to_date])
     @invoice.address = Address.new.tap do |addr|
       invoice_address = @invoice.client.address
       addr.street_1 = invoice_address.street_1
@@ -41,8 +40,6 @@ class InvoicesController < ApplicationController
   end
 
   def update
-    @invoice.date_of_issue = format_date_locale(params[:invoice][:date_of_issue])
-    @invoice.paid_to_date = format_date_locale(params[:invoice][:paid_to_date])
     if @invoice.update(invoice_params)
       if @invoice.address.present?
         @invoice.address.tap do |addr|
@@ -126,6 +123,11 @@ class InvoicesController < ApplicationController
     @kit.stylesheets << BOOTSTRAP_MIN_CSS
     @kit.stylesheets << CUSTOM_CSS
     @pdf = @kit.to_pdf
+  end
+
+  def replace_date_params
+    params[:invoice][:date_of_issue] = format_date_locale(params[:invoice][:date_of_issue])
+    params[:invoice][:paid_to_date] = format_date_locale(params[:invoice][:paid_to_date])
   end
 
   def invoice_params

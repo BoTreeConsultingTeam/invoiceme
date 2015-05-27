@@ -3,6 +3,7 @@ class PaymentsController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
   before_action :find_invoice
+  before_action :replace_date_params , only: [:create,:update]
 
   def index
     @payments = @invoice.payments
@@ -18,7 +19,6 @@ class PaymentsController < ApplicationController
 
   def create
     @payment = @invoice.payments.build(payment_params)
-    @payment.date_of_payment = format_date_locale(params[:payment][:date_of_payment])
     if @payment.save
       begin
         ClientMailer.send_email_payment(@invoice, current_user).deliver if params[:email].present?
@@ -36,7 +36,6 @@ class PaymentsController < ApplicationController
 
 
   def update
-    params[:payment][:date_of_payment] = format_date_locale(params[:payment][:date_of_payment])
     if @payment.update(payment_params)
       flash[:success] = 'Payment updated successfully.'
       redirect_to invoice_payments_path(@invoice)
@@ -47,6 +46,10 @@ class PaymentsController < ApplicationController
   end
 
   private
+
+  def replace_date_params
+    params[:payment][:date_of_payment] = format_date_locale(params[:payment][:date_of_payment])
+  end
 
   def find_invoice
     @invoice = Invoice.find(params[:invoice_id])

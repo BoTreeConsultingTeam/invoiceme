@@ -7,9 +7,9 @@ module InvoicesHelper
     current_user.company.clients.map{ |client|[client.name,client.id]}
   end
 
-  def get_address(client)
-    if client.address.present?
-      simple_format("#{client.address.street_1} #{client.address.street_2}, \n#{client.address.city}, #{client.address.state}, \n#{client.address.pincode.to_s}")
+  def formatted_address(record)
+    if record.address.present?
+      simple_format("#{record.address.street_1} #{record.address.street_2}, \n#{record.address.city}, #{record.address.state}, \n#{record.address.pincode.to_s}")
     else
       " "
     end
@@ -19,7 +19,7 @@ module InvoicesHelper
     ['pdf_generation', 'create', 'update'].include?(action_name)
   end
 
-  def get_total_amount(invoice)
+  def invoice_total_formatted(invoice)
     "#{invoice.currency_code.upcase} #{number_with_precision(invoice.total_amount, precision: 2)}"
   end
 end
