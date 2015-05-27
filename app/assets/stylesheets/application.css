@@ -12,10 +12,11 @@
  *
  *= require bootstrap.min
  *= require font-awesome
- *= require ionicons.min
  *= require AdminLTE.min
  *= require _all-skins.min
+ *= require ionicons.min
  *= require custom
  *= require bootstrap-datepicker
+ *= require blue
  *= require_self
  */
