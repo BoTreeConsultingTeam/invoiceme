@@ -4,8 +4,8 @@ class InvoicesController < ApplicationController
   CUSTOM_CSS = File.join(Rails.root,STYLE_SHEETS_ASSET_PATH, 'custom.css')
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_action :replace_date_params, only: [ :create, :update ]
-  before_action :is_client_exists?, only: [ :index, :new, :edit ]
+  before_action :replace_date_params, only: [:create, :update]
+  before_action :require_client!, only: [:index, :new, :edit]
 
   def index
     @invoices = current_company.invoices
@@ -126,8 +126,8 @@ class InvoicesController < ApplicationController
         line_items_attributes: [:item_id, :line_total, :price, :quantity, '_destroy', :id, :description])
   end
 
-  def is_client_exists?
+  def require_client!
     flash[:error] = t('clients.messages.create_client_for_invoice')
-    redirect_to clients_path unless Client.exists?
+    redirect_to clients_path unless current_user.clients.exists?
   end
 end
