@@ -17,15 +17,7 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new(invoice_params)
-    @invoice.address = Address.new.tap do |addr|
-      invoice_address = @invoice.client.address
-      addr.street_1 = invoice_address.street_1
-      addr.street_2 = invoice_address.street_2
-      addr.city = invoice_address.city
-      addr.state = invoice_address.state
-      addr.pincode = invoice_address.pincode
-      addr.country_code = invoice_address.country_code
-    end
+    @invoice.address = copy_address!(Address.new)
     if @invoice.save
       if params[:email_send] == 'true'
         send_invoice_to_client
@@ -42,15 +34,7 @@ class InvoicesController < ApplicationController
   def update
     if @invoice.update(invoice_params)
       if @invoice.address.present?
-        @invoice.address.tap do |addr|
-          invoice_address = @invoice.client.address
-          addr.street_1 = invoice_address.street_1
-          addr.street_2 = invoice_address.street_2
-          addr.city = invoice_address.city
-          addr.state = invoice_address.state
-          addr.pincode = invoice_address.pincode
-          addr.country_code = invoice_address.country_code
-        end
+        copy_address!(@invoice.address)
         if @invoice.address.save
           if @invoice.save
             if params[:email_send] == 'true'
@@ -65,15 +49,7 @@ class InvoicesController < ApplicationController
           render :new
         end
       else
-        @invoice.address = Address.new.tap do |addr|
-          invoice_address = @invoice.client.address
-          addr.street_1 = invoice_address.street_1
-          addr.street_2 = invoice_address.street_2
-          addr.city = invoice_address.city
-          addr.state = invoice_address.state
-          addr.pincode = invoice_address.pincode
-          addr.country_code = invoice_address.country_code
-        end
+        @invoice.address = copy_address!(Address.new)
         if @invoice.save
           if params[:email_send] == 'true'
             send_invoice_to_client
@@ -109,6 +85,18 @@ class InvoicesController < ApplicationController
   end
 
   private
+
+  def copy_address!(address)
+    address.tap do |addr|
+      invoice_address = @invoice.client.address
+      addr.street_1 = invoice_address.street_1
+      addr.street_2 = invoice_address.street_2
+      addr.city = invoice_address.city
+      addr.state = invoice_address.state
+      addr.pincode = invoice_address.pincode
+      addr.country_code = invoice_address.country_code
+    end
+  end
 
   def send_invoice_to_client
     pdf_render
