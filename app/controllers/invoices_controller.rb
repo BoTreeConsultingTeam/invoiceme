@@ -1,10 +1,11 @@
 class InvoicesController < ApplicationController
   STYLE_SHEETS_ASSET_PATH = 'app/assets/stylesheets'
   BOOTSTRAP_MIN_CSS = File.join(Rails.root, STYLE_SHEETS_ASSET_PATH, 'bootstrap.min.css')
-  CUSTOM_CSS = File.join(Rails.root,STYLE_SHEETS_ASSET_PATH,'custom.css')
+  CUSTOM_CSS = File.join(Rails.root,STYLE_SHEETS_ASSET_PATH, 'custom.css')
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_action :replace_date_params , only: [:create,:update]
+  before_action :replace_date_params, only: [ :create, :update ]
+  before_action :is_client_exists?, only: [ :index, :new, :edit ]
 
   def index
     @invoices = current_company.invoices
@@ -123,5 +124,10 @@ class InvoicesController < ApplicationController
         :client_id, :invoice_number, :date_of_issue, :po_number, :paid_to_date, :notes, :currency_code,
         line_item_ids: [],
         line_items_attributes: [:item_id, :line_total, :price, :quantity, '_destroy', :id, :description])
+  end
+
+  def is_client_exists?
+    redirect_to clients_path if !Client.exists?
+    flash[:error] = t('clients.messages.create_client_for_invoice')
   end
 end
