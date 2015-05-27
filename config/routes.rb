@@ -13,9 +13,14 @@ Rails.application.routes.draw do
   resources :invoices
   post '/user' => 'user#create', as: :user_create_path
   put '/user/:id' => 'user#update', as: :user_update_path
+  post '/items/populate_values_of_item' => "items#populate_values_of_item", as: :populate_values_of_item_path
+  post '/clients/:id/address' => "clients#address"
+  post '/invoices/pdf_generation/:id' => "invoices#pdf_generation", as: :invoice_generate_pdf
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
+  resources :invoices do
+    resources :payments
+  end
   # You can have the root of your site routed with "root"
   root 'home#index'
 

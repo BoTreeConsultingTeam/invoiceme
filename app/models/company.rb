@@ -4,6 +4,7 @@ class Company < ActiveRecord::Base
   has_many :users
   has_many :clients
   has_many :invoices, through: :clients
+  has_many :payments, through: :invoices
 
   delegate :street_1, :street_2, :city, :state, :pincode, :country_code, to: :address, prefix: true
   

@@ -1,6 +1,0 @@
-- if flash[:error].present?
-  %br
-    .alert.alert-danger{role: "alert"}
-      %span.sr-only Error:
-      %a.close{"data-dismiss" => "alert", href: "#"} &times;
-      = flash[:error]

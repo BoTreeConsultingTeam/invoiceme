@@ -5,8 +5,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :clear_error
+  before_action :set_locale
 
+  def set_locale
+    I18n.locale = 'en'
+  end
   include ApplicationHelper
 
   rescue_from CanCan::AccessDenied do |exception|
@@ -19,12 +22,16 @@ class ApplicationController < ActionController::Base
     params[resource] &&= send(method) if respond_to?(method, true)
   end
 
+  def current_company
+    current_user.company
+  end
+
   def is_admin?
     current_user.present? && current_user.admin?
   end
 
-  def user_error_messages
-    flash[:error] = @user.errors.full_messages.join(', ')
+  def add_flash_messages(record, flash_type = :error)
+    flash[flash_type] = record.errors.full_messages.join(', ')
   end
 
   def layout_for_signin
@@ -35,10 +42,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def clear_error
-    if flash[:error].present? && action_name == 'index'
-      flash.clear
-    end
+  def format_date_locale(date,format=(t :date))
+    Date.strptime(date,format[:formats][:default].to_s)
   end
 
   protected

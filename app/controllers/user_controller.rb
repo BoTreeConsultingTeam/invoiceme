@@ -20,7 +20,7 @@ class UserController < ApplicationController
       flash[:notice] = "Successfully created User."
       redirect_to user_index_path
     else
-      user_error_messages
+      add_flash_messages(@user)
       render action: 'new'
     end
   end
@@ -33,7 +33,7 @@ class UserController < ApplicationController
       flash[:notice] = "Successfully updated User."
       redirect_to user_index_path
     else
-      user_error_messages
+      add_flash_messages(@user)
       render action: 'edit'
     end
   end

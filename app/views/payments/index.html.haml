@@ -1,0 +1,17 @@
+%section.content-header
+  %h1 Payments
+%section.content
+  .spacer5
+  .row
+    .col-md-12
+      .box
+        .box-body
+          %table.table.table-bordered
+            %tbody
+              %tr
+                %th Invoice No
+                %th Payment Amount
+                %th Payment Method
+                %th Payment Date
+                %th Actions
+              = render @payments

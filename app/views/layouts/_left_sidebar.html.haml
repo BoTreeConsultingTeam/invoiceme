@@ -8,10 +8,11 @@
             = link_to root_path do
               %i.fa.fa-dashboard
               %span Home
-          %li
-            = link_to invoices_path do
-              %i.fa.fa-th
-              %span Invoices
+          - if current_user.company.present?
+            %li
+              = link_to invoices_path do
+                %i.fa.fa-th
+                %span Invoices
           - if is_admin? && current_user.company.present?
             %li
               = link_to clients_path do
