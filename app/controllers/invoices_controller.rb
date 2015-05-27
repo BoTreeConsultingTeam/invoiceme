@@ -4,6 +4,7 @@ class InvoicesController < ApplicationController
   CUSTOM_CSS = File.join(Rails.root,STYLE_SHEETS_ASSET_PATH,'custom.css')
   before_action :authenticate_user!
   load_and_authorize_resource
+  before_action :replace_date_params , only: [:create,:update]
 
   def index
     @invoices = current_company.invoices
@@ -16,21 +17,11 @@ class InvoicesController < ApplicationController
 
   def create
     @invoice = Invoice.new(invoice_params)
-    @invoice.date_of_issue = format_date_locale(params[:invoice][:date_of_issue])
-    @invoice.paid_to_date = format_date_locale(params[:invoice][:paid_to_date])
-    @invoice.address = Address.new.tap do |addr|
-      invoice_address = @invoice.client.address
-      addr.street_1 = invoice_address.street_1
-      addr.street_2 = invoice_address.street_2
-      addr.city = invoice_address.city
-      addr.state = invoice_address.state
-      addr.pincode = invoice_address.pincode
-      addr.country_code = invoice_address.country_code
-    end
+    @invoice.address = copy_address!(Address.new)
     if @invoice.save
       if params[:email_send] == 'true'
         send_invoice_to_client
-        @invoice.update_columns(status: "sent")
+        @invoice.sent!
       end
       flash[:success] = 'Invoice created successfully.'
       redirect_to invoices_path
@@ -41,25 +32,14 @@ class InvoicesController < ApplicationController
   end
 
   def update
-    ActionController::Parameters.permit_all_parameters = true
-    params1 = ActionController::Parameters.new(date_of_issue: format_date_locale(params[:invoice][:date_of_issue]), paid_to_date: format_date_locale(params[:invoice][:paid_to_date]))
     if @invoice.update(invoice_params)
-      @invoice.update(params1)
       if @invoice.address.present?
-        @invoice.address.tap do |addr|
-          invoice_address = @invoice.client.address
-          addr.street_1 = invoice_address.street_1
-          addr.street_2 = invoice_address.street_2
-          addr.city = invoice_address.city
-          addr.state = invoice_address.state
-          addr.pincode = invoice_address.pincode
-          addr.country_code = invoice_address.country_code
-        end
+        copy_address!(@invoice.address)
         if @invoice.address.save
           if @invoice.save
             if params[:email_send] == 'true'
               send_invoice_to_client
-              @invoice.update_columns(status: "sent")
+              @invoice.sent!
             end
             flash[:success] = 'Invoice updated successfully.'
             redirect_to invoices_path
@@ -69,29 +49,15 @@ class InvoicesController < ApplicationController
           render :new
         end
       else
-          @invoice.address = Address.new.tap do |addr|
-            invoice_address = @invoice.client.address
-            addr.street_1 = invoice_address.street_1
-            addr.street_2 = invoice_address.street_2
-            addr.city = invoice_address.city
-            addr.state = invoice_address.state
-            addr.pincode = invoice_address.pincode
-            addr.country_code = invoice_address.country_code
+        @invoice.address = copy_address!(Address.new)
+        if @invoice.save
+          if params[:email_send] == 'true'
+            send_invoice_to_client
+            @invoice.sent!
           end
-          if @invoice.save
-            if params[:email_send] == 'true'
-              pdf_render
-              ClientMailer.send_email(@invoice.client, @kit.to_pdf, @invoice, current_user).deliver
-            end
-            if params[:email_send] == 'true'
-              @invoice.status = 'sent'
-            else
-              @invoice.status = 'draft'
-            end
-            @invoice.save
-            flash[:success] = 'Invoice updated successfully.'
-            redirect_to invoices_path
-          end
+          flash[:success] = 'Invoice updated successfully.'
+          redirect_to invoices_path
+        end
       end
     else
       flash[:error] = "Unable to update invoice. Reason - #{add_flash_messages(@invoice)}"
@@ -120,6 +86,18 @@ class InvoicesController < ApplicationController
 
   private
 
+  def copy_address!(address)
+    address.tap do |addr|
+      invoice_address = @invoice.client.address
+      addr.street_1 = invoice_address.street_1
+      addr.street_2 = invoice_address.street_2
+      addr.city = invoice_address.city
+      addr.state = invoice_address.state
+      addr.pincode = invoice_address.pincode
+      addr.country_code = invoice_address.country_code
+    end
+  end
+
   def send_invoice_to_client
     pdf_render
     ClientMailer.send_email(@kit.to_pdf, @invoice, current_user).deliver
@@ -133,6 +111,11 @@ class InvoicesController < ApplicationController
     @kit.stylesheets << BOOTSTRAP_MIN_CSS
     @kit.stylesheets << CUSTOM_CSS
     @pdf = @kit.to_pdf
+  end
+
+  def replace_date_params
+    params[:invoice][:date_of_issue] = format_date_locale(params[:invoice][:date_of_issue])
+    params[:invoice][:paid_to_date] = format_date_locale(params[:invoice][:paid_to_date])
   end
 
   def invoice_params

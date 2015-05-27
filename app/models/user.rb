@@ -31,8 +31,7 @@ class User < ActiveRecord::Base
 
   def make_admin!
     unless role.present?
-      self.role = self.class.roles[:admin]
-      self.save
+      self.admin!
     end
   end
 
@@ -42,6 +41,10 @@ class User < ActiveRecord::Base
 
   def check_role
     errors.add(:role, "is not valid, please select a valid role.") unless (User.roles).include?(role)
+  end
+
+  def full_name
+    "#{first_name} #{last_name}"
   end
 
 end

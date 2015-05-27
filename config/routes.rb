@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   post '/invoices/pdf_generation/:id' => "invoices#pdf_generation", as: :invoice_generate_pdf
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-  resources :invoices
+  resources :invoices do
+    resources :payments
+  end
   # You can have the root of your site routed with "root"
   root 'home#index'
 

@@ -3,8 +3,8 @@
   %td= invoice.client.name
   %td= l invoice.paid_to_date if invoice.paid_to_date.present?
   %td= l invoice.date_of_issue if invoice.date_of_issue.present?
-  %td= invoice.total_amount.to_s
-  %td= invoice.status.to_s
+  %td= invoice_total_formatted(invoice)
+  %td= invoice.status.gsub('_',' ')
   %td
     = link_to invoice_path(invoice) do
       %i.fa.fa-eye
@@ -12,3 +12,4 @@
       %i.fa.fa-edit
     = link_to invoice_path(invoice), method: :delete, data: { confirm: "Are you sure?" } do
       %i.fa.fa-trash-o
+    = link_to "Payments", invoice_payments_path(invoice)
