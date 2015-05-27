@@ -20,7 +20,9 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  clients:
+    messages:
+      create_client_for_invoice: 'Please create client for invoice'
   errors:
     messages:
       invalid_zipcode: "Your pincode is invalid."
