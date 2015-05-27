@@ -127,7 +127,7 @@ class InvoicesController < ApplicationController
   end
 
   def is_client_exists?
-    redirect_to clients_path if !Client.exists?
     flash[:error] = t('clients.messages.create_client_for_invoice')
+    redirect_to clients_path unless Client.exists?
   end
 end

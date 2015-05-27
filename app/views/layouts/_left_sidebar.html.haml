@@ -7,7 +7,7 @@
             = link_to root_path do
               %i.fa.fa-dashboard
               %span Home
-          - if current_user.company.present? && Client.exists?
+          - if current_user.company.present? && current_user.clients.exists?
             %li
               = link_to invoices_path do
                 %i.fa.fa-th
