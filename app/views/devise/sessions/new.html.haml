@@ -1,17 +1,29 @@
-%section.content-header
-  %h1
-    Log in
-%section.content
-  .row
-    .col-md-6
-      .box.box-primary
-        = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-          .box-body
-            .form-group
-              = f.label :email
-              = f.email_field :email, autofocus: true, id: 'exampleInputEmail1', class: 'form-control', placeholder: 'Enter email'
-            .form-group
-              = f.label :password
-              = f.password_field :password, id: 'exampleInputEmail1', class: 'form-control', placeholder: 'Enter password'
-          .box-footer
-            = f.submit "Log in", class: 'btn btn-primary'
+.login-box-body
+  %h4.login-box-msg= t('login.captions.header')
+  = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    = render "layouts/shared/notification"
+    .form-group.has-feedback
+      = f.email_field :email, autofocus: true, class: 'form-control', placeholder: t('common.captions.email')
+      %span.glyphicon.glyphicon-envelope.form-control-feedback
+    .form-group.has-feedback
+      = f.password_field :password, class: 'form-control', placeholder: t('login.captions.password')
+      %span.glyphicon.glyphicon-lock.form-control-feedback
+    .row
+      .col-xs-8
+        .checkbox.icheck
+          %label
+            - if devise_mapping.rememberable?
+              = f.check_box :remember_me
+              = t('login.captions.remember_me')
+      .col-xs-4
+        = f.submit t('login.captions.button.sign_in'), class: 'btn btn-primary btn-block btn-flat'
+  = render 'devise/shared/links'
+  
+:javascript
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%'
+    });
+  });

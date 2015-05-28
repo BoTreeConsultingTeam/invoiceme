@@ -1,16 +1,12 @@
-%section.content-header
-  %h1
-    Resend confirmation instructions
-%section.content
-  .row
-    .col-md-6
-      .box.box-primary
-        = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-          = devise_error_messages!
-          .box-body
-            .form-group
-              = f.label :email
-              = f.email_field :email, autofocus: true, id: 'exampleInputEmail1', class: 'form-control', placeholder: 'Enter email'
-          .box-footer
-            = f.submit "Resend confirmation instructions", class: 'btn btn-primary'
-        = render "devise/shared/links"
+.login-box-body
+  %h4.login-box-msg= t('resend_confirmation.captions.header')
+  = form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
+    = devise_error_messages!
+    .form-group.has-feedback
+      = f.email_field :email, autofocus: true, class: 'form-control', placeholder: t('common.captions.email')
+      %span.glyphicon.glyphicon-envelope.form-control-feedback
+    .form-group.has-feedback
+    .row
+      .col-xs-10.col-xs-offset-2
+        = f.submit t('resend_confirmation.captions.button.resend_reset_instruction'), class: 'btn btn-primary btn-block btn-flat'
+  = render "devise/shared/links"
