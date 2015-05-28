@@ -1,0 +1,73 @@
+.box-body
+  = form_for [@invoice,@payment]  do |f|
+    .form-group
+      = f.label :payment_amount, "Payment Amount"
+      = f.text_field :payment_amount, class: 'form-control', placeholder: 'Enter amount'
+    .form-group
+      = check_box_tag :fully_paid, "1"
+      = label_tag "Fully Paid"
+    .form-group
+      = f.label :payment_method, "Payment Method"
+      = f.select(:payment_method, PaymentsHelper::PAYMENT_METHOD_OPTIONS,{}, {class: "form-control"})
+    .form-group
+      = f.label :date_of_payment
+      = text_field_tag "payment[date_of_payment]", date_of_payment_form(@payment), {data: {provide: :datepicker}, class: "form-control"}
+    .form-group
+      = f.label "Notes"
+      = f.text_area :notes, rows: 5, cols: 70, class: "form-control width475"
+    .form-group
+      .row
+        .col-md-12
+          .box
+            .box-body
+              %table.table.table-bordered
+                %tbody
+                  %tr
+                    %th Invoice No
+                    %th Payment Date
+                    %th Payment Method
+                    %th Payment Amount
+                  = render "show_payment"
+                  %tr
+                    %td
+                    %td
+                    %td Total
+                    %td= "#{@invoice.currency_code.upcase} #{number_with_precision(@invoice.total_amount_payments, precision: 2)}"
+    - if @payment.new_record?
+      .form-group
+        = check_box_tag :email, "1"
+        = label_tag "Send Client notification about payment received."
+    .box-footer
+      = hidden_field_tag "payment[invoice_id]", params[:invoice_id]
+      = f.submit "Save", class: 'btn btn-primary', id: "submit_button", data: { disable_with: "Saving..." }
+:javascript
+  $(document).ready(function() {
+        $('#fully_paid').click(function(){
+          if(isChecked('#fully_paid'))
+          {
+            enableDisable("#payment_payment_amount",true);
+            $("#payment_payment_amount").val(#{(@invoice.total_amount - @invoice.total_amount_payments)});
+          }
+          else
+          {
+            enableDisable("#payment_payment_amount",false);
+          }
+        });
+        $('#submit_button').click(function(){
+          enableDisable("#payment_payment_amount",false);
+          $(this).form.submit();
+        });
+        function enableDisable(domId, disable){
+          $(domId).prop('disabled', disable);
+        }
+        function isChecked(domId){
+          if($(domId).is(':checked'))
+            return true;
+          else
+            return false;
+        }
+        $(function() {
+          $('.datepicker').datepicker();
+        });
+  });
+

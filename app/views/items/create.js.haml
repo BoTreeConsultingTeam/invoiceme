@@ -1,6 +1,6 @@
 - if flash[:error].present?
   :plain
-    $("#e1").html("#{escape_javascript(render "error")}");
+    $("#e1").html("#{escape_javascript(render "layouts/shared/notification")}");
 - elsif flash[:success].present?
   :plain
     $(window.location.replace("/items"))

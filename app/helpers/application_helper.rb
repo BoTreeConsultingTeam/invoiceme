@@ -24,4 +24,12 @@ module ApplicationHelper
   def is_admin?
     current_user.present? && current_user.admin?
   end
+
+  def format_date(date, format = "%m/%d/%Y")
+      date.strftime(format)
+  end
+
+  def current_company
+    current_user.company
+  end
 end

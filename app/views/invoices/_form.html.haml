@@ -1,3 +1,5 @@
+- date_of_issue =  l ( @invoice.date_of_issue.present? ? @invoice.date_of_issue : Date.today )
+- paid_to_date = l ( @invoice.paid_to_date.present? ? @invoice.paid_to_date: Date.today )
 = form_for @invoice do |f|
   .row
     .col-md-6
@@ -5,25 +7,33 @@
         .box-body
           .form-group
             = label_tag :client
-            = f.select(:client_id, get_clients, {}, class: "form-control")
-          .form-group
-            = label_tag :address
-            = label_tag "","F1/F2, JBR Arcade, Science City", class: "form-control remove_border_element"
+            = f.select :client_id, get_clients, {}, class: "form-control selectclient"
+          - if @invoice.new_record?
+            .form-group
+              = label_tag :address
+              = label_tag "", formatted_address(current_user.company.clients.first), class: "form-control remove_border_element invoice_address_height", id: "client_address"
+          - else
+            .form-group
+              = label_tag :address
+              = label_tag "", formatted_address(@invoice.client), class: "form-control remove_border_element invoice_address_height", id: "client_address"
           .form-group
             = label_tag :currency, "Currency"
-            = currency_select("client", "currency_code", { selected: "inr"}, {}, class: 'form-control')
+            = currency_select("invoice", "currency_code", { selected: @invoice.currency_code}, {}, class: 'form-control currency_select')
     .col-md-6
       .box.box-primary
         .box-body
           .form-group
             = f.label :invoice_number
-            = f.text_field :invoice_number, class: "form-control"
+            - if @invoice.new_record?
+              = text_field_tag "invoice[invoice_number]", Invoice.find_next_available_number_for, class: "form-control"
+            - else
+              = f.text_field :invoice_number, class: "form-control"
           .form-group
             = f.label :date_of_issue
-            = f.text_field :date_of_issue, {data: {provide: :datepicker}, class: "form-control"}
+            = text_field_tag "invoice[date_of_issue]", date_of_issue, {data: {provide: :datepicker}, class: "form-control"}
           .form-group
             = f.label :due_date
-            = f.text_field :paid_to_date, {data: {provide: :datepicker}, class: "form-control"}
+            = text_field_tag "invoice[paid_to_date]", paid_to_date, {data: {provide: :datepicker}, class: "form-control"}
           .form-group
             = f.label :po_number
             = f.text_field :po_number, class: "form-control"
@@ -53,8 +63,12 @@
       .box.remove_border_element
         .box-body
           .form-group
-            = label_tag "Invoice Total(INR) : "
-            = label_tag "0.00"
+            - if @invoice.new_record?
+              = label_tag "","Invoice Total (AFN) : ", { id: "show_currency" }
+              = text_field_tag :invoice_total, "0.00"
+            - else
+              = label_tag "","Invoice Total (#{@invoice.currency_code.to_s.upcase}) : ", { id: "show_currency" }
+              = text_field_tag :invoice_total, @invoice.total_amount.to_s
   .row
     .col-md-12
       .box.remove_border_element
@@ -62,13 +76,17 @@
           .form-group
             = f.label "Notes"
             = f.text_area :notes, rows: 5, cols: 70, class: "form-control width500"
-          .form-group
-            = label_tag "Send To "
-            = label_tag " pragati.doshi@botreeconsulting.com"
+          - unless @invoice.new_record?
+            .form-group
+              = label_tag "Send To "
+              = label_tag @invoice.client.contact_details.first.email
           .box-footer
-            = f.submit "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Please wait..." }
-            = f.submit "Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Please wait..." }
+            = hidden_field_tag :email_send, :value => "false", :id => "email_send"
+            = f.submit "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Saving..." }
+            = f.button "Save & Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Saving..." }
+
 :javascript
+
   $(function() {
     $('.datepicker').datepicker();
   });

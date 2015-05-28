@@ -25,7 +25,7 @@ class CompaniesController < ApplicationController
       flash[:success] = "Company created successfully"
       redirect_to companies_path
     else
-      flash[:error] = "Company not saved because: #{@company.errors.full_messages.join(',')}"
+      flash[:error] = "Company not saved because: #{add_flash_messages(@company)}"
       render :new
     end   
   end
@@ -36,7 +36,7 @@ class CompaniesController < ApplicationController
       flash[:success] = "Company updated successfully"
       redirect_to companies_path
     else
-      flash[:error] = "Company not updated because: #{@company.errors.full_messages.join(',')}"
+      flash[:error] = "Company not updated because: #{add_flash_messages(@company)}"
       render :edit
     end
   end

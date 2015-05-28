@@ -17,17 +17,4 @@
                 %th Invoice Total
                 %th Status
                 %th Actions
-              %tr
-                %td Inv0001
-                %td Mobiquity
-                %td 12/5/2015
-                %td 30/5/2015
-                %td 1234.50
-                %td Paid
-                %td
-                  = link_to clients_path do
-                    %i.fa.fa-eye
-                  = link_to clients_path do
-                    %i.fa.fa-edit
-                  = link_to clients_path, method: :delete, data: { confirm: "Are you sure?" }  do
-                    %i.fa.fa-trash-o
+              = render @invoices

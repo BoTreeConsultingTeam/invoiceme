@@ -27,3 +27,14 @@ en:
   common:
     captions:
       email: 'Email'
+  clients:
+    messages:
+      create_client_for_invoice: 'Please create client for invoice'
+  errors:
+    messages:
+      invalid_zipcode: "Your pincode is invalid."
+  date:
+    formats:
+      default: "%m/%d/%Y"
+  email1:
+    from: "pragati.doshi@botreeconsulting.com"

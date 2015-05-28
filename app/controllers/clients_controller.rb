@@ -2,7 +2,7 @@ class ClientsController < ApplicationController
 
   before_action :authenticate_user!
   load_and_authorize_resource
-  before_filter :check_authorized_access, except: [:index, :new, :create]
+  before_filter :check_authorized_access, except: [:index, :new, :create, :get_address]
  
   def index
     if current_user.company.present?
@@ -23,7 +23,7 @@ class ClientsController < ApplicationController
       flash[:success] = 'Client saved successfully.'   
       redirect_to clients_path      
     else
-      flash[:error] = "Problem while saving client details. #{@client.errors.full_messages.join(',')}"
+      flash[:error] = "Problem while saving client details. #{add_flash_messages(@client)}"
       render :action => 'new'
     end
   end
@@ -37,7 +37,7 @@ class ClientsController < ApplicationController
       flash[:success] = 'Client saved successfully.'
       redirect_to clients_path
     else
-      flash[:error] = "Problem while saving client details. #{@client.errors.full_messages.join(',')}"      
+      flash[:error] = "Problem while saving client details. #{add_flash_messages(@client)}"
       render :action => 'edit'
     end
   end
@@ -45,6 +45,10 @@ class ClientsController < ApplicationController
   def destroy
     @client.destroy
     redirect_to clients_path
+  end
+
+  def address
+    render :json => @client.address
   end
 
   private
