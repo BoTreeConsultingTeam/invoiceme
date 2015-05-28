@@ -15,7 +15,7 @@ class Invoice < ActiveRecord::Base
     total = line_items.inject(0.0) do |total,line_item|
       total + line_item.line_total.to_f
     end
-    total
+    total.to_f - (total.to_f*discount.to_f)/100.00
   end
 
   def total_amount_payments

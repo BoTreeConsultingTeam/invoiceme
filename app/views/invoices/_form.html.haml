@@ -47,9 +47,10 @@
             %tbody
               %tr
                 %th.width20 Item
-                %th.width30 Description
+                %th.width20 Description
                 %th.width10 Unit Cost
                 %th.width10 Qty
+                %th.width10 Discount ( % )
                 %th.width10 Line Total
                 %th.width20 Remove
           #line_items
@@ -62,6 +63,13 @@
     .col-md-5
       .box.remove_border_element
         .box-body
+          .form-group
+            - if @invoice.new_record?
+              = label_tag :discount,"Invoice Discount ( % ): "
+              = text_field_tag "invoice[discount]", "0.00"
+            - else
+              = label_tag :discount,"Invoice Discount ( % ): "
+              = text_field_tag "invoice[discount]", @invoice.discount.to_s
           .form-group
             - if @invoice.new_record?
               = label_tag "","Invoice Total (AFN) : ", { id: "show_currency" }
@@ -86,7 +94,20 @@
             = f.button "Save & Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Saving..." }
 
 :javascript
+  $(document).ready(function() {
+    $(function() {
+      $('.datepicker').datepicker();
+    });
+    $("#invoice_total").on('change', function() {
 
-  $(function() {
-    $('.datepicker').datepicker();
+        if(!isNaN(parseFloat($("#invoice_total").val()))) {
+
+            $($("#invoice_discount").val("0.00"));
+            var total = 0
+            $('[id$="_line_total"]').each(function() {
+               total = total + parseFloat($( this ).val());
+             });
+             $("#invoice_total").val(total);
+        }
+    });
   });

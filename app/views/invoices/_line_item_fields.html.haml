@@ -2,12 +2,14 @@
   %tr
     %td.width20
       = f.select :item_id, get_items, {include_blank: true}, class: "width20 selectclass"
-    %td.width30
-      =f.text_field :description, class: "width30"
+    %td.width20
+      =f.text_field :description, class: "width20"
     %td.width10
       = f.text_field :price, class: "width10 priceclass"
     %td.width10
       = f.text_field :quantity, class: "width10 quantityclass"
+    %td.width10
+      = f.text_field :discount, class: "width10 discountclass"
     %td.width10
       = f.text_field :line_total, class: "width10"
     %td.width20

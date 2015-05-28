@@ -3,7 +3,8 @@ $(document).on('blur',".priceclass", function() {
             var price = parseFloat($(this).val());
             split_values = $(this).attr('id').split('_');
             var quantity = $("#invoice_line_items_attributes_" + split_values[4] + "_quantity").val();
-            var line_total = parseFloat(price) * parseFloat(quantity);
+            var discount_value = ((parseFloat(price) * parseFloat(quantity))*parseFloat($("#invoice_line_items_attributes_" + split_values[4] + "_discount").val()))/100.00;
+            var line_total = (parseFloat(price) * parseFloat(quantity)) - discount_value
             if(!isNaN(parseFloat(line_total))) {
                 var invoice_total = parseFloat($("#invoice_total").val()) - parseFloat($("#invoice_line_items_attributes_" + split_values[4] + "_line_total").val()) + parseFloat(line_total);
                 $("#invoice_line_items_attributes_" + split_values[4] + "_line_total").val(line_total);
@@ -21,13 +22,40 @@ $(document).on('blur',".quantityclass", function() {
         var quantity = parseFloat($(this).val());
         split_values = $(this).attr('id').split('_');
         var price = $("#invoice_line_items_attributes_" + split_values[4] + "_price").val();
-        var line_total = parseFloat(price) * parseFloat(quantity);
+        var discount_value = ((parseFloat(price) * parseFloat(quantity))*parseFloat($("#invoice_line_items_attributes_" + split_values[4] + "_discount").val()))/100.00;
+        var line_total = (parseFloat(price) * parseFloat(quantity)) - discount_value
         if(!isNaN(parseFloat(line_total))) {
             var invoice_total = parseFloat($("#invoice_total").val()) - parseFloat($("#invoice_line_items_attributes_" + split_values[4] + "_line_total").val()) + parseFloat(line_total);
             $("#invoice_line_items_attributes_" + split_values[4] + "_line_total").val(line_total);
             $($("#invoice_total").val(invoice_total));
         }
     });
+
+$(document).on('blur',"#invoice_discount", function() {
+    if(!isNaN(parseFloat($("#invoice_total").val()))) {
+        var total = 0
+        $('[id$="_line_total"]').each(function() {
+            total = total + parseFloat($( this ).val());
+        });
+        $("#invoice_total").val(total);
+        var invoice_total = parseFloat($("#invoice_total").val()) - ((parseFloat($("#invoice_discount").val())/100.00)*parseFloat($("#invoice_total").val()))
+        $($("#invoice_total").val(invoice_total));
+    }
+});
+
+$(document).on('blur',".discountclass", function() {
+    var discount = parseFloat($(this).val());
+    split_values = $(this).attr('id').split('_');
+    var price = $("#invoice_line_items_attributes_" + split_values[4] + "_price").val();
+    var quantity = $("#invoice_line_items_attributes_" + split_values[4] + "_quantity").val();
+    var discount_value = ((parseFloat(price) * parseFloat(quantity))*parseFloat(discount))/100.00;
+    var line_total = (parseFloat(price) * parseFloat(quantity)) - discount_value
+    if(!isNaN(parseFloat(line_total))) {
+        var invoice_total = parseFloat($("#invoice_total").val()) - parseFloat($("#invoice_line_items_attributes_" + split_values[4] + "_line_total").val()) + parseFloat(line_total);
+        $("#invoice_line_items_attributes_" + split_values[4] + "_line_total").val(line_total);
+        $($("#invoice_total").val(invoice_total));
+    }
+});
 
 $(document).on('change',".selectclass", function() {
     split_values = $(this).attr('id').split('_');
@@ -73,8 +101,16 @@ $(document).on('click',".remove_items", function() {
     var line_total = $("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val();
     if(parseFloat(line_total) > 0.00 && !isNaN(parseFloat(line_total)) && line_total.toString() != '')
     {
-        var invoice_total = parseFloat($("#invoice_total").val())-parseFloat(line_total);
+        var total = 0.00
+        $('[id$="_line_total"]').each(function() {
+            if ( (parseFloat($( this ).val()) != parseFloat(line_total)) && $(this).is(':visible')) {
+                console.log(parseFloat($(this).val()));
+                total = total + parseFloat($(this).val());
+            }
+        });
+        var invoice_total = total-(parseFloat($("#invoice_discount").val())*total/100.00);
         $($("#invoice_total").val(invoice_total));
+
     }
 });
 
@@ -98,10 +134,11 @@ function selectsuccess(data,form_id) {
         temp = 0.00;
     $($("#invoice_line_items_attributes_"+form_id+"_price").val(data["data"].item.price));
     $($("#invoice_line_items_attributes_"+form_id+"_quantity").val("1"));
+    $($("#invoice_line_items_attributes_"+form_id+"_discount").val("0"));
     var line_total = parseFloat(data["data"].item.price * 1)
     $($("#invoice_line_items_attributes_"+form_id+"_line_total").val(line_total));
     var invoice_total = parseFloat($("#invoice_total").val()) - temp+parseFloat(line_total);
-    $($("#invoice_total").val(invoice_total));
+    $($("#invoice_total").val(invoice_total).change());
 }
 
 function remove_line_item(ele) {
@@ -111,7 +148,11 @@ function remove_line_item(ele) {
     var line_total = $("#invoice_line_items_attributes_"+split_values[4]+"_line_total").val();
     if(parseFloat(line_total) > 0.00 && !isNaN(parseFloat(line_total)) && line_total.toString() != '')
     {
-        var invoice_total = parseFloat($("#invoice_total").val())-parseFloat(line_total);
+        var total = 0.00
+        $('[id$="_line_total"]').each(function() {
+            total = total + parseFloat($( this ).val());
+        });
+        var invoice_total = total-(parseFloat($("#invoice_discount").val())*total/100.00);
         $($("#invoice_total").val(invoice_total));
     }
 }
