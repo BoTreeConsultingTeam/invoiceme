@@ -13,7 +13,10 @@ en:
         sign_in: 'Sign In'
   sign_up:
     captions:
-      header: 'Sign Up'
+      header: 'Join InvoiceMe'
+      confirm_password: 'Confirm password'
+      button:
+        join_invoice_me: 'Join InvoiceMe'
   forgot_password:
     captions:
       header: 'Forgot your password?'
