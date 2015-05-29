@@ -4,7 +4,7 @@ module ClientsHelper
     "#{contact_detail.first_name} #{contact_detail.last_name}"
   end
 
-  def location(client)
+  def client_location(client)
     "#{client.address_city}, #{country_name(client.address_country_code)}"
   end
 
