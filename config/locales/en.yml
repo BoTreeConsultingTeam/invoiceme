@@ -22,6 +22,12 @@ en:
       header: 'Forgot your password?'
       button:
         send_reset_instruction: 'Send me reset password instructions'
+  change_password:
+    captions:
+      header: 'Change your password'
+      new_password: 'New Password'
+      button: 
+        change_password: 'Change my password'
   resend_confirmation:
     captions:
       header: 'Resend confirmation instructions'
@@ -30,6 +36,7 @@ en:
   common:
     captions:
       email: 'Email'
+      password: 'Password'
   clients:
     messages:
       create_client_for_invoice: 'Please create client for invoice'
