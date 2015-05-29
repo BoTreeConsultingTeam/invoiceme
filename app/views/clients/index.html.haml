@@ -1,7 +1,7 @@
 %section.content-header
-  %h1 Clients
+  %h1.span_display_align Clients
+  %span.span_display_right= link_to 'New Client', new_client_path, class: 'btn btn-sm btn-primary'
 %section.content
-  = link_to 'New Client', new_client_path, class: 'btn btn-sm btn-primary'
   .spacer5
   .row
     .col-md-12
@@ -12,26 +12,20 @@
               %tbody
                 %tr
                   %th
-                  %th
-                    Location Details
-                  %th
-                    Contact Details
-                  %th
-                  %th
-                  %th
-                %tr
+                    Sr. #
                   %th.client_td_width
-                    Client Name
-                  %th
-                    City, Country
-                  %th
                     Name
                   %th
-                    Phone
+                    Location
+                  %th
+                    Contact
+                  %th
+                    Email
                   %th
                     Mobile
                   %th
                     Actions
+                - @i = 1
                 = render @clients
           - else
             %h3 No Client Found. 
