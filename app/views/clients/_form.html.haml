@@ -1,48 +1,27 @@
-.box-body
-  = simple_form_for @client do |f|
-    .form-group
-      = f.label :name, "Name"
-      %br/
-      = f.text_field :name, class: 'form-control', placeholder: 'Enter name'
-    .form-group
-      = f.label :currency, "Currency"
-      = currency_select("client", "currency_code", { selected: @client.currency_code}, {}, class: 'form-control')
-    %h3 Client Address Details
-    = f.fields_for :address do |address_form|    
-      .form-group
-        = address_form.label :street_1, "Street1"
-        = address_form.text_field :street_1, class: 'form-control', placeholder: 'Enter street 1'    
-      .form-group
-        = address_form.label :street_2, "Street2"
-        = address_form.text_field :street_2, class: 'form-control', placeholder: 'Enter street 2'
-      .form-group
-        = address_form.label :city, "city"
-        = address_form.text_field :city, class: 'form-control', placeholder: 'Enter city'
-      .form-group
-        = address_form.label :state, "State"
-        = address_form.text_field :state, class: 'form-control', placeholder: 'state'
-      .form-group
-        = address_form.label :pincode, "Pincode"
-        = address_form.text_field :pincode, class: 'form-control', placeholder: 'pincode'
-      .form-group
-        = address_form.label :address_country, "Country"
-        = country_select("client[address_attributes]", "country_code", {selected: address_form.object.country_code}, {class: "form-control"})
-    %h3 Client Contact Details
-    = f.fields_for :contact_details do |contact_detail|
-      .form-group
-        = contact_detail.label :email, "Email"
-        = contact_detail.text_field :email, class: 'form-control', placeholder: 'Enter email'    
-      .form-group
-        = contact_detail.label :first_name, "First Name"
-        = contact_detail.text_field :first_name, class: 'form-control', placeholder: 'Enter first name'    
-      .form-group
-        = contact_detail.label :last_name, "Last Name"
-        = contact_detail.text_field :last_name, class: 'form-control', placeholder: 'Enter last name'
-      .form-group
-        = contact_detail.label :phone, "Phone"
-        = contact_detail.text_field :phone, class: 'form-control', placeholder: 'Enter phone'
-      .form-group
-        = contact_detail.label :mobile, "Mobile"
-        = contact_detail.text_field :mobile, class: 'form-control', placeholder: 'Enter mobile'
-    .box-footer
-      = f.submit "Save", class: 'btn btn-primary', id: "submit_button"
+.form-group
+  = f.label :name, "Name"
+  %br/
+  = f.text_field :name, class: 'form-control', placeholder: 'Enter name'
+.form-group
+  = f.label :currency, "Currency"
+  = currency_select("client", "currency_code", { selected: @client.currency_code}, {}, class: 'form-control')
+%h3 Address
+= f.fields_for :address do |address_form|
+  .form-group
+    = address_form.label :street_1, "Street1"
+    = address_form.text_field :street_1, class: 'form-control', placeholder: 'Enter street 1'
+  .form-group
+    = address_form.label :street_2, "Street2"
+    = address_form.text_field :street_2, class: 'form-control', placeholder: 'Enter street 2'
+  .form-group
+    = address_form.label :city, "city"
+    = address_form.text_field :city, class: 'form-control', placeholder: 'Enter city'
+  .form-group
+    = address_form.label :state, "State"
+    = address_form.text_field :state, class: 'form-control', placeholder: 'state'
+  .form-group
+    = address_form.label :pincode, "Pincode"
+    = address_form.text_field :pincode, class: 'form-control', placeholder: 'pincode'
+  .form-group
+    = address_form.label :address_country, "Country"
+    = country_select("client[address_attributes]", "country_code", {selected: address_form.object.country_code}, {class: "form-control"})

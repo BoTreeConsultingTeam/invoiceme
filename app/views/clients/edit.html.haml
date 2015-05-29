@@ -3,6 +3,15 @@
     Edit Client
 %section.content
   .row
-    .col-md-6
-      .box.box-primary
-        = render "form"
+    = simple_form_for @client do |f|
+      .col-md-6
+        .box.box-primary
+          .box-body
+            = render "form", f: f
+      .col-md-6
+        .box.box-primary
+          .box-body
+            = render "contact", f: f
+      .col-md-12
+        .div
+          = f.submit "Save", class: 'btn btn-primary', id: "submit_button"
