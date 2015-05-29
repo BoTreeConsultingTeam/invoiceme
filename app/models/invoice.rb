@@ -5,6 +5,7 @@ class Invoice < ActiveRecord::Base
   has_one :address, as: :addressdetail, dependent: :destroy
   accepts_nested_attributes_for :line_items, allow_destroy: true
   acts_as_sequenced column: :invoice_number, start_at: 1000
+
   enum status: [:draft, :sent, :partially_paid, :paid]
 
   def self.find_next_available_number_for(default=1000)
@@ -15,7 +16,7 @@ class Invoice < ActiveRecord::Base
     total = line_items.inject(0.0) do |total,line_item|
       total + line_item.line_total.to_f
     end
-    total
+    total.to_f - (total.to_f*discount.to_f)/100.00
   end
 
   def total_amount_payments
