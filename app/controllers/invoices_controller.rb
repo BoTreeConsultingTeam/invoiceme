@@ -127,7 +127,9 @@ class InvoicesController < ApplicationController
   end
 
   def require_client!
-    flash[:error] = t('clients.messages.create_client_for_invoice')
-    redirect_to clients_path unless current_user.clients.exists?
+    unless current_user.company.clients.present?
+      flash[:error] = t('clients.messages.create_client_for_invoice')
+      redirect_to clients_path
+    end
   end
 end
