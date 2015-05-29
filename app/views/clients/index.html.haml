@@ -25,7 +25,7 @@
                     Mobile
                   %th
                     Actions
-                - @i = 1
-                = render @clients
+              - @clients.each_with_index do |client, index|
+                = render 'client', {client: client, index: index}
           - else
             %h3 No Client Found. 
