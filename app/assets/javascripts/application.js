@@ -17,4 +17,5 @@
 //= require app.min
 //= require cocoon
 //= require bootstrap-datepicker
+//= require icheck.min
 //= require invoice
