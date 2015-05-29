@@ -1,11 +1,14 @@
 %tr
+  %td= index+1
   %td.client_td_width= client.name
-  %td=location(client)
+  %td= client_location(client)
   - client.contact_details.each do |contact_detail|
     %td= full_name(contact_detail) if contact_detail.first_name.present? || contact_detail.last_name.present?
-    %td= contact_detail.phone if contact_detail.phone.present?
+    %td= contact_detail.email if contact_detail.email.present?
     %td= contact_detail.mobile if contact_detail.mobile.present?
   %td
     %div 
-      = link_to "Edit", edit_client_path(client) 
-      = link_to "Delete", client_path(client), 'data-confirm' => 'Are you sure?', method: :delete
+      = link_to edit_client_path(client) do
+        %i.fa.fa-edit
+      = link_to client_path(client), method: :delete, data: { confirm: "Are you sure?" }  do
+        %i.fa.fa-trash-o
