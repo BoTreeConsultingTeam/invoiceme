@@ -63,20 +63,27 @@
     .col-md-5
       .box.remove_border_element
         .box-body
+          .form-group{:style => "margin-left:25px;"}
+            - if @invoice.new_record?
+              = label_tag :line_total,"Line Total: "
+              = text_field_tag "line_total", "0.00"
+            - else
+              = label_tag :line_total,"Line Total: "
+              = text_field_tag "line_total", number_with_precision(@invoice.total_amount+((@invoice.total_amount.to_f*@invoice.discount.to_f)/100.00), :precision => 2)
           .form-group
             - if @invoice.new_record?
-              = label_tag :discount,"Invoice Discount ( % ): "
+              = label_tag :discount,"Discount ( % ): "
               = text_field_tag "invoice[discount]", "0.00"
             - else
-              = label_tag :discount,"Invoice Discount ( % ): "
-              = text_field_tag "invoice[discount]", @invoice.discount.to_s
-          .form-group
+              = label_tag :discount,"Discount ( % ): "
+              = text_field_tag "invoice[discount]", number_with_precision(@invoice.discount, :precision => 2)
+          .form-group{:style => "margin-left:15px;"}
             - if @invoice.new_record?
-              = label_tag "","Invoice Total (AFN) : ", { id: "show_currency" }
+              = label_tag "","Total (AFN) : ", { id: "show_currency" }
               = text_field_tag :invoice_total, "0.00"
             - else
-              = label_tag "","Invoice Total (#{@invoice.currency_code.to_s.upcase}) : ", { id: "show_currency" }
-              = text_field_tag :invoice_total, @invoice.total_amount.to_s
+              = label_tag "","Total (#{@invoice.currency_code.to_s.upcase}) : ", { id: "show_currency" }
+              = text_field_tag :invoice_total, number_with_precision(@invoice.total_amount, :precision => 2)
   .row
     .col-md-12
       .box.remove_border_element
@@ -90,14 +97,15 @@
               = label_tag @invoice.client.contact_details.first.email
           .box-footer
             = hidden_field_tag :email_send, :value => "false", :id => "email_send"
-            = f.submit "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Saving..." }
+            = f.button "Save as Draft", class: "btn btn-primary", id: "submit_button", data: { disable_with: "Saving..." }
             = f.button "Save & Send by Email", class: "btn btn-primary", id: "send_button", data: { disable_with: "Saving..." }
 
 :javascript
   $(document).ready(function() {
-    $(function() {
-      $('.datepicker').datepicker();
-    });
+
+    $('#invoice_date_of_issue').datepicker({autoclose: true});
+    $('#invoice_paid_to_date').datepicker({autoclose: true});
+
     $("#invoice_total").on('change', function() {
 
         if(!isNaN(parseFloat($("#invoice_total").val()))) {
@@ -105,9 +113,11 @@
             $($("#invoice_discount").val("0.00"));
             var total = 0
             $('[id$="_line_total"]').each(function() {
-               total = total + parseFloat($( this ).val());
+                if ( $(this).is(':visible') && !isNaN(parseFloat($( this ).val()))) {
+                   total = total + parseFloat($(this).val());
+               }
              });
-             $("#invoice_total").val(total);
+             $("#invoice_total").val(total.toFixed(2));
         }
     });
   });
