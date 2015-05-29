@@ -35,10 +35,10 @@ class ApplicationController < ActionController::Base
   end
 
   def layout_for_signin
-    if devise_controller? && !current_user || (controller_name == 'users' && action_name == 'edit_password' || action_name == 'update_password' && !current_user) || (controller_name == 'home' && !current_user)
-      "auth"
+    if devise_controller? && !current_user || (controller_name == 'users' && action_name == 'edit_password' || action_name == 'update_password' && !current_user)
+      'auth'
     else
-      "application"
+      'application'
     end
   end
 
