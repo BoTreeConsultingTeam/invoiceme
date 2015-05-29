@@ -63,20 +63,20 @@
     .col-md-5
       .box.remove_border_element
         .box-body
-          .form-group{:style => "margin-left:25px;"}
+          .form-group{style: "margin-left:25px;"}
             - if @invoice.new_record?
               = label_tag :line_total,"Line Total: "
               = text_field_tag "line_total", "0.00"
             - else
               = label_tag :line_total,"Line Total: "
-              = text_field_tag "line_total", number_with_precision(@invoice.total_amount+((@invoice.total_amount.to_f*@invoice.discount.to_f)/100.00), :precision => 2)
+              = text_field_tag "line_total", line_total_calculation(@invoice)
           .form-group
             - if @invoice.new_record?
               = label_tag :discount,"Discount ( % ): "
               = text_field_tag "invoice[discount]", "0.00"
             - else
               = label_tag :discount,"Discount ( % ): "
-              = text_field_tag "invoice[discount]", number_with_precision(@invoice.discount, :precision => 2)
+              = text_field_tag "invoice[discount]", number_with_precision(@invoice.discount, precision: 2)
           .form-group{:style => "margin-left:15px;"}
             - if @invoice.new_record?
               = label_tag "","Total (AFN) : ", { id: "show_currency" }
@@ -102,22 +102,18 @@
 
 :javascript
   $(document).ready(function() {
-
-    $('#invoice_date_of_issue').datepicker({autoclose: true});
-    $('#invoice_paid_to_date').datepicker({autoclose: true});
+    $('#invoice_date_of_issue, #invoice_paid_to_date').datepicker({autoclose: true});
 
     $("#invoice_total").on('change', function() {
-
-        if(!isNaN(parseFloat($("#invoice_total").val()))) {
-
-            $($("#invoice_discount").val("0.00"));
-            var total = 0
-            $('[id$="_line_total"]').each(function() {
-                if ( $(this).is(':visible') && !isNaN(parseFloat($( this ).val()))) {
-                   total = total + parseFloat($(this).val());
-               }
-             });
-             $("#invoice_total").val(total.toFixed(2));
-        }
+      if(!isNaN(parseFloat($("#invoice_total").val()))) {
+        $($("#invoice_discount").val("0.00"));
+        var total = 0
+        $('[id$="_line_total"]').each(function() {
+            if ( $(this).is(':visible') && !isNaN(parseFloat($( this ).val()))) {
+               total = total + parseFloat($(this).val());
+           }
+         });
+         $("#invoice_total").val(total.toFixed(2));
+      }
     });
   });

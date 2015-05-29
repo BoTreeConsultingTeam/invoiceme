@@ -22,4 +22,8 @@ module InvoicesHelper
   def invoice_total_formatted(invoice)
     "#{invoice.currency_code.upcase} #{number_with_precision(invoice.total_amount, precision: 2)}"
   end
+
+  def line_total_calculation(invoice)
+    number_with_precision(invoice.total_amount+((invoice.total_amount.to_f*invoice.discount.to_f)/100.00), precision: 2)
+  end
 end
