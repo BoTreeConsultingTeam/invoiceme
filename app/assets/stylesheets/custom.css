@@ -9,9 +9,10 @@
 
 .invoice_address_height { height:70px; }
 
-.main_header_sticky { height: auto; position: fixed; width:100%; left: 0; top: 0; z-index: 1200; border-top: 0; }
-.main_sidebar_sticky { height: auto; position: fixed; width:230px; left: 0; top: 50; z-index: 200; border-top: 0; }
-.content-header { padding-top: 55px !important;}
+.main_header_sticky { height: auto; position: fixed; width: 100%; left: 0; top: 0; z-index: 1200; border-top: 0; }
+.main_sidebar_sticky { height: auto; position: fixed; width: 230px; left: 0; top: 50; z-index: 200; border-top: 0; }
+.content-header { padding-top: 55px !important; }
+.sidebar_height_auto { height: auto; }
 
 .span_display_right { display:inline; float:right; clear:both; }
 .span_display_align { display:inline; }
