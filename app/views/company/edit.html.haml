@@ -6,6 +6,5 @@
     .col-md-6
       .box.box-primary
         .box-body
-          = simple_form_for @company, :url => "/company/#{@company.id}" do |f|
-            = render "form", f: f
+          = render partial: 'form', locals: {url_redirect: :company_update_path, method_used: :put}
 

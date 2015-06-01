@@ -23,5 +23,7 @@
 .width500 { width:500px !important; }
 .width475 { width:475px !important; }
 
+.company_name_bold { font-weight:bold; }
+
 .client_td_width { width: 30%; }
 .mandatory-field-color { color: #FF0000; }
