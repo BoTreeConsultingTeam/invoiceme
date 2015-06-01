@@ -9,8 +9,12 @@ Rails.application.routes.draw do
     get '/login' => 'devise/sessions#new'
     get '/logout' => 'devise/sessions#destroy'
   end
+
+  get '/user/change_password' => 'user#change_password', as: :change_password
+  post '/user/update_change_password' => 'user#update_change_password', as: :update_change_password
   resources :user, :controller => "user"
   resources :invoices
+
   post '/user' => 'user#create', as: :user_create_path
   put '/user/:id' => 'user#update', as: :user_update_path
   post '/items/populate_values_of_item' => "items#populate_values_of_item", as: :populate_values_of_item_path
@@ -18,6 +22,7 @@ Rails.application.routes.draw do
   post '/invoices/pdf_generation/:id' => "invoices#pdf_generation", as: :invoice_generate_pdf
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+
   resources :invoices do
     resources :payments
   end

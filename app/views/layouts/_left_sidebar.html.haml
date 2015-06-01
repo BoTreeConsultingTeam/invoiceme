@@ -32,9 +32,13 @@
                 %span Company
           - if is_admin? && current_user.company.present?
             %li
-              = link_to edit_user_registration_path do
+              = link_to edit_user_path(current_user) do
                 %i.fa.fa-edit
                 %span Edit User
+            %li
+              = link_to change_password_path do
+                %i.fa.fa-edit
+                %span Change Password
           %li
             = link_to logout_path do
               %i.fa.fa-circle-o

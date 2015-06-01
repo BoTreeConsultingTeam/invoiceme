@@ -29,9 +29,10 @@ class UserController < ApplicationController
   end
 
   def update
-    if @user.update_attributes(user_params)
+    user_update_params = params.require(:user).permit(:first_name, :last_name)
+    if @user.update_attributes(user_update_params)
       flash[:notice] = "Successfully updated User."
-      redirect_to user_index_path
+      redirect_to root_path
     else
       add_flash_messages(@user)
       render action: 'edit'
@@ -39,6 +40,23 @@ class UserController < ApplicationController
   end
 
   def show
+  end
+
+  def update_change_password
+    user_update_params = params.require(:user).permit(:current_password, :password, :password_confirmation)
+    if current_user.password == params[:user][:current_password] && params[:user][:password] == params[:user][:password_confirmation]
+      current_user.password = params[:user][:password]
+      if(current_user.save)
+        flash[:notice] = "Successfully updated User."
+        redirect_to root_path
+      else
+        flash[:error] = "Password is not changed."
+        render action: 'change_password'
+      end
+    else
+      flash[:error] = "Current password is not matched or password and password confirmation is not matched."
+      render action: 'change_password'
+    end
   end
 
   def destroy
