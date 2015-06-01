@@ -1,18 +1,11 @@
 module InvoicesHelper
+
   def get_items
     Item.all.map{ |item|[item.name,item.id]}
   end
 
   def get_clients
     current_user.company.clients.map{ |client|[client.name,client.id]}
-  end
-
-  def formatted_address(record)
-    if record.address.present?
-      simple_format("#{record.address.street_1} #{record.address.street_2}, \n#{record.address.city}, #{record.address.state}, \n#{record.address.pincode.to_s}")
-    else
-      " "
-    end
   end
 
   def is_pdf_view?

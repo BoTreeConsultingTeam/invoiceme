@@ -1,0 +1,11 @@
+%section.content-header
+  %h1
+    Edit Company
+%section.content
+  .row
+    .col-md-6
+      .box.box-primary
+        .box-body
+          = simple_form_for @company, :url => "/company/#{@company.id}" do |f|
+            = render "form", f: f
+

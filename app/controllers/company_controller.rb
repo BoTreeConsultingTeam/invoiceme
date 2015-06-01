@@ -1,4 +1,4 @@
-class CompaniesController < ApplicationController
+class CompanyController < ApplicationController
 
   before_action :authenticate_user!
   load_and_authorize_resource
@@ -23,7 +23,7 @@ class CompaniesController < ApplicationController
       current_user.company = @company
       current_user.save
       flash[:success] = "Company created successfully"
-      redirect_to companies_path
+      redirect_to company_index_path
     else
       flash[:error] = "Company not saved because: #{add_flash_messages(@company)}"
       render :new
@@ -34,7 +34,7 @@ class CompaniesController < ApplicationController
     @company = Company.find(params[:id])
     if(@company.update(company_params))
       flash[:success] = "Company updated successfully"
-      redirect_to companies_path
+      redirect_to company_index_path
     else
       flash[:error] = "Company not updated because: #{add_flash_messages(@company)}"
       render :edit

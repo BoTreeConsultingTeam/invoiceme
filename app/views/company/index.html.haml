@@ -1,0 +1,10 @@
+%section.content-header
+  %h1 Company Detail
+%section.content
+  .row
+    .col-md-6
+      .box.box-primary
+        .box-body
+          %p{:style => "font-weight:bold;"} Company Name: #{@company.name}
+          %p= formatted_address(@company)
+  = link_to "Edit", edit_company_path(@company), class: 'btn btn-primary'
