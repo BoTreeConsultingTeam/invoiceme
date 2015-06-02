@@ -32,4 +32,10 @@ module ApplicationHelper
   def current_company
     current_user.company
   end
+
+  def formatted_address(record)
+    if record.address.present?
+      simple_format("#{record.address.street_1} #{record.address.street_2}, \n#{record.address.city}, #{record.address.state}, \n#{record.address.pincode}")
+    end
+  end
 end
