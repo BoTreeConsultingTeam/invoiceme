@@ -1,12 +1,11 @@
 - if current_user.present?
-  %aside.main-sidebar
-    %section.sidebar{:style => "height: auto;"}
+  %aside.main-sidebar.main_sidebar_sticky
+    %section.sidebar.sidebar_height_auto
       %ul.sidebar-menu
-        - if current_user.present?
-          %li
-            = link_to root_path do
-              %i.fa.fa-dashboard
-              %span Home
+        %li
+          = link_to root_path do
+            %i.fa.fa-dashboard
+            %span Home
           - if current_user.company.present? && current_user.clients.exists?
             %li
               = link_to invoices_path do

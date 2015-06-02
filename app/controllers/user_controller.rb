@@ -46,7 +46,7 @@ class UserController < ApplicationController
     if current_user.password == params[:user][:current_password]
       if params[:user][:password] == params[:user][:password_confirmation]
         current_user.password = params[:user][:password]
-        if(current_user.save)
+        if current_user.save
           flash[:notice] = t('users.messages.update_user')
           redirect_to root_path
         else
