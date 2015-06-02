@@ -11,8 +11,6 @@ Rails.application.routes.draw do
   end
   resources :user, :controller => "user"
   resources :invoices
-  post '/company' => 'company#create', as: :company_create
-  put '/company/:id' => 'company#update', as: :company_update
   post '/user' => 'user#create', as: :user_create_path
   put '/user/:id' => 'user#update', as: :user_update_path
   post '/items/populate_values_of_item' => "items#populate_values_of_item", as: :populate_values_of_item_path

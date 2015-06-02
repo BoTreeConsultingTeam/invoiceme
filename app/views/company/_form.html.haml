@@ -1,5 +1,5 @@
-- form_action = @company.new_record? ? :company_create : :company_update
-= form_for(@company, url: form_action) do |f|
+- form_action = @company.new_record? ? :create : :update
+= form_for(@company, url: {action: form_action}) do |f|
   .form-group
     = f.label :name, "Name"
     %br/
