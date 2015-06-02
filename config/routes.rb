@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   end
 
   get '/user/change_password' => 'user#change_password', as: :change_password
-  post '/user/update_change_password' => 'user#update_change_password', as: :update_change_password
+  post '/user/update_password' => 'user#update_password', as: :update_password
   resources :user, :controller => "user"
   resources :invoices
 

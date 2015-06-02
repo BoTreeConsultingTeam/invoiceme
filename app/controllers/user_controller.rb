@@ -2,7 +2,6 @@ class UserController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
   before_filter :check_authorized_access, except: [:new, :create]
-  before_filter :user_change_password_params, only: :update_change_password
 
   def index
     @users = current_user.colleagues
@@ -42,7 +41,8 @@ class UserController < ApplicationController
   def show
   end
 
-  def update_change_password
+  def update_password
+    params.require(:user).permit(:current_password, :password, :password_confirmation)
     if current_user.password == params[:user][:current_password]
       if params[:user][:password] == params[:user][:password_confirmation]
         current_user.password = params[:user][:password]
@@ -71,10 +71,6 @@ class UserController < ApplicationController
   end
 
   private
-
-  def user_change_password_params
-    params.require(:user).permit(:current_password, :password, :password_confirmation)
-  end
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :role)
