@@ -30,7 +30,7 @@ class UserController < ApplicationController
 
   def update
     if @user.update_attributes(user_params)
-      flash[:notice] = "Successfully updated User."
+      flash[:notice] = t('users.messages.update_user')
       redirect_to user_index_path
     else
       add_flash_messages(@user)
@@ -39,6 +39,28 @@ class UserController < ApplicationController
   end
 
   def show
+  end
+
+  def update_password
+    params.require(:user).permit(:current_password, :password, :password_confirmation)
+    if current_user.password == params[:user][:current_password]
+      if params[:user][:password] == params[:user][:password_confirmation]
+        current_user.password = params[:user][:password]
+        if(current_user.save)
+          flash[:notice] = t('users.messages.update_user')
+          redirect_to root_path
+        else
+          add_flash_messages(current_user)
+          render action: 'change_password'
+        end
+      else
+        flash[:error] = t('users.errors.messages.confirm_password')
+        render action: 'change_password'
+      end
+    else
+      flash[:error] = t('users.errors.messages.current_password')
+      render action: 'change_password'
+    end
   end
 
   def destroy
