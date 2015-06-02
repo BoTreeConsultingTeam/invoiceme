@@ -1,4 +1,4 @@
 %section.content-header
   %h1
     New User
-= render partial: 'form', locals: {url_redirect: :user_create_path, method_used: :post}
+= render partial: 'form', locals: {form_action: :user_create_path, form_method: :post, button_text: 'Save'}
