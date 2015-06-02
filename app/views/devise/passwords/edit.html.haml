@@ -1,20 +1,17 @@
-%section.content-header
-  %h1
-    Change your password
-%section.content
-  .row
-    .col-md-6
-      .box.box-primary
-        = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-          = devise_error_messages!
-          = f.hidden_field :reset_password_token
-          .box-body
-            .form-group
-              = f.label :password, "New password"
-              = f.password_field :password, autofocus: true, class: 'form-control', placeholder: 'Enter password'
-            .form-group
-              = f.label :password_confirmation, "Confirm new password"
-              = f.password_field :password, class: 'form-control', placeholder: 'Enter confirm new password'
-          .box-footer
-            = f.submit "Change my password", class: 'btn btn-primary'
-        = render "devise/shared/links"
+.login-box-body
+  %h4.login-box-msg= t('change_password.captions.header')
+  = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+    = devise_error_messages!
+    = f.hidden_field :reset_password_token
+    .form-group.has-feedback
+      = f.password_field :password, autofocus: true, class: 'form-control', placeholder: t('change_password.captions.new_password')
+      %span.glyphicon.glyphicon-envelope.form-control-feedback
+    .form-group.has-feedback
+      = f.password_field :password, class: 'form-control', placeholder: t('sign_up.captions.confirm_password')
+      %span.glyphicon.glyphicon-lock.form-control-feedback
+    .row
+      .col-xs-8
+        .checkbox.icheck
+          %label
+            = f.submit t('change_password.captions.button.change_password'), class: 'btn btn-primary btn-block btn-flat'
+  = render 'devise/shared/links'
