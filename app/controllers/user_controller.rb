@@ -2,6 +2,7 @@ class UserController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource
   before_filter :check_authorized_access, except: [:new, :create]
+  before_filter :user_change_password_params, only: :update_change_password
 
   def index
     @users = current_user.colleagues
@@ -29,10 +30,9 @@ class UserController < ApplicationController
   end
 
   def update
-    user_update_params = params.require(:user).permit(:first_name, :last_name)
-    if @user.update_attributes(user_update_params)
-      flash[:notice] = "Successfully updated User."
-      redirect_to root_path
+    if @user.update_attributes(user_params)
+      flash[:notice] = t('users.messages.update_user')
+      redirect_to user_index_path
     else
       add_flash_messages(@user)
       render action: 'edit'
@@ -43,18 +43,22 @@ class UserController < ApplicationController
   end
 
   def update_change_password
-    user_update_params = params.require(:user).permit(:current_password, :password, :password_confirmation)
-    if current_user.password == params[:user][:current_password] && params[:user][:password] == params[:user][:password_confirmation]
-      current_user.password = params[:user][:password]
-      if(current_user.save)
-        flash[:notice] = "Successfully updated User."
-        redirect_to root_path
+    if current_user.password == params[:user][:current_password]
+      if params[:user][:password] == params[:user][:password_confirmation]
+        current_user.password = params[:user][:password]
+        if(current_user.save)
+          flash[:notice] = t('users.messages.update_user')
+          redirect_to root_path
+        else
+          add_flash_messages(current_user)
+          render action: 'change_password'
+        end
       else
-        flash[:error] = "Password is not changed."
+        flash[:error] = t('users.errors.messages.confirm_password')
         render action: 'change_password'
       end
     else
-      flash[:error] = "Current password is not matched or password and password confirmation is not matched."
+      flash[:error] = t('users.errors.messages.current_password')
       render action: 'change_password'
     end
   end
@@ -67,6 +71,10 @@ class UserController < ApplicationController
   end
 
   private
+
+  def user_change_password_params
+    params.require(:user).permit(:current_password, :password, :password_confirmation)
+  end
 
   def user_params
     params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :role)

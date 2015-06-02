@@ -30,9 +30,28 @@ en:
   common:
     captions:
       email: 'Email'
+      first_name: 'First Name'
+      last_name: 'Last Name'
+      enter_first: 'Enter First Name'
+      enter_last: 'Enter Last Name'
+      enter_current: 'Enter current password'
+      enter_new: 'Enter new password'
+      enter_confirm: 'Enter new confirm password'
+      save_disable: 'Saving...'
+      submit_caption: 'save'
+      password_form: 'Change Password'
+      edit_form: 'Edit'
+      update_caption: 'Update'
   clients:
     messages:
       create_client_for_invoice: 'Please create client for invoice'
+  users:
+    messages:
+      update_user: 'User updated successfully'
+    errors:
+      messages:
+        current_password: 'Current Password is not matched.'
+        confirm_password: 'Password and password confirmation are not matched.'
   errors:
     messages:
       invalid_zipcode: "Your pincode is invalid."
