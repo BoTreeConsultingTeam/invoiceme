@@ -13,7 +13,9 @@ class InvoicesController < ApplicationController
 
   def new
     @invoice = Invoice.new
-    @invoice.line_items << LineItem.new
+    @line_item = LineItem.new
+    @invoice.line_items << @line_item
+    #2.times { @line_item.line_item_taxes.build }
   end
 
   def create
@@ -123,7 +125,7 @@ class InvoicesController < ApplicationController
     params.require(:invoice).permit(
         :client_id, :invoice_number, :date_of_issue, :po_number, :paid_to_date, :notes, :currency_code, :discount,
         line_item_ids: [],
-        line_items_attributes: [:item_id, :line_total, :price, :quantity, '_destroy', :id, :description, :discount])
+        line_items_attributes: [:item_id, :line_total, :price, :quantity, '_destroy', :id, :description, :discount, :tax1, :tax2])
   end
 
   def require_client!

@@ -24,6 +24,10 @@
               = link_to items_path do
                 %i.fa.fa-user
                 %span Items
+            %li
+              = link_to taxes_path do
+                %i.fa.fa-user
+                %span Taxes
           - if is_admin?
             %li
               = link_to company_index_path do
