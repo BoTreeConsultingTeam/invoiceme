@@ -21,7 +21,6 @@ Rails.application.routes.draw do
   post '/items/populate_values_of_item' => "items#populate_values_of_item", as: :populate_values_of_item_path
   post '/clients/:id/address' => "clients#address"
   post '/invoices/pdf_generation/:id' => "invoices#pdf_generation", as: :invoice_generate_pdf
-  post '/taxes/calculatetax' => "taxes#calculatetax"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

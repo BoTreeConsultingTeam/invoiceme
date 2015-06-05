@@ -46,10 +46,6 @@ class TaxesController < ApplicationController
     redirect_to taxes_path
   end
 
-  def calculatetax
-    render json: @tax
-  end
-
   private
 
   def tax_params
