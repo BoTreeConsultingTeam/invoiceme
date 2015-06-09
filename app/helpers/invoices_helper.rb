@@ -19,4 +19,12 @@ module InvoicesHelper
   def line_total_calculation(invoice)
     number_with_precision(invoice.total_amount+((invoice.total_amount.to_f*invoice.discount.to_f)/100.00), precision: 2)
   end
+
+  def get_taxes_parent
+    Tax.where(:parent_id => nil).map{ |tax|[tax.name,tax.id]}
+  end
+
+  def get_taxes_data
+    Tax.all
+  end
 end

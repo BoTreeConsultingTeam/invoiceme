@@ -1,0 +1,8 @@
+%tr
+  %td= tax.name
+  %td= tax.rate
+  %td= tax.description
+  %td= tax.parent.name if tax.parent.present?
+  %td
+    = link_to tax_path(tax), method: :delete, data: { confirm: "Are you sure?" } do
+      %i.fa.fa-trash-o

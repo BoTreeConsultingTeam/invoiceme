@@ -1,0 +1,18 @@
+%section.content-header
+  %h1 Taxes
+%section.content
+  = link_to "New Tax", new_tax_path, class: 'btn btn-sm btn-primary'
+  .spacer5
+  .row
+    .col-md-12
+      .box
+        .box-body
+          %table.table.table-bordered
+            %tbody
+              %tr
+                %th Name
+                %th Rate
+                %th Description
+                %th Parent
+                %th Actions
+              = render @taxes

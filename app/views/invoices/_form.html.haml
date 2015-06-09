@@ -46,11 +46,13 @@
           %table.table.table-hover
             %tbody
               %tr
-                %th.width20 Item
-                %th.width20 Description
+                %th.width10 Item
+                %th.width10 Description
                 %th.width10 Unit Cost
                 %th.width10 Qty
                 %th.width10 Discount ( % )
+                %th.width10 Tax1
+                %th.width10 Tax2
                 %th.width10 Line Total
                 %th.width20 Remove
           #line_items
@@ -84,6 +86,30 @@
             - else
               = label_tag "","Total (#{@invoice.currency_code.to_s.upcase}) : ", { id: "show_currency" }
               = text_field_tag :invoice_total, number_with_precision(@invoice.total_amount, :precision => 2)
+          - @taxes_data = get_taxes_data
+          - @total = 0.00
+          - @taxes_data.each do  |tax|
+            - @total_amt = 0.0
+            - @invoice.line_items.each do |line_item|
+              - if line_item.tax1 == tax.id || line_item.tax2 == tax.id
+                - @amt = (line_item.line_total.to_f * (tax.rate.to_f / 100.00))
+                - @total_amt = @total_amt + @amt
+              - if (line_item.tax_1.present? && tax.parent.present? && line_item.tax_1 == tax.parent) || (line_item.tax_2.present? && tax.parent.present? && line_item.tax_2 == tax.parent)
+                - @amt = (line_item.line_total.to_f * (tax.rate.to_f / 100.00))
+                - @total_amt = @total_amt + @amt
+            - @total = @total + @total_amt
+            .form-group{:style => "margin-left:18px;"}
+              = label_tag "","Tax (#{tax.rate}%) : "
+              = text_field_tag "tax_"+tax.id.to_s, number_with_precision(@total_amt, :precision => 2)
+              = hidden_field_tag "rate_"+tax.id.to_s, tax.rate
+              = hidden_field_tag "parent_"+tax.parent.id.to_s, tax.id.to_s if tax.parent.present?
+          .form-group{:style => "margin-left:10px;"}
+            - if @invoice.new_record?
+              = label_tag "","Grand Total : "
+              = text_field_tag :grand_total, "0.00"
+            - else
+              = label_tag "","Grand Total : "
+              = text_field_tag :grand_total, number_with_precision(@invoice.total_amount+@total, :precision => 2)
   .row
     .col-md-12
       .box.remove_border_element

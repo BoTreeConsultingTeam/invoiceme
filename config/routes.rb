@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :clients
   resources :company
   resources :items
+  resources :taxes
   devise_for :users, controllers: {registrations: 'registrations'}
   devise_scope :user do
     get '/login' => 'devise/sessions#new'
