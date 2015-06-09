@@ -1,6 +1,6 @@
 %section.content-header
   %h1.span_display_align Clients
-  %span.span_display_right= link_to 'New Client', new_client_path, class: 'btn btn-sm btn-primary'
+  %span.span_display_right= link_to 'New Client', new_client_path, class: 'btn btn-primary btn-flat'
 %section.content
   .spacer5
   .row
@@ -28,4 +28,4 @@
               - @clients.each_with_index do |client, index|
                 = render 'client', {client: client, index: index}
           - else
-            %h3 No Client Found. 
+            %h3{:style => "margin:15px;"} No Client Found.

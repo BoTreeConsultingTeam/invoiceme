@@ -1,7 +1,7 @@
 %section.content-header
-  %h1 Items
+  %h1.span_display_align Items
+  %span.span_display_right= link_to "New Item", new_item_path, data: { toggle: :modal }, class: 'btn btn-primary btn-flat', remote: true
 %section.content
-  = link_to "New Item", new_item_path, data: { toggle: :modal }, class: 'btn btn-sm btn-primary', remote: true
   .spacer5
   - if @items.present?
     .row
@@ -11,8 +11,7 @@
             %table.table.table-bordered
               %tbody
                 %tr
-                  %th Name
-                  %th Description
+                  %th.width90 Name
                   %th Price
                   %th Actions
               = render @items

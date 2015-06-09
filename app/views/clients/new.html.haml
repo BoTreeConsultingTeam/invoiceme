@@ -15,7 +15,7 @@
               = render "contact", f: f
         .col-md-12
           .div
-            = f.submit "Save", class: 'btn btn-primary', id: "submit_button"
+            = f.submit "Save", class: 'btn btn-primary btn-flat', id: "submit_button", data: { disable_with: t('common.captions.save_disable') }
 - else
   %section.content-header
     %h1 You need to create company first.

@@ -2,16 +2,21 @@
 = f.fields_for :contact_details do |contact_detail|
   .form-group
     = contact_detail.label :email, "Email"
+    %span.mandatory-field-color *
     = contact_detail.text_field :email, class: 'form-control', placeholder: 'Enter email'
   .form-group
     = contact_detail.label :first_name, "First Name"
+    %span.mandatory-field-color *
     = contact_detail.text_field :first_name, class: 'form-control', placeholder: 'Enter first name'
   .form-group
     = contact_detail.label :last_name, "Last Name"
+    %span.mandatory-field-color *
     = contact_detail.text_field :last_name, class: 'form-control', placeholder: 'Enter last name'
   .form-group
     = contact_detail.label :phone, "Phone"
+    %span.mandatory-field-color *
     = contact_detail.text_field :phone, class: 'form-control', placeholder: 'Enter phone'
   .form-group
     = contact_detail.label :mobile, "Mobile"
+    %span.mandatory-field-color *
     = contact_detail.text_field :mobile, class: 'form-control', placeholder: 'Enter mobile'

@@ -22,6 +22,7 @@
 .spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 .spacer20 { height: 20px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 
+.width90 { width: 90%; }
 .width20 { width: 20%; }
 .width10 { width: 10%; }
 .width30 { width: 30%; }

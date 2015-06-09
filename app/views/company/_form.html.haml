@@ -2,7 +2,6 @@
 = form_for(@company, url: {action: form_action}) do |f|
   .form-group
     = f.label :name, "Name"
-    %br/
     = f.text_field :name, class: 'form-control', placeholder: 'Enter name'
   %h3 Company Address Details
   = f.fields_for :address do |address_form|
@@ -25,4 +24,4 @@
       = address_form.label :address_country, "Country"
       = country_select("company[address_attributes]", "country_code", {selected: address_form.object.country_code}, {class: "form-control"})
   .box-footer
-    = f.submit "Save", class: 'btn btn-primary', id: "submit_button"
+    = f.submit "Save", class: 'btn btn-primary btn-flat', id: "submit_button", data: { disable_with: t('common.captions.save_disable') }

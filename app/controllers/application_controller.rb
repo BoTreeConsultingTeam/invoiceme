@@ -31,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def add_flash_messages(record, flash_type = :error)
-    flash[flash_type] = record.errors.full_messages.join(', ')
+    flash[flash_type] = record.errors.full_messages.join("<br/>").html_safe
   end
 
   def layout_for_signin

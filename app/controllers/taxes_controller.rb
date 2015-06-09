@@ -21,7 +21,7 @@ class TaxesController < ApplicationController
       flash[:success] = 'Tax created successfully'
       redirect_to taxes_path
     else
-      flash[:error] = "Unable to save Tax. Reason -#{add_flash_messages(@tax)}"
+      flash[:error] = "#{add_flash_messages(@tax)}"
       render 'new'
     end
   end
@@ -31,7 +31,7 @@ class TaxesController < ApplicationController
       flash[:success] = 'Tax updated successfully'
       redirect_to taxes_path
     else
-      flash[:error] = "Unable to update Tax. Reason -#{add_flash_messages(@tax)}"
+      flash[:error] = "#{add_flash_messages(@tax)}"
       render 'edit'
     end
 
@@ -41,7 +41,7 @@ class TaxesController < ApplicationController
     if @tax.destroy
       flash[:success] = 'Tax deleted successfully'
     else
-      flash[:error] = "Unable to delete the tax. Reason-: #{add_flash_messages(@tax)}"
+      flash[:error] = "#{add_flash_messages(@tax)}"
     end
     redirect_to taxes_path
   end

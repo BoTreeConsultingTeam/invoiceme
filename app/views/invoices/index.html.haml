@@ -1,7 +1,7 @@
 %section.content-header
-  %h1 Invoices
+  %h1.span_display_align Invoices
+  %span.span_display_right= link_to 'New Invoice', new_invoice_path, class: 'btn btn-primary btn-flat'
 %section.content
-  = link_to "New Invoice", new_invoice_path, class: 'btn btn-sm btn-primary'
   .spacer5
   .row
     .col-md-12

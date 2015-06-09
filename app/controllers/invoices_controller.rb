@@ -29,7 +29,7 @@ class InvoicesController < ApplicationController
       flash[:success] = 'Invoice created successfully.'
       redirect_to invoices_path
     else
-      flash[:error] = "Unable to save invoice. Reason - #{add_flash_messages(@invoice)}"
+      flash[:error] = "#{add_flash_messages(@invoice)}"
       render :new
     end
   end
@@ -48,7 +48,7 @@ class InvoicesController < ApplicationController
             redirect_to invoices_path
           end
         else
-          flash[:error] = "Unable to update invoice. Reason - #{add_flash_messages(@invoice)}"
+          flash[:error] = "#{add_flash_messages(@invoice)}"
           render :new
         end
       else
@@ -63,7 +63,7 @@ class InvoicesController < ApplicationController
         end
       end
     else
-      flash[:error] = "Unable to update invoice. Reason - #{add_flash_messages(@invoice)}"
+      flash[:error] = "#{add_flash_messages(@invoice)}"
       render :new
     end
   end

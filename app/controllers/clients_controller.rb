@@ -23,7 +23,7 @@ class ClientsController < ApplicationController
       flash[:success] = 'Client saved successfully.'   
       redirect_to clients_path      
     else
-      flash[:error] = "Problem while saving client details. #{add_flash_messages(@client)}"
+      flash[:error] = "#{add_flash_messages(@client)}"
       render :action => 'new'
     end
   end
@@ -37,7 +37,7 @@ class ClientsController < ApplicationController
       flash[:success] = 'Client saved successfully.'
       redirect_to clients_path
     else
-      flash[:error] = "Problem while saving client details. #{add_flash_messages(@client)}"
+      flash[:error] = "#{add_flash_messages(@client)}"
       render :action => 'edit'
     end
   end
