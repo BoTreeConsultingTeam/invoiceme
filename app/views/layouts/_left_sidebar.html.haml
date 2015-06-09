@@ -2,43 +2,43 @@
   %aside.main-sidebar.main_sidebar_sticky
     %section.sidebar.sidebar_height_auto
       %ul.sidebar-menu
-        %li
+        %li{:class => ('active' if controller_name == 'home')}
           = link_to root_path do
             %i.fa.fa-dashboard
             %span Home
           - if current_user.company.present? && current_user.clients.exists?
-            %li
+            %li{:class => ('active' if controller_name == 'invoices')}
               = link_to invoices_path do
                 %i.fa.fa-th
                 %span Invoices
           - if is_admin? && current_user.company.present?
-            %li
+            %li{:class => ('active' if controller_name == 'clients')}
               = link_to clients_path do
                 %i.fa.fa-user
                 %span Clients
-            %li
+            %li{:class => ('active' if controller_name == 'user' && (action_name != "change_password" && action_name != "update_password"))}
               = link_to user_index_path do
                 %i.fa.fa-user
                 %span Users
-            %li
+            %li{:class => ('active' if controller_name == 'items')}
               = link_to items_path do
                 %i.fa.fa-user
                 %span Items
-            %li
+            %li{:class => ('active' if controller_name == 'taxes')}
               = link_to taxes_path do
                 %i.fa.fa-user
                 %span Taxes
           - if is_admin?
-            %li
+            %li{:class => ('active' if controller_name == 'company')}
               = link_to company_index_path do
                 %i.fa.fa-bars
                 %span Company
           - if is_admin? && current_user.company.present?
-            %li
+            %li{:class => ('active' if controller_name == 'registrations')}
               = link_to edit_user_registration_path do
                 %i.fa.fa-edit
                 %span Edit User
-            %li
+            %li{:class => ('active' if controller_name == 'user' && (action_name == "change_password" || action_name == "update_password"))}
               = link_to change_password_path do
                 %i.fa.fa-edit
                 %span Change Password
@@ -46,4 +46,3 @@
             = link_to logout_path do
               %i.fa.fa-circle-o
               %span Sign Out
- 
