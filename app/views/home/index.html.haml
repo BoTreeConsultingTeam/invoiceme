@@ -26,3 +26,36 @@
             %h1 Invoice management made easy
             %p
               Manage all your clients and Invoices through this slick application, keep everything on your fingre tips!
+- if current_user.present?
+  %section.content
+    .row
+      .col-md-12
+        .box.box-success
+          .box-header
+            %i.fa.fa-comments-o
+            %h3.box-title Activities
+            %h4= format_date(Date.today.to_date)
+            %h4 Today
+            #chat-box.box-body.chat{:style => "overflow: hidden; width: auto;height:250px;"}
+              - if @activities.present?
+                - puts @activities.inspect
+                - @activities.each do |activity|
+                  .item
+                    %p.message{:style => "margin-top:5px;"}
+                      - @key = activity.key
+                      - @key.slice!(0..activity.trackable_type.downcase.length)
+                      - if @key == "update" || @key == ".update"
+                        = "#{activity.trackable_type.to_s} with id #{activity.trackable_id.to_s} is #{@key} for #{current_user.full_name}"
+                        %br
+                        - if activity.parameters != {} && activity.parameters["obj"] != {} && activity.parameters["obj"] != nil
+                          - activity.parameters["obj"].each do |key, val|
+                            = "#{key} with value #{val[0]} is now  #{val[1]}"
+                            %br
+                      - else
+                        = "#{activity.trackable_type.to_s}  with id #{activity.trackable_id.to_s} is #{@key} for #{current_user.full_name}"
+:javascript
+  $(document).ready(function() {
+    $('#chat-box').slimScroll({
+          height: '250px'
+    });
+  });

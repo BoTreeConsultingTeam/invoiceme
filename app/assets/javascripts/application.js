@@ -18,4 +18,5 @@
 //= require cocoon
 //= require bootstrap-datepicker
 //= require icheck.min
+//= require jquery.slimscroll
 //= require invoice
