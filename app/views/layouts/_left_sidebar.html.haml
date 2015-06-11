@@ -1,44 +1,45 @@
 - if current_user.present?
+  = puts controller_name
   %aside.main-sidebar.main_sidebar_sticky
     %section.sidebar.sidebar_height_auto
       %ul.sidebar-menu
-        %li{:class => ('active' if controller_name == 'home')}
+        %li{:class => get_class('home','','')}
           = link_to root_path do
             %i.fa.fa-dashboard
             %span Home
           - if current_user.company.present? && current_user.clients.exists?
-            %li{:class => ('active' if controller_name == 'invoices')}
+            %li{:class => get_class('invoices','','')}
               = link_to invoices_path do
                 %i.fa.fa-th
                 %span Invoices
           - if is_admin? && current_user.company.present?
-            %li{:class => ('active' if controller_name == 'clients')}
+            %li{:class => get_class('clients','','')}
               = link_to clients_path do
                 %i.fa.fa-user
                 %span Clients
-            %li{:class => ('active' if controller_name == 'user' && (action_name != "change_password" && action_name != "update_password"))}
+            %li{:class => get_class('user','','')}
               = link_to user_index_path do
                 %i.fa.fa-user
                 %span Users
-            %li{:class => ('active' if controller_name == 'items')}
+            %li{:class => get_class('items','','')}
               = link_to items_path do
                 %i.fa.fa-user
                 %span Items
-            %li{:class => ('active' if controller_name == 'taxes')}
+            %li{:class => get_class('taxes','','')}
               = link_to taxes_path do
                 %i.fa.fa-user
                 %span Taxes
           - if is_admin?
-            %li{:class => ('active' if controller_name == 'company')}
+            %li{:class => get_class('company','','')}
               = link_to company_index_path do
                 %i.fa.fa-bars
                 %span Company
           - if is_admin? && current_user.company.present?
-            %li{:class => ('active' if controller_name == 'registrations')}
+            %li{:class => get_class('registrations','','')}
               = link_to edit_user_registration_path do
                 %i.fa.fa-edit
                 %span Edit User
-            %li{:class => ('active' if controller_name == 'user' && (action_name == "change_password" || action_name == "update_password"))}
+            %li{:class => get_class('user','change_password','update_password')}
               = link_to change_password_path do
                 %i.fa.fa-edit
                 %span Change Password
