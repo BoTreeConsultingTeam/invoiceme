@@ -1,33 +1,41 @@
 - form_action = @company.new_record? ? :create : :update
 = form_for(@company, url: {action: form_action}) do |f|
-  .form-group
-    = f.label :name, "Name"
-    %span.mandatory-field-color *
-    = f.text_field :name, class: 'form-control', placeholder: 'Enter name'
+  .row
+    .form-group.col-xs-6
+      = f.label :name, "Name"
+      %span.mandatory-field-color *
+      = f.text_field :name, class: 'form-control', placeholder: 'Enter name'
   %h3 Company Address Details
   = f.fields_for :address do |address_form|
-    .form-group
-      = address_form.label :address_street_1, "Street1"
-      %span.mandatory-field-color *
-      = address_form.text_field :street_1, class: 'form-control', placeholder: 'Enter street 1'
-    .form-group
-      = address_form.label :address_street_2, "Street2"
-      = address_form.text_field :street_2, class: 'form-control', placeholder: 'Enter street 2'
-    .form-group
-      = address_form.label :address_city, "city"
-      %span.mandatory-field-color *
-      = address_form.text_field :city, class: 'form-control', placeholder: 'Enter city'
-    .form-group
-      = address_form.label :address_state, "State"
-      %span.mandatory-field-color *
-      = address_form.text_field :state, class: 'form-control', placeholder: 'state'
-    .form-group
-      = address_form.label :address_pincode, "Pincode"
-      %span.mandatory-field-color *
-      = address_form.text_field :pincode, class: 'form-control', placeholder: 'pincode'
-    .form-group
-      = address_form.label :address_country, "Country"
-      %span.mandatory-field-color *
-      = country_select("company[address_attributes]", "country_code", {selected: address_form.object.country_code}, {class: "form-control"})
+    .row
+      .form-group.col-xs-6
+        = address_form.label :address_street_1, "Street1"
+		%span.mandatory-field-color *
+        = address_form.text_field :street_1, class: 'form-control', placeholder: 'Enter street 1'
+    .row
+      .form-group.col-xs-6
+        = address_form.label :address_street_2, "Street2"
+		%span.mandatory-field-color *
+        = address_form.text_field :street_2, class: 'form-control', placeholder: 'Enter street 2'
+    .row
+      .form-group.col-xs-6
+        = address_form.label :address_city, "city"
+		%span.mandatory-field-color *
+        = address_form.text_field :city, class: 'form-control', placeholder: 'Enter city'
+    .row
+      .form-group.col-xs-6
+        = address_form.label :address_state, "State"
+		%span.mandatory-field-color *
+        = address_form.text_field :state, class: 'form-control', placeholder: 'state'
+    .row
+      .form-group.col-xs-6
+        = address_form.label :address_pincode, "Pincode"
+		%span.mandatory-field-color *
+        = address_form.text_field :pincode, class: 'form-control', placeholder: 'pincode'
+    .row
+      .form-group.col-xs-6
+        = address_form.label :address_country, "Country"
+		%span.mandatory-field-color *
+        = country_select("company[address_attributes]", "country_code", {selected: address_form.object.country_code}, {class: "form-control"})
   .box-footer
     = f.submit "Save", class: 'btn btn-primary btn-flat', id: "submit_button", data: { disable_with: t('common.captions.save_disable') }
