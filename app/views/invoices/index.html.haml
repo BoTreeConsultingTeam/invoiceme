@@ -7,14 +7,17 @@
     .col-md-12
       .box
         .box-body
-          %table.table.table-bordered
-            %tbody
-              %tr
-                %th Invoice No
-                %th Client Name
-                %th Due Date
-                %th Issue Date
-                %th Invoice Total
-                %th Status
-                %th Actions
-              = render @invoices
+          - if @invoices.present?
+            %table.table.table-bordered
+              %tbody
+                %tr
+                  %th Invoice No
+                  %th Client Name
+                  %th Due Date
+                  %th Issue Date
+                  %th Invoice Total
+                  %th Status
+                  %th Actions
+                = render @invoices
+          - else
+            %h3.h3_margin No Invoice Found.

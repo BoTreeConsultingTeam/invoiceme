@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
+  before_action :set_current_user
+
+  def set_current_user
+     User.current_user = User.find_by_id(current_user.id) if current_user.present?
+  end
 
   def set_locale
     I18n.locale = 'en'

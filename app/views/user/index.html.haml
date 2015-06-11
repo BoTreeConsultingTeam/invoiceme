@@ -7,28 +7,33 @@
   .col-md-12
   .box
     .box-body
-      %table.table.table-bordered
-        %tbody
-          %tr
-            %th{:style => "width: 10px"} No
-            %th Email
-            %th First Name
-            %th Last Name
-            %th Role
-            %th Actions
-        - @users.each_with_index do |user, index|
-          %tr
-            %td
-              = index+1
-              \.
-            %td= user.email
-            %td= user.first_name
-            %td= user.last_name
-            %td= user.role
-            %td
-              = link_to user_path(user) do
-                %i.fa.fa-eye
-              = link_to edit_user_path(user) do
-                %i.fa.fa-edit
-              = link_to user_path(user), method: :delete, data: { confirm: "Are you sure?" }  do
-                %i.fa.fa-trash-o
+      - if @users.present?
+        %table.table.table-bordered
+          %tbody
+            %tr
+              %th{:style => "width: 10px"} No
+              %th Email
+              %th First Name
+              %th Last Name
+              %th Role
+              %th Actions
+          - @users.each_with_index do |user, index|
+            %tr
+              %td
+                = index+1
+                \.
+              %td= user.email
+              %td= user.first_name
+              %td= user.last_name
+              %td= user.role
+              %td
+                = link_to user_path(user) do
+                  %i.fa.fa-eye
+                &nbsp;&nbsp;
+                = link_to edit_user_path(user) do
+                  %i.fa.fa-edit
+                &nbsp;&nbsp;
+                = link_to user_path(user), method: :delete, data: { confirm: "Are you sure?" }  do
+                  %i.fa.fa-trash-o
+      - else
+        %h3.h3_margin No User Found.

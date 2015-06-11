@@ -31,5 +31,11 @@
 
 .company_name_bold { font-weight: bold; }
 
+.selectclass { display: inline; }
+.selecttax { display: inline; }
+
+.h3_margin { margin: 15px; }
+.field_with_errors { display: inline; }
+
 .client_td_width { width: 30%; }
 .mandatory-field-color { color: #FF0000; }

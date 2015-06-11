@@ -7,12 +7,15 @@
     .col-md-12
       .box
         .box-body
-          %table.table.table-bordered
-            %tbody
-              %tr
-                %th Name
-                %th Rate
-                %th Description
-                %th Parent
-                %th Actions
-              = render @taxes
+          - if @taxes.present?
+            %table.table.table-bordered
+              %tbody
+                %tr
+                  %th Name
+                  %th Rate
+                  %th Description
+                  %th Parent
+                  %th Actions
+                = render @taxes
+          - else
+            %h3.h3_margin No Tax Found.
