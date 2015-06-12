@@ -20,6 +20,9 @@ class User < ActiveRecord::Base
   ## Callbacks
   after_commit :make_admin!
 
+  include PublicActivity::Model
+  tracked owner: Proc.new{ |controller, model| controller.current_user }, params:{ "obj"=> proc {|controller, model_instance| model_instance.changes}}
+
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
     send_reset_password_instructions unless admin?

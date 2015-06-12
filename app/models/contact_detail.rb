@@ -11,4 +11,7 @@ class ContactDetail < ActiveRecord::Base
   validates :phone, format: { with: /\d[0-9]/, message: "Only positive number without spaces are allowed" }
   validates :mobile, format: { with: /\d[0-9]/, message: "Only positive number without spaces are allowed" }
 
+  include PublicActivity::Model
+  tracked owner: Proc.new{ |controller, model| controller.current_user }, params:{ "obj"=> proc {|controller, model_instance| model_instance.changes}}
+
 end
