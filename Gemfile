@@ -56,4 +56,6 @@ gem 'sequenced'
 gem "font-awesome-rails"
 gem 'wkhtmltopdf-binary'
 gem 'pdfkit'
+gem 'public_activity'
+gem 'pry'
 gem 'rails_12factor', group: :production

@@ -9,4 +9,6 @@ class Address < ActiveRecord::Base
   validates :pincode, presence: true
   validates :pincode, zipcode: { country_code_attribute: :country_code }
 
+  include PublicActivity::Model
+  tracked owner: Proc.new{ |controller, model| controller.current_user }, params:{ "obj"=> proc {|controller, model_instance| model_instance.changes}}
 end
