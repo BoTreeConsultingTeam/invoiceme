@@ -27,5 +27,5 @@
               = f.label :role
               %span.mandatory-field-color *
               = f.select(:role, get_roles,{prompt: '-- Please Select --'}, {class: "form-control"})
-            .box-footer
+            .form-group
               = f.submit button_text, class: "btn btn-primary btn-flat", id: "submit_button", data: { disable_with: t('common.captions.save_disable') }

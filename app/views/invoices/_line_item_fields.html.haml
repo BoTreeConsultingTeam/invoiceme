@@ -11,9 +11,9 @@
     %td.width10
       = f.text_field :discount, value: number_with_precision(f.object.discount,precision: 2), class: "width10 discountclass"
     %td.width10
-      = f.select :tax1, get_taxes_parent, {include_blank: true}, class: "width10 selecttax form-control"
+      = f.select :tax1, get_taxes_parent, {prompt: '-- Please Select --'}, class: "width10 selecttax form-control"
     %td.width10
-      = f.select :tax2, get_taxes_parent, {include_blank: true}, class: "width10 selecttax form-control"
+      = f.select :tax2, get_taxes_parent, {prompt: '-- Please Select --'}, class: "width10 selecttax form-control"
     %td.width10
       = f.text_field :line_total, value: number_with_precision(f.object.line_total,precision: 2), class: "width10"
     %td.width20
