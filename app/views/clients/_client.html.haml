@@ -10,6 +10,6 @@
     %div 
       = link_to edit_client_path(client) do
         %i.fa.fa-edit
-      &nbsp;&nbsp;
+      %span.width_spacer5
       = link_to client_path(client), method: :delete, data: { confirm: "Are you sure?" }  do
         %i.fa.fa-trash-o

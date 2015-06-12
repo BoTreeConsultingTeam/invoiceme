@@ -1,6 +1,7 @@
 %section.content-header
-  %h1.span_display_align Users
-  %span.span_display_right= link_to "New User", new_user_path, class: 'btn btn-primary btn-flat'
+  %h1.pull-left Users
+  .pull-right= link_to "New User", new_user_path, class: 'btn btn-primary btn-flat'
+  .spacer20
 %section.content
   .spacer5
   .row
@@ -11,7 +12,7 @@
         %table.table.table-bordered
           %tbody
             %tr
-              %th{:style => "width: 10px"} No
+              %th.tbl-header-width-10 No
               %th Email
               %th First Name
               %th Last Name
@@ -29,11 +30,11 @@
               %td
                 = link_to user_path(user) do
                   %i.fa.fa-eye
-                &nbsp;&nbsp;
+                %span.width_spacer5
                 = link_to edit_user_path(user) do
                   %i.fa.fa-edit
-                &nbsp;&nbsp;
+                %span.width_spacer5
                 = link_to user_path(user), method: :delete, data: { confirm: "Are you sure?" }  do
                   %i.fa.fa-trash-o
       - else
-        %h3.h3_margin No User Found.
+        %h3.not_records_found_h3 No User Found.

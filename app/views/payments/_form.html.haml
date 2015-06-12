@@ -39,7 +39,7 @@
       .form-group
         = check_box_tag :email, "1"
         = label_tag "Send Client notification about payment received."
-    .box-footer
+    .form-group
       = hidden_field_tag "payment[invoice_id]", params[:invoice_id]
       = f.submit "Save", class: 'btn btn-primary btn-flat', id: "submit_button", data: { disable_with: "Saving..." }
 :javascript

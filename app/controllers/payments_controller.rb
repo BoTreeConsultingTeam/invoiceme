@@ -28,8 +28,8 @@ class PaymentsController < ApplicationController
       flash[:success] = 'Payment saved successfully.'
       redirect_to invoice_payments_path
     else
-      flash[:error] = "#{add_flash_messages(@payment)}"
-      render action: 'new'
+      flash[:error] = add_flash_messages(@payment)
+      render :new
     end
   end
 
@@ -39,8 +39,8 @@ class PaymentsController < ApplicationController
       flash[:success] = 'Payment updated successfully.'
       redirect_to invoice_payments_path(@invoice)
     else
-      flash[:error] = "#{add_flash_messages(@payment)}"
-      render action: 'edit'
+      flash[:error] = add_flash_messages(@payment)
+      render :edit
     end
   end
 

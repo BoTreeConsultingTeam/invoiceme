@@ -1,6 +1,7 @@
 %section.content-header
-  %h1.span_display_align Items
-  %span.span_display_right= link_to "New Item", new_item_path, data: { toggle: :modal }, class: 'btn btn-primary btn-flat', remote: true
+  %h1.pull-left Items
+  .pull-right= link_to "New Item", new_item_path, data: { toggle: :modal }, class: 'btn btn-primary btn-flat', remote: true
+  .spacer20
 %section.content
   .spacer5
   .row
@@ -11,10 +12,10 @@
             %table.table.table-bordered
               %tbody
                 %tr
-                  %th.width90 Name
+                  %th.tbl-header-width-90 Name
                   %th Price
                   %th Actions
                 = render @items
           - else
-            %h3.h3_margin No Item Found.
-%div{id: "modal_popup"}
+            %h3.not_records_found_h3 No Item Found.
+#modal_popup

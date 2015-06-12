@@ -13,5 +13,5 @@
       .col-xs-8
         .checkbox.icheck
           %label
-            = f.submit t('change_password.captions.button.change_password'), class: 'btn btn-primary btn-block btn-flat'
+            = f.submit t('change_password.captions.button.change_password'), class: 'btn btn-primary btn-block btn-flat', data: { disable_with: 'Changing...' }
   = render 'devise/shared/links'

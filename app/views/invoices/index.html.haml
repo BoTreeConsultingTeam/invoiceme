@@ -1,6 +1,7 @@
 %section.content-header
-  %h1.span_display_align Invoices
-  %span.span_display_right= link_to 'New Invoice', new_invoice_path, class: 'btn btn-primary btn-flat'
+  %h1.pull-left Invoices
+  .pull-right= link_to 'New Invoice', new_invoice_path, class: 'btn btn-primary btn-flat'
+  .spacer20
 %section.content
   .spacer5
   .row
@@ -20,4 +21,4 @@
                   %th Actions
                 = render @invoices
           - else
-            %h3.h3_margin No Invoice Found.
+            %h3.not_records_found_h3 No Invoice Found.

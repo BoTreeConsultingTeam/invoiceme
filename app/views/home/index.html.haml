@@ -1,28 +1,12 @@
-- if current_user.present? && current_user.company.present?
-  %section.content
-    .row
-      .col-md-12
-        .box.box-primary
-          .box-body
-            %h1 Invoice management made easy
-            %p
-              Manage all your clients and Invoices through this slick application, keep everything on your fingre tips!
-- elsif current_user.present?
-  %section.content
-    .row
-      .col-md-12
-        .box.box-primary
-          .box-body
-            %h1 Invoice management made easy
-            %p
-              You first need to provide company details. 
-              = link_to "Change Now!", new_company_path, class: 'btn btn-primary btn-flat'
-- else
-  %section.content
-    .row
-      .col-md-12
-        .box.box-primary
-          .box-body
-            %h1 Invoice management made easy
-            %p
+%section.content
+  .row
+    .col-md-12
+      .box.box-primary
+        .box-body
+          %h1 Invoice management made easy
+          %p
+            - if (!current_company.present?) && current_user.present?
+              You first need to provide company details.
+              = link_to "Change Now!", new_company_path, class: 'btn btn-primary btn-flat', data: { disable_with: 'Changing...' }
+            - else
               Manage all your clients and Invoices through this slick application, keep everything on your fingre tips!

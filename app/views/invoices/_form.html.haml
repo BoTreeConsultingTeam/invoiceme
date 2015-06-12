@@ -124,7 +124,7 @@
           .box-footer
             = hidden_field_tag :email_send, :value => "false", :id => "email_send"
             = f.button "Save as Draft", class: "btn btn-primary btn-flat", id: "submit_button", data: { disable_with: "Saving..." }
-            = f.button "Save & Send by Email", class: "btn btn-primary btn-flat", id: "send_button", data: { disable_with: "Saving..." }
+            = f.button "Save & Send by Email", class: "btn btn-primary btn-flat", id: "send_button", data: { disable_with: "Saving and Sending Email..." }
 
 :javascript
   $(document).ready(function() {

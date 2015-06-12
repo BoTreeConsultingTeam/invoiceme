@@ -1,6 +1,7 @@
 %section.content-header
-  %h1.span_display_align Taxes
-  %span.span_display_right= link_to "New Tax", new_tax_path, class: 'btn btn-primary btn-flat'
+  %h1.pull-left Taxes
+  .pull-right= link_to "New Tax", new_tax_path, class: 'btn btn-primary btn-flat'
+  .spacer20
 %section.content
   .spacer5
   .row
@@ -18,4 +19,4 @@
                   %th Actions
                 = render @taxes
           - else
-            %h3.h3_margin No Tax Found.
+            %h3.not_records_found_h3 No Tax Found.

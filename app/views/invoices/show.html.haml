@@ -5,13 +5,13 @@
     - unless is_pdf_view?
       .row.no-print
         .col-xs-12
-          = link_to edit_invoice_path(@invoice), method: :get, class: "btn btn-success pull-right invoice_margin"  do
+          = link_to edit_invoice_path(@invoice), method: :get, class: "btn btn-primary btn-flat pull-right invoice_margin"  do
             %i.fa.fa-credit-card
             Edit
-          = link_to new_invoice_payment_path(@invoice), class: "btn btn-success pull-right invoice_margin"  do
+          = link_to new_invoice_payment_path(@invoice), class: "btn btn-primary btn-flat pull-right invoice_margin"  do
             %i.fa.fa-credit-card
             Make Payment
-          = link_to invoice_generate_pdf_path(@invoice), method: :post, class: "btn btn-primary pull-right invoice_margin"  do
+          = link_to invoice_generate_pdf_path(@invoice), method: :post, class: "btn btn-primary btn-flat pull-right invoice_margin"  do
             %i.fa.fa-download
             Download as PDF
 %section.invoice
@@ -98,12 +98,12 @@
   - unless is_pdf_view?
     .row.no-print
       .col-xs-12
-        = link_to edit_invoice_path(@invoice), method: :get, class: "btn btn-success pull-right invoice_margin"  do
+        = link_to edit_invoice_path(@invoice), method: :get, class: "btn btn-primary btn-flat pull-right invoice_margin"  do
           %i.fa.fa-credit-card
           Edit
-        = link_to new_invoice_payment_path(@invoice), class: "btn btn-success pull-right invoice_margin"  do
+        = link_to new_invoice_payment_path(@invoice), class: "btn btn-primary btn-flat pull-right invoice_margin"  do
           %i.fa.fa-credit-card
           Make Payment
-        = link_to invoice_generate_pdf_path(@invoice), method: :post, class: "btn btn-primary pull-right invoice_margin"  do
+        = link_to invoice_generate_pdf_path(@invoice), method: :post, class: "btn btn-primary btn-flat pull-right invoice_margin"  do
           %i.fa.fa-download
           Download as PDF

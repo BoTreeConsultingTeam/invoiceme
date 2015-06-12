@@ -8,11 +8,11 @@
   %td.text-center
     = link_to invoice_path(invoice) do
       %i.fa.fa-eye
-    &nbsp;&nbsp;
+    %span.width_spacer5
     = link_to edit_invoice_path(invoice) do
       %i.fa.fa-edit
-    &nbsp;&nbsp;
+    %span.width_spacer5
     = link_to invoice_path(invoice), method: :delete, data: { confirm: "Are you sure?" } do
       %i.fa.fa-trash-o
-    &nbsp;&nbsp;
+    %span.width_spacer5
     = link_to "Payments", invoice_payments_path(invoice)

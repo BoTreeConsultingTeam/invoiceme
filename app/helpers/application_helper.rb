@@ -30,7 +30,7 @@ module ApplicationHelper
   end
 
   def current_company
-    current_user.company
+    current_user.company if current_user.present?
   end
 
   def formatted_address(record)

@@ -15,7 +15,6 @@ class InvoicesController < ApplicationController
     @invoice = Invoice.new
     @line_item = LineItem.new
     @invoice.line_items << @line_item
-    #2.times { @line_item.line_item_taxes.build }
   end
 
   def create
@@ -29,7 +28,7 @@ class InvoicesController < ApplicationController
       flash[:success] = 'Invoice created successfully.'
       redirect_to invoices_path
     else
-      flash[:error] = "#{add_flash_messages(@invoice)}"
+      flash[:error] = add_flash_messages(@invoice)
       render :new
     end
   end
@@ -48,7 +47,7 @@ class InvoicesController < ApplicationController
             redirect_to invoices_path
           end
         else
-          flash[:error] = "#{add_flash_messages(@invoice)}"
+          flash[:error] = add_flash_messages(@invoice)
           render :new
         end
       else
@@ -63,7 +62,7 @@ class InvoicesController < ApplicationController
         end
       end
     else
-      flash[:error] = "#{add_flash_messages(@invoice)}"
+      flash[:error] = add_flash_messages(@invoice)
       render :new
     end
   end

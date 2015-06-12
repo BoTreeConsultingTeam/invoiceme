@@ -5,7 +5,7 @@
 .form-group
   = f.label :currency, "Currency"
   %span.mandatory-field-color *
-  = currency_select("client", "currency_code", { selected: @client.currency_code}, {}, class: 'form-control')
+  = currency_select("client", "currency_code", { selected: @client.currency_code}, {prompt: '-- Please Select --'}, class: 'form-control')
 %h3 Address
 = f.fields_for :address do |address_form|
   .form-group
@@ -30,4 +30,4 @@
   .form-group
     = address_form.label :address_country, "Country"
     %span.mandatory-field-color *
-    = country_select("client[address_attributes]", "country_code", {selected: address_form.object.country_code}, {class: "form-control"})
+    = country_select("client[address_attributes]", "country_code", {selected: address_form.object.country_code, prompt: '-- Please Select --'}, {class: "form-control"})

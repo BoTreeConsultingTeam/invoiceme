@@ -14,4 +14,4 @@
               = f.label :last_name
               = f.text_field :last_name, class: 'form-control', placeholder: t('common.captions.enter_last')
           .box-footer
-            = f.submit t('common.captions.update_caption'), class: 'btn btn-primary'
+            = f.submit t('common.captions.update_caption'), class: 'btn btn-primary btn-flat', data: { disable_with: t('common.captions.save_disable') }

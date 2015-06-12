@@ -8,5 +8,5 @@
     .form-group.has-feedback
     .row
       .col-xs-10.col-xs-offset-2
-        = f.submit t('forgot_password.captions.button.send_reset_instruction'), class: 'btn btn-primary btn-block btn-flat'
+        = f.submit t('forgot_password.captions.button.send_reset_instruction'), class: 'btn btn-primary btn-block btn-flat', data: { disable_with:'Sending...' }
   = render "devise/shared/links"

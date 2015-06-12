@@ -16,7 +16,7 @@
               = f.check_box :remember_me
               = t('login.captions.remember_me')
       .col-xs-4
-        = f.submit t('login.captions.button.sign_in'), class: 'btn btn-primary btn-block btn-flat'
+        = f.submit t('login.captions.button.sign_in'), class: 'btn btn-primary btn-block btn-flat', data: { disable_with: 'Signing...' }
   = render 'devise/shared/links'
   
 :javascript

@@ -21,7 +21,7 @@ class UserController < ApplicationController
       redirect_to user_index_path
     else
       add_flash_messages(@user)
-      render action: 'new'
+      render :new
     end
   end
 
@@ -34,7 +34,7 @@ class UserController < ApplicationController
       redirect_to user_index_path
     else
       add_flash_messages(@user)
-      render action: 'edit'
+      render :edit
     end
   end
 
@@ -48,7 +48,7 @@ class UserController < ApplicationController
       redirect_to root_path
     else
       add_flash_messages(current_user)
-      render action: 'change_password'
+      render :change_password
     end
   end
 

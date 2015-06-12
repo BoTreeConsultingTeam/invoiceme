@@ -21,8 +21,8 @@ class TaxesController < ApplicationController
       flash[:success] = 'Tax created successfully'
       redirect_to taxes_path
     else
-      flash[:error] = "#{add_flash_messages(@tax)}"
-      render 'new'
+      flash[:error] = add_flash_messages(@tax)
+      render :new
     end
   end
 
@@ -31,8 +31,8 @@ class TaxesController < ApplicationController
       flash[:success] = 'Tax updated successfully'
       redirect_to taxes_path
     else
-      flash[:error] = "#{add_flash_messages(@tax)}"
-      render 'edit'
+      flash[:error] = add_flash_messages(@tax)
+      render :edit
     end
 
   end
@@ -41,7 +41,7 @@ class TaxesController < ApplicationController
     if @tax.destroy
       flash[:success] = 'Tax deleted successfully'
     else
-      flash[:error] = "#{add_flash_messages(@tax)}"
+      flash[:error] = add_flash_messages(@tax)
     end
     redirect_to taxes_path
   end
