@@ -1,34 +1,40 @@
 %section.content-header
-  %h1 Users
+  %h1.pull-left Users
+  .pull-right= link_to "New User", new_user_path, class: 'btn btn-primary btn-flat'
+  .spacer20
 %section.content
-  = link_to "New User", new_user_path, class: 'btn btn-sm btn-primary'
   .spacer5
   .row
-    .col-md-12
-      .box
-        .box-body
-          %table.table.table-bordered
-            %tbody
-              %tr
-                %th{:style => "width: 10px"} No
-                %th Email
-                %th First Name
-                %th Last Name
-                %th Role
-                %th Actions
-            - @users.each_with_index do |user, index|
-              %tr
-                %td
-                  = index+1
-                  \.
-                %td= user.email
-                %td= user.first_name
-                %td= user.last_name
-                %td= user.role
-                %td
-                  = link_to user_path(user) do
-                    %i.fa.fa-eye
-                  = link_to edit_user_path(user) do
-                    %i.fa.fa-edit
-                  = link_to user_path(user), method: :delete, data: { confirm: "Are you sure?" }  do
-                    %i.fa.fa-trash-o
+  .col-md-12
+  .box
+    .box-body
+      - if @users.present?
+        %table.table.table-bordered
+          %tbody
+            %tr
+              %th.tbl-header-width-10 No
+              %th Email
+              %th First Name
+              %th Last Name
+              %th Role
+              %th Actions
+          - @users.each_with_index do |user, index|
+            %tr
+              %td
+                = index+1
+                \.
+              %td= user.email
+              %td= user.first_name
+              %td= user.last_name
+              %td= user.role
+              %td
+                = link_to user_path(user) do
+                  %i.fa.fa-eye
+                %span.width_spacer5
+                = link_to edit_user_path(user) do
+                  %i.fa.fa-edit
+                %span.width_spacer5
+                = link_to user_path(user), method: :delete, data: { confirm: "Are you sure?" }  do
+                  %i.fa.fa-trash-o
+      - else
+        %h3.not_records_found_h3 No User Found.

@@ -8,7 +8,12 @@
 .invoice_table_padding { padding-left: 25px !important;}
 .invoice_table_width { width: 50%; }
 .invoice_margin { margin-right: 5px; }
-
+.invoice_margin_left { margin-left: 5px; }
+.invoice_margin_left2 { padding: 0px 0px 0px 15px !important; text-align: center; }
+.invoice_margin_left3 { padding: 0px 0px 0px 30px !important; }
+.invoice_padding_right { padding-right: 5px !important; }
+.invoice_btn_small { margin-bottom:5px; padding: 3px 5px; }
+.width_spacer5 { padding-left: 5px; }
 .invoice_address_height { height: 70px; }
 
 .main_header_sticky { height: auto; position: fixed; width: 100%; left: 0; top: 0; z-index: 1200; border-top: 0; margin-bottom: 55px !important;}
@@ -16,21 +21,29 @@
 .wrapper-margin-top { min-height: 347px; margin-top: 50px; }
 .sidebar_height_auto { height: auto; }
 
-.span_display_right { display: inline; float: right; clear: both; }
-.span_display_align { display: inline; }
-
 .spacer5 { height: 5px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 .spacer10 { height: 10px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 .spacer15 { height: 15px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 .spacer20 { height: 20px; width: 100%; font-size: 0; margin: 0; padding: 0; border: 0; display: block; }
 
+.width90 { width: 90%; }
 .width20 { width: 20%; }
+.width25 { width: 25%; }
 .width10 { width: 10%; }
 .width30 { width: 30%; }
+.width45 { width: 45%; }
 .width500 { width: 500px !important; }
 .width475 { width: 475px !important; }
 
 .company_name_bold { font-weight: bold; }
 
+.selectclass { display: inline; }
+.selecttax { display: inline; }
+.inlineclass { display: inline; }
+.not_records_found_h3 { margin-top: 5px; }
+.field_with_errors { display: inline; }
+
 .client_td_width { width: 30%; }
+.tbl-header-width-90 { width: 90%; }
+.tbl-header-width-10 { width: 10px; }
 .mandatory-field-color { color: #FF0000; }

@@ -21,7 +21,7 @@ class UserController < ApplicationController
       redirect_to user_index_path
     else
       add_flash_messages(@user)
-      render action: 'new'
+      render :new
     end
   end
 
@@ -34,7 +34,7 @@ class UserController < ApplicationController
       redirect_to user_index_path
     else
       add_flash_messages(@user)
-      render action: 'edit'
+      render :edit
     end
   end
 
@@ -43,23 +43,12 @@ class UserController < ApplicationController
 
   def update_password
     params.require(:user).permit(:current_password, :password, :password_confirmation)
-    if current_user.password == params[:user][:current_password]
-      if params[:user][:password] == params[:user][:password_confirmation]
-        current_user.password = params[:user][:password]
-        if current_user.save
-          flash[:notice] = t('users.messages.update_user')
-          redirect_to root_path
-        else
-          add_flash_messages(current_user)
-          render action: 'change_password'
-        end
-      else
-        flash[:error] = t('users.errors.messages.confirm_password')
-        render action: 'change_password'
-      end
+    if current_user.update_with_password(user_params)
+      flash[:notice] = t('users.messages.update_user')
+      redirect_to root_path
     else
-      flash[:error] = t('users.errors.messages.current_password')
-      render action: 'change_password'
+      add_flash_messages(current_user)
+      render :change_password
     end
   end
 
@@ -73,7 +62,7 @@ class UserController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :role)
+    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :role, :current_password)
   end
 
   def check_authorized_access

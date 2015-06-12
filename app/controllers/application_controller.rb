@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_locale
+  before_action :set_current_user
+
+  def set_current_user
+     User.current_user = User.find_by_id(current_user.id) if current_user.present?
+  end
 
   include PublicActivity::StoreController
 
@@ -33,7 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def add_flash_messages(record, flash_type = :error)
-    flash[flash_type] = record.errors.full_messages.join(', ')
+    flash[flash_type] = record.errors.full_messages.join("<br/>").html_safe
   end
 
   def layout_for_signin

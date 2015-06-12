@@ -16,5 +16,5 @@
       %span.glyphicon.glyphicon-lock.form-control-feedback
     .row
       .col-xs-offset-7.col-xs-5
-        = f.submit t('sign_up.captions.button.join_invoice_me'), class: 'btn btn-primary btn-block btn-flat'
+        = f.submit t('sign_up.captions.button.join_invoice_me'), class: 'btn btn-primary btn-block btn-flat', data: { disable_with: 'Joining...' }
   = render 'devise/shared/links'

@@ -4,4 +4,5 @@ class Tax < ActiveRecord::Base
 
   validates :rate, presence: true
   validates :name, presence: true
+  validates :rate, format: { :with => /\A\d+(?:\.\d{0,2})?\z/ }, numericality: { greater_than: 0, only_integer: false }, allow_blank: true
 end

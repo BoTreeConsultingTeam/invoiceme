@@ -1,20 +1,24 @@
 %section.content-header
-  %h1 Invoices
+  %h1.pull-left Invoices
+  .pull-right= link_to 'New Invoice', new_invoice_path, class: 'btn btn-primary btn-flat'
+  .spacer20
 %section.content
-  = link_to "New Invoice", new_invoice_path, class: 'btn btn-sm btn-primary'
   .spacer5
   .row
     .col-md-12
       .box
         .box-body
-          %table.table.table-bordered
-            %tbody
-              %tr
-                %th Invoice No
-                %th Client Name
-                %th Due Date
-                %th Issue Date
-                %th Invoice Total
-                %th Status
-                %th Actions
-              = render @invoices
+          - if @invoices.present?
+            %table.table.table-bordered
+              %tbody
+                %tr
+                  %th Invoice No
+                  %th Client Name
+                  %th Due Date
+                  %th Issue Date
+                  %th Invoice Total
+                  %th Status
+                  %th Actions
+                = render @invoices
+          - else
+            %h3.not_records_found_h3 No Invoice Found.

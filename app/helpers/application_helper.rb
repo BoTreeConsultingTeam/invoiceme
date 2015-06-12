@@ -15,7 +15,7 @@ module ApplicationHelper
           concat content_tag(:span, '&times;'.html_safe, 'aria-hidden' => true)
           concat content_tag(:span, 'Close', class: 'sr-only')
         end)
-        concat message
+        concat message.html_safe
       end)
     end
     nil
@@ -30,7 +30,7 @@ module ApplicationHelper
   end
 
   def current_company
-    current_user.company
+    current_user.company if current_user.present?
   end
 
   def formatted_address(record)
