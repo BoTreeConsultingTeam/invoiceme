@@ -1,6 +1,8 @@
 .main_content {
   padding-top: 50px;
 }
+.history_div { overflow: hidden; width: auto; height: 250px; }
+.message_margin { margin-top: 5px !important; }
 .remove_border_element { border:none 0px; }
 
 .invoice_table_padding { padding-left: 25px !important;}

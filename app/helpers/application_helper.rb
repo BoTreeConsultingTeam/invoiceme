@@ -38,4 +38,38 @@ module ApplicationHelper
       simple_format("#{record.address.street_1} #{record.address.street_2}, \n#{record.address.city}, #{record.address.state}, \n#{record.address.pincode}")
     end
   end
+
+  def active_page_class(controller,action1,action2)
+    case controller == controller_name
+      when true
+        case controller
+          when 'user'
+            if (action_name == "change_password" || action_name == "update_password") && (action1 == "change_password" && action2 == "update_password")
+              'active'
+            elsif action_name != "change_password" && action_name != "update_password" && action1 == "" && action2 == ""
+              'active'
+            else
+              ''
+            end
+          when 'invoices'
+            'active'
+          when 'home'
+            'active'
+          when 'clients'
+            'active'
+          when 'items'
+            'active'
+          when 'taxes'
+            'active'
+          when 'company'
+            'active'
+          when 'registrations'
+            'active'
+          else
+            ''
+        end
+      when false
+        ''
+    end
+  end
 end

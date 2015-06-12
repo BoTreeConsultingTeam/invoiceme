@@ -12,6 +12,8 @@ class ApplicationController < ActionController::Base
      User.current_user = User.find_by_id(current_user.id) if current_user.present?
   end
 
+  include PublicActivity::StoreController
+
   def set_locale
     I18n.locale = 'en'
   end

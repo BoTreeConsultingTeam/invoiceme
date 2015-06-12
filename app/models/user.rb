@@ -20,6 +20,10 @@ class User < ActiveRecord::Base
 
   after_commit :make_admin!
 
+  include PublicActivity::Model
+  tracked owner: Proc.new{ |controller, model| controller.current_user }, params:{ "obj"=> proc {|controller, model_instance| model_instance.changes}}
+
+  # Override Devise::Confirmable#after_confirmation
   def after_confirmation
     send_reset_password_instructions unless admin?
   end
@@ -34,9 +38,9 @@ class User < ActiveRecord::Base
     end
   end
 
-   def other_roles
-     User.current_user.admin? if User.current_user.present?
-   end
+  def other_roles
+    User.current_user.admin? if User.current_user.present?
+  end
 
   def check_role
     errors.add(:role, "Please select a role") unless (User.roles).include?(role)
@@ -47,4 +51,3 @@ class User < ActiveRecord::Base
   end
 
 end
-
