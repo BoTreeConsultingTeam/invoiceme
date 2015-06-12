@@ -1,15 +1,19 @@
 %tr
-  %td= invoice.invoice_number
-  %td= invoice.client.name
-  %td= l invoice.paid_to_date if invoice.paid_to_date.present?
-  %td= l invoice.date_of_issue if invoice.date_of_issue.present?
-  %td= invoice_total_formatted(invoice)
-  %td= invoice.status.gsub('_',' ')
-  %td
+  %td= index+1
+  %td.tbl-header-center= invoice.invoice_number
+  %td.tbl-header-center= invoice.client.name
+  %td.tbl-header-center= l invoice.paid_to_date if invoice.paid_to_date.present?
+  %td.tbl-header-center= l invoice.date_of_issue if invoice.date_of_issue.present?
+  %td.tbl-header-center= invoice_total_formatted(invoice)
+  %td.tbl-header-center= invoice.status.gsub('_',' ')
+  %td.text-center
     = link_to invoice_path(invoice) do
       %i.fa.fa-eye
+    %span.width_spacer5
     = link_to edit_invoice_path(invoice) do
       %i.fa.fa-edit
+    %span.width_spacer5
     = link_to invoice_path(invoice), method: :delete, data: { confirm: "Are you sure?" } do
       %i.fa.fa-trash-o
+    %span.width_spacer5
     = link_to "Payments", invoice_payments_path(invoice)

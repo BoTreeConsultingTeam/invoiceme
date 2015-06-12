@@ -13,17 +13,17 @@
                 %tr
                   %th
                     Sr. #
-                  %th.client_td_width
+                  %th.client_td_width.tbl-header-center
                     Name
-                  %th
+                  %th.tbl-header-center
                     Location
-                  %th
+                  %th.tbl-header-center
                     Contact
-                  %th
+                  %th.tbl-header-center
                     Email
-                  %th
+                  %th.tbl-header-center
                     Mobile
-                  %th
+                  %th.tbl-header-center
                     Actions
               - @clients.each_with_index do |client, index|
                 = render 'client', {client: client, index: index}

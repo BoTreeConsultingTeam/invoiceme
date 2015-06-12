@@ -30,6 +30,8 @@
 .width500 { width: 500px !important; }
 .width475 { width: 475px !important; }
 
+.tbl-header-center { text-align: center; }
+
 .company_name_bold { font-weight: bold; }
 
 .client_td_width { width: 30%; }

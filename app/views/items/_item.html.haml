@@ -1,9 +1,10 @@
 %tr
-  %td= item.name
-  %td= item.description
-  %td= number_with_precision(item.price, precision: 2)
-  %td
+  %td= index+1
+  %td.tbl-header-width-90.tbl-header-center= item.name
+  %td.tbl-header-center= number_with_precision(item.price, precision: 2)
+  %td.text-center
     = link_to edit_item_path(item), data: { toggle: :modal, remote: true } do
       %i.fa.fa-edit
+    %span.width_spacer5
     = link_to item_path(item), method: :delete, data: { confirm: "Are you sure?" } do
       %i.fa.fa-trash-o

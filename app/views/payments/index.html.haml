@@ -9,9 +9,11 @@
           %table.table.table-bordered
             %tbody
               %tr
-                %th Invoice No
-                %th Payment Amount
-                %th Payment Method
-                %th Payment Date
-                %th Actions
-              = render @payments
+                %th Sr. #
+                %th.tbl-header-center Invoice No
+                %th.tbl-header-center Payment Amount
+                %th.tbl-header-center Payment Method
+                %th.tbl-header-center Payment Date
+                %th.tbl-header-center Actions
+              - @payments.each_with_index do |payment, index|
+                = render 'payment', {payment: payment, index: index}

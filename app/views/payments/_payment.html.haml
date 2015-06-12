@@ -1,8 +1,9 @@
 %tr
-  %td= payment.invoice.invoice_number
-  %td= payment_total_formatted( payment )
-  %td= payment.payment_method.gsub('_',' ')
-  %td= l payment.date_of_payment
-  %td
+  %td= index+1
+  %td.tbl-header-center= payment.invoice.invoice_number
+  %td.tbl-header-center= payment_total_formatted( payment )
+  %td.tbl-header-center= payment.payment_method.gsub('_',' ')
+  %td.tbl-header-center= l payment.date_of_payment
+  %td.tbl-header-center
     = link_to edit_invoice_payment_path(payment.invoice,payment) do
       %i.fa.fa-edit
