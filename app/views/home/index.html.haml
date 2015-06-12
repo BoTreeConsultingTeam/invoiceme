@@ -36,7 +36,7 @@
             %h3.box-title Activities
             %h4= format_date(Date.today.to_date)
             %h4 Today
-            #chat-box.box-body.chat.history
+            #chat-box.box-body.chat.history_div
               - if @activities.present?
                 - @activities.each do |activity|
                   .item
