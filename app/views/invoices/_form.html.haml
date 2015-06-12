@@ -47,22 +47,22 @@
             %tbody
               %tr
                 %th.width10.invoice_margin_left2 Item
-                %th.width20.invoice_margin_left2 Description
+                %th.width25.invoice_margin_left2 Description
                 %th.width10.invoice_margin_left2 Unit Cost
                 %th.width10.invoice_margin_left2 Qty
                 %th.width10.invoice_margin_left2 Discount ( % )
                 %th.width10.invoice_margin_left2 Tax1
                 %th.width10.invoice_margin_left2 Tax2
                 %th.width10.invoice_margin_left2 Line Total
-                %th.width20.invoice_margin_left2 Remove
+                %th.width20.invoice_margin_left2.invoice_padding_right Remove
           #line_items.not_records_found_h3
             = f.fields_for :line_items do |line_item|
               = render 'line_item_fields', f: line_item
         .links.invoice_margin_left.not_records_found_h3
-          = link_to_add_association 'Add Item', f, :line_items, class: 'btn btn-primary btn-flat'
+          = link_to_add_association 'Add Item', f, :line_items, class: 'btn btn-primary btn-flat invoice_btn_small'
   .row
-    .col-md-8
-    .col-md-4
+    .col-md-10
+    .col-md-2
       .box.remove_border_element
         .box-body
           .form-group
@@ -75,10 +75,10 @@
           .form-group
             - if @invoice.new_record?
               = label_tag :discount,"Discount ( % ): "
-              = text_field_tag "invoice[discount]", "0.00", class: 'form-control'
+              = text_field_tag "invoice[discount]", "0.00", class: 'form-control width45'
             - else
               = label_tag :discount,"Discount ( % ): "
-              = text_field_tag "invoice[discount]", number_with_precision(@invoice.discount, precision: 2), class: 'form-control'
+              = text_field_tag "invoice[discount]", number_with_precision(@invoice.discount, precision: 2), class: 'form-control width45'
           .form-group
             - if @invoice.new_record?
               = label_tag "","Total (AFN) : ", { id: "show_currency" }
@@ -100,7 +100,7 @@
             - @total = @total + @total_amt
             .form-group
               = label_tag "","Tax (#{tax.rate}%) : "
-              = text_field_tag "tax_"+tax.id.to_s, number_with_precision(@total_amt, :precision => 2), class: 'form-control'
+              = text_field_tag "tax_"+tax.id.to_s, number_with_precision(@total_amt, :precision => 2), class: 'form-control width45'
               = hidden_field_tag "rate_"+tax.id.to_s, tax.rate
               = hidden_field_tag "parent_"+tax.parent.id.to_s, tax.id.to_s if tax.parent.present?
           .form-group

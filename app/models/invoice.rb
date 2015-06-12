@@ -12,6 +12,12 @@ class Invoice < ActiveRecord::Base
     (self.maximum(:invoice_number) || default).succ
   end
 
+  def sub_total
+    total = line_items.inject(0.0) do |total,line_item|
+      total + line_item.line_total.to_f
+    end
+  end
+
   def total_amount
     total = line_items.inject(0.0) do |total,line_item|
       total + line_item.line_total.to_f

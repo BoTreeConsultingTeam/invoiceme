@@ -3,7 +3,7 @@
     %td.width10
       = f.select :item_id, get_items, {include_blank: true}, class: "width10 selectclass form-control invoice_margin_left not_records_found_h3"
     %td.width10
-      =f.text_field :description, value: f.object.description,  class: "width20 form-control inlineclass not_records_found_h3"
+      =f.text_field :description, value: f.object.description,  class: "width25 form-control inlineclass not_records_found_h3"
     %td.width10
       = f.text_field :price, value: number_with_precision(f.object.price,precision: 2),  class: "width10 priceclass form-control inlineclass not_records_found_h3"
     %td.width10
@@ -17,5 +17,5 @@
     %td.width10
       = f.text_field :line_total, value: number_with_precision(f.object.line_total,precision: 2), class: "width10 form-control inlineclass not_records_found_h3"
     %td.width20
-      = link_to_remove_association f, data: { confirm: 'Are you sure that you want to remove this item?' }, class: "width20 remove_items not_records_found_h3"  do
+      = link_to_remove_association f, data: { confirm: 'Are you sure that you want to remove this item?' }, class: "width20 remove_items not_records_found_h3 invoice_margin_left" do
         %i.fa.fa-trash-o

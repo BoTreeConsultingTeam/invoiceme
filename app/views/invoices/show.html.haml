@@ -60,14 +60,18 @@
             %tr
               %th.invoice_table_padding Qty
               %th Product
+              %th Product Unit Price
               %th Description
+              %th Discount
               %th Subtotal
           %tbody
             - @invoice.line_items.each do |line_item|
               %tr
                 %td.invoice_table_padding= line_item.quantity.to_s
                 %td= line_item.item.name
+                %td= line_item.price
                 %td= line_item.description
+                %td= line_item.discount
                 %td
                   = @invoice.currency_code.upcase
                   = number_with_precision(line_item.line_total, precision: 2)
@@ -83,18 +87,30 @@
               %th.invoice_table_width Subtotal:
               %td
                 = @invoice.currency_code.upcase
-                = number_with_precision(@invoice.total_amount, precision: 2)
+                = number_with_precision(@invoice.sub_total, precision: 2)
             %tr
-              %th Tax (0.0%)
-              %td 0.00
-            %tr
-              %th Shipping:
-              %td 0.00
+              %th Discount (%):
+              %td= number_with_precision(@invoice.discount, precision: 2)
+            - @taxes_data = get_taxes_data
+            - @total = 0.00
+            - @taxes_data.each do  |tax|
+              - @total_amt = 0.0
+              - @invoice.line_items.each do |line_item|
+                - if line_item.tax1 == tax.id || line_item.tax2 == tax.id
+                  - @amt = (line_item.line_total.to_f * (tax.rate.to_f / 100.00))
+                  - @total_amt = @total_amt + @amt
+                - if (line_item.tax_1.present? && tax.parent.present? && line_item.tax_1 == tax.parent) || (line_item.tax_2.present? && tax.parent.present? && line_item.tax_2 == tax.parent)
+                  - @amt = (line_item.line_total.to_f * (tax.rate.to_f / 100.00))
+                  - @total_amt = @total_amt + @amt
+              - @total = @total + @total_amt
+              %tr
+                %th= "Tax (#{tax.rate}%) :"
+                %td= number_with_precision(@total_amt, :precision => 2)
             %tr
               %th Total:
               %td
                 = @invoice.currency_code.upcase
-                = number_with_precision(@invoice.total_amount, precision: 2)
+                = number_with_precision(@invoice.total_amount+@total, precision: 2)
   - unless is_pdf_view?
     .row.no-print
       .col-xs-12
