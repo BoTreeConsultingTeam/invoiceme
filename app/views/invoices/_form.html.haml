@@ -46,46 +46,46 @@
           %table.table.table-hover
             %tbody
               %tr
-                %th.width10 Item
-                %th.width10 Description
-                %th.width10 Unit Cost
-                %th.width10 Qty
-                %th.width10 Discount ( % )
-                %th.width10 Tax1
-                %th.width10 Tax2
-                %th.width10 Line Total
-                %th.width20 Remove
-          #line_items
+                %th.width10.invoice_margin_left2 Item
+                %th.width20.invoice_margin_left2 Description
+                %th.width10.invoice_margin_left2 Unit Cost
+                %th.width10.invoice_margin_left2 Qty
+                %th.width10.invoice_margin_left2 Discount ( % )
+                %th.width10.invoice_margin_left2 Tax1
+                %th.width10.invoice_margin_left2 Tax2
+                %th.width10.invoice_margin_left2 Line Total
+                %th.width20.invoice_margin_left2 Remove
+          #line_items.not_records_found_h3
             = f.fields_for :line_items do |line_item|
               = render 'line_item_fields', f: line_item
-        .links
-          = link_to_add_association 'add line item', f, :line_items
+        .links.invoice_margin_left.not_records_found_h3
+          = link_to_add_association 'Add Item', f, :line_items, class: 'btn btn-primary btn-flat'
   .row
-    .col-md-7
-    .col-md-5
+    .col-md-8
+    .col-md-4
       .box.remove_border_element
         .box-body
-          .form-group{style: "margin-left:25px;"}
+          .form-group
             - if @invoice.new_record?
               = label_tag :line_total,"Line Total: "
-              = text_field_tag "line_total", "0.00"
+              = text_field_tag "line_total", "0.00", class: 'form-control'
             - else
               = label_tag :line_total,"Line Total: "
-              = text_field_tag "line_total", line_total_calculation(@invoice)
+              = text_field_tag "line_total", line_total_calculation(@invoice), class: 'form-control'
           .form-group
             - if @invoice.new_record?
               = label_tag :discount,"Discount ( % ): "
-              = text_field_tag "invoice[discount]", "0.00"
+              = text_field_tag "invoice[discount]", "0.00", class: 'form-control'
             - else
               = label_tag :discount,"Discount ( % ): "
-              = text_field_tag "invoice[discount]", number_with_precision(@invoice.discount, precision: 2)
-          .form-group{:style => "margin-left:15px;"}
+              = text_field_tag "invoice[discount]", number_with_precision(@invoice.discount, precision: 2), class: 'form-control'
+          .form-group
             - if @invoice.new_record?
               = label_tag "","Total (AFN) : ", { id: "show_currency" }
-              = text_field_tag :invoice_total, "0.00"
+              = text_field_tag :invoice_total, "0.00", class: 'form-control'
             - else
               = label_tag "","Total (#{@invoice.currency_code.to_s.upcase}) : ", { id: "show_currency" }
-              = text_field_tag :invoice_total, number_with_precision(@invoice.total_amount, :precision => 2)
+              = text_field_tag :invoice_total, number_with_precision(@invoice.total_amount, :precision => 2), class: 'form-control'
           - @taxes_data = get_taxes_data
           - @total = 0.00
           - @taxes_data.each do  |tax|
@@ -98,18 +98,18 @@
                 - @amt = (line_item.line_total.to_f * (tax.rate.to_f / 100.00))
                 - @total_amt = @total_amt + @amt
             - @total = @total + @total_amt
-            .form-group{:style => "margin-left:18px;"}
+            .form-group
               = label_tag "","Tax (#{tax.rate}%) : "
-              = text_field_tag "tax_"+tax.id.to_s, number_with_precision(@total_amt, :precision => 2)
+              = text_field_tag "tax_"+tax.id.to_s, number_with_precision(@total_amt, :precision => 2), class: 'form-control'
               = hidden_field_tag "rate_"+tax.id.to_s, tax.rate
               = hidden_field_tag "parent_"+tax.parent.id.to_s, tax.id.to_s if tax.parent.present?
-          .form-group{:style => "margin-left:10px;"}
+          .form-group
             - if @invoice.new_record?
               = label_tag "","Grand Total : "
-              = text_field_tag :grand_total, "0.00"
+              = text_field_tag :grand_total, "0.00", class: 'form-control'
             - else
               = label_tag "","Grand Total : "
-              = text_field_tag :grand_total, number_with_precision(@invoice.total_amount+@total, :precision => 2)
+              = text_field_tag :grand_total, number_with_precision(@invoice.total_amount+@total, :precision => 2), class: 'form-control'
   .row
     .col-md-12
       .box.remove_border_element
@@ -121,7 +121,7 @@
             .form-group
               = label_tag "Send To "
               = label_tag @invoice.client.contact_details.first.email
-          .box-footer
+          .form-group
             = hidden_field_tag :email_send, :value => "false", :id => "email_send"
             = f.button "Save as Draft", class: "btn btn-primary btn-flat", id: "submit_button", data: { disable_with: "Saving..." }
             = f.button "Save & Send by Email", class: "btn btn-primary btn-flat", id: "send_button", data: { disable_with: "Saving and Sending Email..." }

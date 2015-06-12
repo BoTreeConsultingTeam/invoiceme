@@ -6,6 +6,9 @@
 .invoice_table_padding { padding-left: 25px !important;}
 .invoice_table_width { width: 50%; }
 .invoice_margin { margin-right: 5px; }
+.invoice_margin_left { margin-left: 5px; }
+.invoice_margin_left2 { padding: 0px 0px 0px 15px !important; text-align: center; }
+.invoice_margin_left3 { padding: 0px 0px 0px 30px !important; }
 
 .width_spacer5 { padding-left: 5px; }
 .invoice_address_height { height: 70px; }
@@ -31,6 +34,7 @@
 
 .selectclass { display: inline; }
 .selecttax { display: inline; }
+.inlineclass { display: inline; }
 .not_records_found_h3 { margin-top: 5px; }
 .field_with_errors { display: inline; }
 

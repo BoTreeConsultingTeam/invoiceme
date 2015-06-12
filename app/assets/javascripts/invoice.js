@@ -67,6 +67,14 @@ $(document).on('blur',"#invoice_discount", function() {
         $("#invoice_total").val(total);
         var invoice_total = parseFloat($("#invoice_total").val()) - ((parseFloat($("#invoice_discount").val())/100.00)*parseFloat($("#invoice_total").val()))
         $($("#invoice_total").val(invoice_total.toFixed(2)));
+        var total = 0.00;
+        $('[id$="_line_total"]').each(function() {
+            if ( $(this).is(':visible') && !isNaN(parseFloat($( this ).val()))) {
+                total = total + parseFloat($(this).val());
+            }
+        });
+        $("#line_total").val(total.toFixed(2));
+        calculateTax();
     }
 });
 
