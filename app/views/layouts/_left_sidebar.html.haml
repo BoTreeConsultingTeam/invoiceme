@@ -3,43 +3,43 @@
   %aside.main-sidebar.main_sidebar_sticky
     %section.sidebar.sidebar_height_auto
       %ul.sidebar-menu
-        %li{:class => get_class('home','','')}
+        %li{:class => active_page_class('home','','')}
           = link_to root_path do
             %i.fa.fa-dashboard
             %span Home
           - if current_user.company.present? && current_user.clients.exists?
-            %li{:class => get_class('invoices','','')}
+            %li{:class => active_page_class('invoices','','')}
               = link_to invoices_path do
                 %i.fa.fa-th
                 %span Invoices
           - if is_admin? && current_user.company.present?
-            %li{:class => get_class('clients','','')}
+            %li{:class => active_page_class('clients','','')}
               = link_to clients_path do
                 %i.fa.fa-user
                 %span Clients
-            %li{:class => get_class('user','','')}
+            %li{:class => active_page_class('user','','')}
               = link_to user_index_path do
                 %i.fa.fa-user
                 %span Users
-            %li{:class => get_class('items','','')}
+            %li{:class => active_page_class('items','','')}
               = link_to items_path do
                 %i.fa.fa-user
                 %span Items
-            %li{:class => get_class('taxes','','')}
+            %li{:class => active_page_class('taxes','','')}
               = link_to taxes_path do
                 %i.fa.fa-user
                 %span Taxes
           - if is_admin?
-            %li{:class => get_class('company','','')}
+            %li{:class => active_page_class('company','','')}
               = link_to company_index_path do
                 %i.fa.fa-bars
                 %span Company
           - if is_admin? && current_user.company.present?
-            %li{:class => get_class('registrations','','')}
+            %li{:class => active_page_class('registrations','','')}
               = link_to edit_user_registration_path do
                 %i.fa.fa-edit
                 %span Edit User
-            %li{:class => get_class('user','change_password','update_password')}
+            %li{:class => active_page_class('user','change_password','update_password')}
               = link_to change_password_path do
                 %i.fa.fa-edit
                 %span Change Password
