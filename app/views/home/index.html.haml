@@ -18,39 +18,19 @@
           .box-header
             %i.fa.fa-comments-o
             %h3.box-title Activities
-            %h4= format_date(Date.today.to_date)
-            %h4 Today
-            #chat-box.box-body.chat.history_div
-              - if @activities.present?
-                - @activities.each do |activity|
-                  .item
-                    %p.message.message_margin
-                      - @key = activity.key
-                      - @key.slice!(0..activity.trackable_type.downcase.length)
-                      - if activity.trackable_type.downcase == "invoice"
-                        - @invoice =  get_invoice(activity.trackable_id)
-                        - @taxes_data = get_taxes_data
-                        - @total = 0.00
-                        - @taxes_data.each do  |tax|
-                          - @total_amt = 0.0
-                          - @invoice.line_items.each do |line_item|
-                            - if line_item.tax1 == tax.id || line_item.tax2 == tax.id
-                              - @amt = (line_item.line_total.to_f * (tax.rate.to_f / 100.00))
-                              - @total_amt = @total_amt + @amt
-                            - if (line_item.tax_1.present? && tax.parent.present? && line_item.tax_1 == tax.parent) || (line_item.tax_2.present? && tax.parent.present? && line_item.tax_2 == tax.parent)
-                              - @amt = (line_item.line_total.to_f * (tax.rate.to_f / 100.00))
-                              - @total_amt = @total_amt + @amt
-                          - @total = @total + @total_amt
-                        - if @key == "update" || @key == ".update"
-                          = link_to "#{activity.trackable_type} #{@invoice.invoice_number}", invoice_path(@invoice)
-                          = ": is edited for #{current_user.full_name}"
-                          %br
-                        - elsif @key == "create" || @key == ".create"
-                          = link_to "#{activity.trackable_type} #{@invoice.invoice_number}", invoice_path(@invoice)
-                          = ": is added for #{current_user.full_name}"
-:javascript
-  $(document).ready(function() {
-    $('#chat-box').slimScroll({
-          height: '250px'
+            - if @array.present?
+              - for i in 0..@array.size-1
+                - if @array[i].first[:activities].present?
+                  %h4= @array[i].first[:day]
+                  %h4
+                  #chat-box.box-body.chat.history_div
+                    - @array[i].first[:activities].each do |activity|
+                      .activity
+                        = activity.owner.first_name if activity.owner
+                        = render_activity activity
+  :javascript
+    $(document).ready(function() {
+      $('.chat').slimScroll({
+            height: '250px'
+      });
     });
-  });
