@@ -1,27 +1,27 @@
 class User < ActiveRecord::Base
+  def self.current_user
+    Thread.current[:current_user]
+  end
 
-  # Include default devise modules. Others available are:
-  # :lockable, :timeoutable and :omniauthable
+  def self.current_user=(usr)
+    Thread.current[:current_user] = usr
+  end
+
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  ## Validations
-  validates :role, presence: true, if: :other_roles
   validate :check_role, if: :other_roles
 
-  ## Associations
   belongs_to :company
   has_many :invoices, through: :company
   has_many :clients, through: :company
 
-  ## Constants
   enum role: [:auditor, :accountant, :manager, :admin]
 
-  ## Callbacks
   after_commit :make_admin!
 
   include PublicActivity::Model
-  tracked owner: Proc.new{ |controller, model| controller.current_user }, params:{ "obj"=> proc {|controller, model_instance| model_instance.changes}}
+  tracked owner: Proc.new{ |controller, model| controller && controller.current_user }, params:{ "obj"=> proc {|controller, model_instance| model_instance.changes}}
 
   # Override Devise::Confirmable#after_confirmation
   def after_confirmation
@@ -39,11 +39,11 @@ class User < ActiveRecord::Base
   end
 
   def other_roles
-    admin?
+    User.current_user.admin? if User.current_user.present?
   end
 
   def check_role
-    errors.add(:role, "is not valid, please select a valid role.") unless (User.roles).include?(role)
+    errors.add(:role, "Please select a role") unless (User.roles).include?(role)
   end
 
   def full_name
@@ -51,4 +51,3 @@ class User < ActiveRecord::Base
   end
 
 end
-

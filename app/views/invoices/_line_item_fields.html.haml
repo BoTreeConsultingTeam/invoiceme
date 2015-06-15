@@ -1,16 +1,21 @@
 .nested-fields
   %tr
+    %td.width10
+      = f.select :item_id, get_items, {include_blank: true}, class: "width10 selectclass form-control invoice_margin_left not_records_found_h3"
+    %td.width10
+      =f.text_field :description, value: f.object.description,  class: "width25 form-control inlineclass not_records_found_h3"
+    %td.width10
+      = f.text_field :price, value: number_with_precision(f.object.price,precision: 2),  class: "width10 priceclass form-control inlineclass not_records_found_h3"
+    %td.width10
+      = f.text_field :quantity, value: number_with_precision(f.object.quantity,precision: 2), class: "width10 quantityclass form-control inlineclass not_records_found_h3"
+    %td.width10
+      = f.text_field :discount, value: number_with_precision(f.object.discount,precision: 2), class: "width10 discountclass form-control inlineclass not_records_found_h3"
+    %td.width10
+      = f.select :tax1, get_taxes_parent, {include_blank: true}, class: "width10 selecttax form-control not_records_found_h3"
+    %td.width10
+      = f.select :tax2, get_taxes_parent, {include_blank: true}, class: "width10 selecttax form-control not_records_found_h3"
+    %td.width10
+      = f.text_field :line_total, value: number_with_precision(f.object.line_total,precision: 2), class: "width10 form-control inlineclass not_records_found_h3"
     %td.width20
-      = f.select :item_id, get_items, {include_blank: true}, class: "width20 selectclass"
-    %td.width20
-      =f.text_field :description, value: f.object.description,  class: "width20"
-    %td.width10
-      = f.text_field :price, value: number_with_precision(f.object.price,precision: 2),  class: "width10 priceclass"
-    %td.width10
-      = f.text_field :quantity, value: number_with_precision(f.object.quantity,precision: 2), class: "width10 quantityclass"
-    %td.width10
-      = f.text_field :discount, value: number_with_precision(f.object.discount,precision: 2), class: "width10 discountclass"
-    %td.width10
-      = f.text_field :line_total, value: number_with_precision(f.object.line_total,precision: 2), class: "width10"
-    %td.width20
-      = link_to_remove_association "remove line items", f, { class: "width20 remove_items" }
+      = link_to_remove_association f, data: { confirm: 'Are you sure that you want to remove this item?' }, class: "width20 remove_items not_records_found_h3 invoice_margin_left" do
+        %i.fa.fa-trash-o

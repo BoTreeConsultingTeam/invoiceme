@@ -15,7 +15,7 @@ module ApplicationHelper
           concat content_tag(:span, '&times;'.html_safe, 'aria-hidden' => true)
           concat content_tag(:span, 'Close', class: 'sr-only')
         end)
-        concat message
+        concat message.html_safe
       end)
     end
     nil
@@ -30,12 +30,46 @@ module ApplicationHelper
   end
 
   def current_company
-    current_user.company
+    current_user.company if current_user.present?
   end
 
   def formatted_address(record)
     if record.address.present?
       simple_format("#{record.address.street_1} #{record.address.street_2}, \n#{record.address.city}, #{record.address.state}, \n#{record.address.pincode}")
+    end
+  end
+
+  def active_page_class(controller,action1,action2)
+    case controller == controller_name
+      when true
+        case controller
+          when 'user'
+            if (action_name == "change_password" || action_name == "update_password") && (action1 == "change_password" && action2 == "update_password")
+              'active'
+            elsif action_name != "change_password" && action_name != "update_password" && action1 == "" && action2 == ""
+              'active'
+            else
+              ''
+            end
+          when 'invoices'
+            'active'
+          when 'home'
+            'active'
+          when 'clients'
+            'active'
+          when 'items'
+            'active'
+          when 'taxes'
+            'active'
+          when 'company'
+            'active'
+          when 'registrations'
+            'active'
+          else
+            ''
+        end
+      when false
+        ''
     end
   end
 end

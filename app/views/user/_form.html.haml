@@ -4,16 +4,18 @@
       .box.box-primary
         .box-body
           = form_for @user, url: form_action, html: { method: form_method } do |f|
-            .box-body
-              .form-group
-                = f.label :email
-                = f.email_field :email, autofocus: true, class: 'form-control', placeholder: t('common.captions.email')
+            .form-group
+              = f.label :email
+              %span.mandatory-field-color *
+              = f.email_field :email, autofocus: true, class: 'form-control', placeholder: t('common.captions.email')
             - if @user.new_record?
               .form-group
                 = f.label :password
+                %span.mandatory-field-color *
                 = f.password_field :password, class: 'form-control', placeholder: t('common.captions.enter_new')
               .form-group
                 = f.label :password_confirmation
+                %span.mandatory-field-color *
                 = f.password_field :password_confirmation, class: 'form-control', placeholder: t('common.captions.enter_confirm')
             .form-group
               = f.label :first_name
@@ -23,6 +25,7 @@
               = f.text_field :last_name, class: 'form-control', placeholder: t('common.captions.enter_last')
             .form-group
               = f.label :role
-              = f.select(:role, get_roles, {class: "form-control"})
-            .box-footer
-              = f.submit button_text, class: "btn btn-primary", id: "submit_button", data: { disable_with: t('common.captions.save_disable') }
+              %span.mandatory-field-color *
+              = f.select(:role, get_roles,{prompt: '-- Please Select --'}, {class: "form-control"})
+            .form-group
+              = f.submit button_text, class: "btn btn-primary btn-flat", id: "submit_button", data: { disable_with: t('common.captions.save_disable') }

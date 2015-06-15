@@ -14,12 +14,12 @@
               = f.text_field :name, class: 'form-control'
             .form-group
               = f.label :description
-              = f.text_field :description, class: 'form-control'
+              = f.text_area :description, class: 'form-control', cols: 10, rows: 8
             .form-group
               = f.label "price"
               %span.mandatory-field-color *
               = f.text_field :price, class: 'form-control'
             .space-4
         .modal-footer
-          = f.button "Cancel", class: "btn btn-sm btn-primary", data: { dismiss: :modal }
-          = f.submit "save", class: "btn btn-sm btn-primary"
+          = f.button "Cancel", class: "btn btn-primary btn-flat", data: { dismiss: :modal }
+          = f.submit "save", class: "btn btn-primary btn-flat", data: { disable_with: t('common.captions.save_disable') }

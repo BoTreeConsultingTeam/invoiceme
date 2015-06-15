@@ -3,6 +3,8 @@ class Payment < ActiveRecord::Base
   enum payment_method: [:check, :cash, :bank_transfer, :credit_card]
   after_save :update_status
 
+  validates :payment_amount, presence: true
+  validates :payment_method, presence: true
   include PublicActivity::Model
   tracked owner: Proc.new{ |controller, model| controller.current_user }, params:{ "obj"=> proc {|controller, model_instance| model_instance.changes}}
 

@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
     if @item.save
       flash[:success] = 'Item created successfully'
     else
-      flash[:error] = "Unable to save Item. Reason -#{add_flash_messages(@item)}"
+      flash[:error] = add_flash_messages(@item)
     end
   end
 
@@ -29,7 +29,7 @@ class ItemsController < ApplicationController
     if @item.update(item_params)
       flash[:success] = 'Item updated successfully'
     else
-      flash[:error] = "Unable to update Item. Reason -#{add_flash_messages(@item)}"
+      flash[:error] = add_flash_messages(@item)
     end
     render :create
   end
@@ -38,7 +38,7 @@ class ItemsController < ApplicationController
     if @item.destroy
       flash[:success] = 'Item deleted successfully'
     else
-      flash[:error] = "Unable to delete the item. Reason-: #{add_flash_messages(@item)}"
+      flash[:error] = add_flash_messages(@item)
     end
     redirect_to items_path
   end

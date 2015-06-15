@@ -1,0 +1,18 @@
+= form_for @tax do |f|
+  .form-group
+    = f.label :name, "Name"
+    %span.mandatory-field-color *
+    = f.text_field :name, class: 'form-control', placeholder: 'Enter name'
+  .form-group
+    = f.label :rate, "Rate (in %)"
+    %span.mandatory-field-color *
+    = f.text_field :rate, class: 'form-control', placeholder: 'Enter rate'
+  .form-group
+    = f.label :description, "Description"
+    = f.text_area :description, class: 'form-control', placeholder: 'Description', cols: 5, rows: 8
+  - if get_taxes != []
+    .form-group
+      = f.label :parent, "Parent"
+      = f.select(:parent_id, get_taxes, {prompt: '-- Please Select--'}, {class: "form-control"})
+  .form-group
+    = f.submit "Save", class: 'btn btn-primary btn-flat', id: "submit_button", data: { disable_with: t('common.captions.save_disable') }
