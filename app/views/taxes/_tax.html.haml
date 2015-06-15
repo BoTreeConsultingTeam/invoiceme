@@ -1,8 +1,9 @@
 %tr
-  %td= tax.name
-  %td= tax.rate
-  %td= tax.description
-  %td= tax.parent.name if tax.parent.present?
-  %td
+  %td.width10= index+1
+  %td.tbl-header-center= tax.name
+  %td.tbl-header-center= tax.rate
+  %td.tbl-header-center= tax.description
+  %td.tbl-header-center= tax.parent.name if tax.parent.present?
+  %td.tbl-header-center
     = link_to tax_path(tax), method: :delete, data: { confirm: "Are you sure?" } do
       %i.fa.fa-trash-o

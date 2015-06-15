@@ -35,6 +35,8 @@
 .width500 { width: 500px !important; }
 .width475 { width: 475px !important; }
 
+.tbl-header-center { text-align: center; }
+
 .company_name_bold { font-weight: bold; }
 
 .selectclass { display: inline; }
@@ -47,3 +49,13 @@
 .tbl-header-width-90 { width: 90%; }
 .tbl-header-width-10 { width: 10px; }
 .mandatory-field-color { color: #FF0000; }
+
+.activity {
+    border-bottom: solid 1px #CCC;
+    padding: 16px 0;
+    em {
+        color: #777;
+        font-size: 12px;
+        padding-left: 5px;
+    }
+}

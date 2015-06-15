@@ -12,13 +12,15 @@
             %table.table.table-bordered
               %tbody
                 %tr
-                  %th Invoice No
-                  %th Client Name
-                  %th Due Date
-                  %th Issue Date
-                  %th Invoice Total
-                  %th Status
-                  %th Actions
-                = render @invoices
+                  %th Sr. #
+                  %th.tbl-header-center Invoice No
+                  %th.tbl-header-center Client Name
+                  %th.tbl-header-center Due Date
+                  %th.tbl-header-center Issue Date
+                  %th.tbl-header-center Invoice Total
+                  %th.tbl-header-center Status
+                  %th.tbl-header-center Actions
+                - @invoices.each_with_index do |invoice, index|
+                  = render 'invoice', {invoice: invoice, index: index}
           - else
             %h3.not_records_found_h3 No Invoice Found.

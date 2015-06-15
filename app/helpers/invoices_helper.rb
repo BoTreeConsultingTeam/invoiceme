@@ -27,4 +27,8 @@ module InvoicesHelper
   def get_taxes_data
     Tax.all
   end
+
+  def get_invoice(id)
+    Invoice.find(id)
+  end
 end

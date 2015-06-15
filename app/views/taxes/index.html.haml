@@ -12,11 +12,13 @@
             %table.table.table-bordered
               %tbody
                 %tr
-                  %th Name
-                  %th Rate
-                  %th Description
-                  %th Parent
-                  %th Actions
-                = render @taxes
+                  %th.width10 Sr. #
+                  %th.tbl-header-center Name
+                  %th.tbl-header-center Rate
+                  %th.tbl-header-center Description
+                  %th.tbl-header-center Parent
+                  %th.tbl-header-center Actions
+                - @taxes.each_with_index do |tax, index|
+                  = render 'tax', {tax: tax, index: index}
           - else
             %h3.not_records_found_h3 No Tax Found.

@@ -12,22 +12,22 @@
         %table.table.table-bordered
           %tbody
             %tr
-              %th.tbl-header-width-10 No
-              %th Email
-              %th First Name
-              %th Last Name
-              %th Role
-              %th Actions
+              %th.tbl-header-width-10 Sr. #
+              %th.tbl-header-center Email
+              %th.tbl-header-center First Name
+              %th.tbl-header-center Last Name
+              %th.tbl-header-center Role
+              %th.tbl-header-center Actions
           - @users.each_with_index do |user, index|
             %tr
               %td
                 = index+1
                 \.
-              %td= user.email
-              %td= user.first_name
-              %td= user.last_name
-              %td= user.role
-              %td
+              %td.tbl-header-center= user.email
+              %td.tbl-header-center= user.first_name
+              %td.tbl-header-center= user.last_name
+              %td.tbl-header-center= user.role
+              %td.tbl-header-center
                 = link_to user_path(user) do
                   %i.fa.fa-eye
                 %span.width_spacer5

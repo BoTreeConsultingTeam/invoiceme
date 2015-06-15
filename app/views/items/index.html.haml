@@ -12,10 +12,12 @@
             %table.table.table-bordered
               %tbody
                 %tr
-                  %th.tbl-header-width-90 Name
-                  %th Price
-                  %th Actions
-                = render @items
+                  %th Sr.#
+                  %th.tbl-header-width-90.tbl-header-center Name
+                  %th.tbl-header-center Price
+                  %th.tbl-header-center Actions
+                - @items.each_with_index do |item, index|
+                  = render 'item', {item: item, index: index}
           - else
             %h3.not_records_found_h3 No Item Found.
 #modal_popup

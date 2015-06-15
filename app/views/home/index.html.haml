@@ -18,27 +18,19 @@
           .box-header
             %i.fa.fa-comments-o
             %h3.box-title Activities
-            %h4= format_date(Date.today.to_date)
-            %h4 Today
-            #chat-box.box-body.chat.history_div
-              - if @activities.present?
-                - @activities.each do |activity|
-                  .item
-                    %p.message.message_margin
-                      - @key = activity.key
-                      - @key.slice!(0..activity.trackable_type.downcase.length)
-                      - if @key == "update" || @key == ".update"
-                        = "#{activity.trackable_type} with id #{activity.trackable_id} is #{@key} for #{current_user.full_name}"
-                        %br
-                        - if activity.parameters != {} && activity.parameters["obj"] != {} && activity.parameters["obj"] != nil
-                          - activity.parameters["obj"].each do |key, val|
-                            = "#{key} with value #{val[0]} is now  #{val[1]}"
-                            %br
-                      - else
-                        = "#{activity.trackable_type}  with id #{activity.trackable_id} is #{@key} for #{current_user.full_name}"
-:javascript
-  $(document).ready(function() {
-    $('#chat-box').slimScroll({
-          height: '250px'
+            - if @array.present?
+              - for i in 0..@array.size-1
+                - if @array[i].first[:activities].present?
+                  %h4= @array[i].first[:day]
+                  %h4
+                  #chat-box.box-body.chat.history_div
+                    - @array[i].first[:activities].each do |activity|
+                      .activity
+                        = activity.owner.first_name if activity.owner
+                        = render_activity activity
+  :javascript
+    $(document).ready(function() {
+      $('.chat').slimScroll({
+            height: '250px'
+      });
     });
-  });

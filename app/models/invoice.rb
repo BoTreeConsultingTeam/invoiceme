@@ -9,7 +9,7 @@ class Invoice < ActiveRecord::Base
   enum status: [:draft, :sent, :partially_paid, :paid]
 
   include PublicActivity::Model
-  tracked owner: Proc.new{ |controller, model| controller.current_user }, params:{ "obj"=> proc {|controller, model_instance| model_instance.changes}}
+  tracked owner: Proc.new{ |controller, model| controller.current_user }
 
   def self.find_next_available_number_for(default=1000)
     (self.maximum(:invoice_number) || default).succ
